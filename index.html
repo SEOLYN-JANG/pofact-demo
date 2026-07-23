@@ -322,8 +322,12 @@
 
     <!-- ═══ 캠페인 찾기 ═══ -->
     <div class="view hide" id="vCamp">
-      <div class="sechead"><h2>캠페인 찾기</h2></div>
+      <div class="sechead"><h2>캠페인 찾기</h2><span class="more" id="campCount"></span></div>
       <div class="sechint">카드를 클릭하면 상세보기(미션 가이드·키워드)가 열립니다. 역제안 공고는 원하는 금액을 제안하며 지원하세요.</div>
+      <div class="gentabs" id="campTabs" style="margin-bottom:6px"></div>
+      <div class="chips" id="campFilter" style="margin-bottom:10px">
+        <span data-f="rev">역제안만</span><span data-f="naver">네이버</span><span data-f="google">구글 채널</span>
+      </div>
       <div id="campList"></div>
     </div>
 
@@ -580,18 +584,73 @@ let regAccounts=[], attachedFiles=[];
 function seed(){
   return {
     campaigns:[
-      {id:1, brand:'수분연구소', loc:'서울/강남구', ind:'뷰티', cnt:5, fee:30000,
+      /* ── 방문형 ── */
+      {id:1, kind:'방문형', brand:'수분연구소', loc:'서울/강남구', ind:'뷰티', cnt:5, fee:30000,
        ch:['워드프레스','티스토리','인스타'], kw:'민감성 수분크림, 수분크림 추천',
        spon:'3만원 상당의 수분크림 본품', desc:'무향·무색소 강조, 민감 피부 테스트 완료 언급, 사용 전후 피부결 사진 포함, 의약품 오인 표현 금지'},
-      {id:2, brand:'동네커피 로스터리', loc:'서울/연남동', ind:'맛집/카페', cnt:3, fee:20000,
+      {id:2, kind:'방문형', brand:'동네커피 로스터리', loc:'서울/연남동', ind:'맛집/카페', cnt:3, fee:20000,
        ch:['티스토리','네이버 블로그'], kw:'연남동 카페 추천, 스페셜티 원두',
        spon:'2만원 상당의 음료·디저트 이용권', desc:'매일 아침 직접 로스팅 강조, 시그니처 메뉴 사진 필수, 매장 외관·내부 컷 포함'},
-      {id:3, brand:'다비치안경 장안점', loc:'서울/동대문구', ind:'패션/잡화', cnt:3, fee:0,
+      {id:3, kind:'방문형', brand:'다비치안경 장안점', loc:'서울/동대문구', ind:'패션/잡화', cnt:3, fee:0,
        ch:['네이버 블로그','티스토리'], kw:'장안동 안경, 동대문 렌즈',
        spon:'12만원 상당의 안경, 선글라스', desc:'10년차 검안사 상주 강조, 검안 과정·매장 전경 사진 포함, 초과 금액 본인 부담 안내, 타 브랜드 비교 금지'},
-      {id:4, brand:'헬시밀 샐러드', loc:'서울/성수동', ind:'맛집/카페', cnt:5, fee:0, type:'reverse',
+      {id:4, kind:'방문형', brand:'헬시밀 샐러드', loc:'서울/성수동', ind:'맛집/카페', cnt:5, fee:0, type:'reverse',
        ch:['네이버 블로그','워드프레스'], kw:'성수 샐러드 맛집, 다이어트 도시락',
-       spon:'2만원 상당의 샐러드 세트', desc:'신선 재료 당일 조리 강조, 칼로리 정보 포함, 점심시간 방문 컷 권장'}
+       spon:'2만원 상당의 샐러드 세트', desc:'신선 재료 당일 조리 강조, 칼로리 정보 포함, 점심시간 방문 컷 권장'},
+      {id:5, kind:'방문형', brand:'해운대 SEA BAR', loc:'부산/해운대구', ind:'맛집/카페', cnt:10, fee:15000,
+       ch:['네이버 블로그'], kw:'해운대 칵테일바, 해운대 야경 술집',
+       spon:'3만원 상당의 메뉴(주류 제외)', desc:'야경 좌석 사진 필수, 시그니처 칵테일 언급, 주류 광고 표현 주의'},
+      {id:6, kind:'방문형', brand:'수성못 스터디카페', loc:'대구/수성구', ind:'학원', cnt:4, fee:25000,
+       ch:['네이버 블로그','티스토리'], kw:'대구 스터디카페, 수성구 독서실',
+       spon:'1개월 이용권 (15만원 상당)', desc:'좌석·집중도 환경 사진 포함, 이용 요금표 안내, 소음 관련 솔직 언급'},
+      {id:7, kind:'방문형', brand:'라비앙 헤어살롱', loc:'부산/서면', ind:'뷰티', cnt:3, fee:0,
+       ch:['네이버 블로그','인스타'], kw:'서면 헤어살롱, 부산 펌 잘하는곳',
+       spon:'20만원 상당의 커트·펌·염색', desc:'시술 전후 사진 필수, 디자이너 경력 언급, 초과 금액 본인 부담 안내'},
+      {id:8, kind:'방문형', brand:'연수 키즈카페 뽀야', loc:'인천/연수구', ind:'기타', cnt:6, fee:20000, type:'reverse',
+       ch:['네이버 블로그'], kw:'인천 키즈카페, 연수구 아이랑 갈만한곳',
+       spon:'4인 가족 이용권 + 음료', desc:'안전 시설 사진 포함, 연령대별 놀이존 설명, 주차 정보 안내'},
+      /* ── 배송형 ── */
+      {id:9, kind:'배송형', brand:'퍼피밀 사료', loc:'전국', ind:'기타', cnt:20, fee:10000,
+       ch:['네이버 블로그','인스타'], kw:'강아지 사료 추천, 소형견 사료',
+       spon:'2만원 상당의 사료 1kg + 간식', desc:'급여 전후 반응 사진 필수, 원료 표기 그대로 인용, 질병 치료 효과 표현 금지'},
+      {id:10, kind:'배송형', brand:'모닝루틴 비타민', loc:'전국', ind:'기타', cnt:15, fee:12000,
+       ch:['티스토리','워드프레스'], kw:'종합비타민 추천, 아침 영양제',
+       spon:'1개월분 제품 (4만원 상당)', desc:'섭취 방법 안내, 건강기능식품 문구 그대로 표기, 질병 예방 표현 금지'},
+      {id:11, kind:'배송형', brand:'클린홈 주방세제', loc:'전국', ind:'기타', cnt:25, fee:8000,
+       ch:['네이버 블로그'], kw:'주방세제 추천, 친환경 세제',
+       spon:'세제 3종 세트 (3만원 상당)', desc:'거품·세척력 비교 컷 포함, 성분표 사진 첨부, 타 브랜드 실명 비교 금지'},
+      {id:12, kind:'배송형', brand:'테크기어 무선이어폰', loc:'전국', ind:'기타', cnt:8, fee:30000,
+       ch:['워드프레스','블로그스팟','유튜브'], kw:'무선이어폰 추천, 가성비 이어폰',
+       spon:'제품 제공 (12만원 상당)', desc:'음질·착용감 솔직 평가, 사양표 정확히 기재, 경쟁 제품 비방 금지'},
+      {id:13, kind:'배송형', brand:'감성캔들 아틀리에', loc:'전국', ind:'기타', cnt:12, fee:0, type:'reverse',
+       ch:['인스타','네이버 블로그'], kw:'인테리어 캔들, 선물용 캔들',
+       spon:'캔들 2종 (5만원 상당)', desc:'연출 사진 3장 이상, 향 계열 설명, 화기 안전 문구 포함'},
+      /* ── 기자단 ── */
+      {id:14, kind:'기자단', brand:'미소가득 치과', loc:'서울/송파구', ind:'병원', cnt:10, fee:50000,
+       ch:['네이버 블로그'], kw:'송파 임플란트, 잠실 치과 추천',
+       spon:'원고료 지급 (방문 불필요)', desc:'의료광고 심의 문구 준수, 시술 효과 단정 표현 금지, 병원 제공 자료만 사용'},
+      {id:15, kind:'기자단', brand:'정한 법률사무소', loc:'서울/서초구', ind:'기타', cnt:8, fee:60000,
+       ch:['네이버 블로그','티스토리'], kw:'이혼 전문 변호사, 서초 법률상담',
+       spon:'원고료 지급 (방문 불필요)', desc:'변호사법 광고 규정 준수, 승소 보장 표현 금지, 상담 절차 중심 서술'},
+      {id:16, kind:'기자단', brand:'에듀맥스 영어학원', loc:'경기/분당', ind:'학원', cnt:12, fee:35000,
+       ch:['네이버 블로그'], kw:'분당 영어학원, 초등 영어 학원 추천',
+       spon:'원고료 지급 (방문 불필요)', desc:'교육법 광고 규정 준수, 성적 향상 보장 표현 금지, 커리큘럼 중심 서술'},
+      {id:17, kind:'기자단', brand:'코어핏 필라테스', loc:'서울/마포구', ind:'기타', cnt:15, fee:30000, type:'reverse',
+       ch:['네이버 블로그','인스타'], kw:'마포 필라테스, 홍대 필라테스 추천',
+       spon:'원고료 지급 (방문 불필요)', desc:'제공 자료 기반 작성, 체형 교정 효과 단정 금지, 수업 종류 안내 포함'},
+      /* ── 구매형 ── */
+      {id:18, kind:'구매형', brand:'팜앤파우 강아지 영양제', loc:'전국', ind:'기타', cnt:5, fee:34900,
+       ch:['네이버 블로그','인스타'], kw:'강아지 영양제, 반려견 관절 영양제',
+       spon:'구매 후 전액 페이백 (34,900원)', desc:'실구매 영수증 첨부 필수, 급여 후기 솔직 작성, 치료 효과 표현 금지'},
+      {id:19, kind:'구매형', brand:'디자인유니크 라이터', loc:'전국', ind:'기타', cnt:4, fee:6500,
+       ch:['네이버 블로그'], kw:'타입C 충전 라이터, 전기 라이터 추천',
+       spon:'구매 후 전액 페이백 (6,500원)', desc:'주문·수령 인증샷 포함, 사용 방법 설명, 안전 주의사항 안내'},
+      {id:20, kind:'구매형', brand:'데일리핏 레깅스', loc:'전국', ind:'패션/잡화', cnt:10, fee:19900,
+       ch:['인스타','네이버 블로그'], kw:'레깅스 추천, 요가복 브랜드',
+       spon:'구매 후 전액 페이백 (19,900원)', desc:'착용 컷 2장 이상, 사이즈 실측 정보 기재, 과도한 보정 금지'},
+      {id:21, kind:'구매형', brand:'홈베이킹 프리믹스', loc:'전국', ind:'맛집/카페', cnt:8, fee:12000, type:'reverse',
+       ch:['티스토리','네이버 블로그'], kw:'홈베이킹 재료, 브라우니 믹스',
+       spon:'구매 후 전액 페이백 (12,000원)', desc:'조리 과정 사진 단계별 촬영, 완성 컷 필수, 유통기한 확인 안내'}
     ],
     bloggers:[
       {id:1, name:'김블로그', demo:'2534여', cat:'뷰티', region:'서울 강남구', fav:31,
@@ -646,11 +705,63 @@ function seed(){
        interests:['카페','여가'], skills:['사진 잘 찍는','비주얼 전문','보정 잘하는'],
        styles:['분위기 있는'], plays:['인생샷전문','실내촬영'],
        persona:['소통하는','깔끔한'], hopeFee:20000,
-       pf:'연남·성수 카페 상위노출 8건', pr:'감성 카페 투어. 사진 퀄리티로 승부합니다.', grade:'준최1', rating:4.6, done:11}
+       pf:'연남·성수 카페 상위노출 8건', pr:'감성 카페 투어. 사진 퀄리티로 승부합니다.', grade:'준최1', rating:4.6, done:11},
+      {id:9, name:'대구맛집탐험', demo:'2534여', cat:'맛집', region:'대구 수성구', fav:22,
+       acc:[{ch:'네이버 블로그', link:'blog.naver.com/dgtaste', fol:'이웃 7.8천 명', grade:'준최1'}],
+       interests:['맛집','카페'], skills:['사진 잘 찍는','먹방러','필력있는'],
+       styles:['생동감 있는 콘텐츠'], plays:['야외촬영','친구들과 함께'],
+       persona:['솔직한','쾌활한'], hopeFee:25000,
+       pf:'대구 맛집 상위노출 14건', pr:'대구·경북 맛집 6년차. 해물찜·막창 전문.', grade:'준최1', rating:4.7, done:19},
+      {id:10, name:'대전살이', demo:'3544남', cat:'생활', region:'대전 서구', fav:14,
+       acc:[{ch:'티스토리', link:'daejeonlife.tistory.com', fol:'이웃 2.9천 명', grade:'준최2'},
+            {ch:'워드프레스', link:'daejeonlife.com', fol:'월 방문 1.4만', grade:'최적2'}],
+       interests:['생활','여가'], skills:['필력있는','마케터','능숙한 편집'],
+       styles:['일상적인 콘텐츠'], plays:['가족과 함께','야외촬영'],
+       persona:['성실한','세심한'], hopeFee:22000,
+       pf:'대전 지역 키워드 구글 1페이지 9건', pr:'대전 로컬 정보 블로그. 구글 유입 중심.', grade:'최적2', rating:4.5, done:13},
+      {id:11, name:'광주댁의하루', demo:'3544여', cat:'육아', region:'광주 서구', fav:18,
+       acc:[{ch:'네이버 블로그', link:'blog.naver.com/gjmom', fol:'이웃 5.6천 명', grade:'준최1'}],
+       interests:['생활','식품'], skills:['사진 잘 찍는','세심한','친절한'],
+       styles:['애정가득 콘텐츠'], plays:['아이와 함께','실내촬영'],
+       persona:['친절한','약속 잘 지키는'], hopeFee:20000,
+       pf:'육아·생활용품 리뷰 16건', pr:'광주 지역 육아맘. 생활용품 꼼꼼 리뷰.', grade:'준최1', rating:4.6, done:17},
+      {id:12, name:'테크노트', demo:'2534남', cat:'IT·테크', region:'경기 수원시', fav:33,
+       acc:[{ch:'워드프레스', link:'technote.kr', fol:'월 방문 8.7만', grade:'최적1'},
+            {ch:'유튜브', link:'youtube.com/@technote', fol:'구독자 2.4천 명', grade:''}],
+       interests:['기타'], skills:['필력있는','영상제작자','능숙한 편집'],
+       styles:['디테일한 콘텐츠'], plays:['고화질 촬영','스튜디오 촬영'],
+       persona:['꼼꼼한','솔직한'], hopeFee:60000,
+       pf:'구글 검색 1페이지 리뷰 28건', pr:'IT 기기 리뷰 9년차. 구글 상위 노출 다수.', grade:'최적1', rating:4.9, done:52},
+      {id:13, name:'울산바다', demo:'4554남', cat:'여행', region:'울산 남구', fav:9,
+       acc:[{ch:'네이버 블로그', link:'blog.naver.com/ulsansea', fol:'이웃 3.4천 명', grade:'준최2'}],
+       interests:['여가','맛집'], skills:['사진 잘 찍는','배경위주'],
+       styles:['분위기 있는'], plays:['야외촬영','인생샷전문'],
+       persona:['성실한','소통하는'], hopeFee:18000,
+       pf:'울산 여행 코스 상위노출 6건', pr:'울산·경주 여행 코스 전문.', grade:'준최2', rating:4.3, done:8},
+      {id:14, name:'뷰티랩지연', demo:'1824여', cat:'뷰티', region:'서울 강남구', fav:29,
+       acc:[{ch:'인스타', link:'@beautylab.jy', fol:'팔로워 2.1만 명', grade:''},
+            {ch:'네이버 블로그', link:'blog.naver.com/beautylab', fol:'이웃 6.2천 명', grade:'준최1'}],
+       interests:['뷰티','패션'], skills:['보정 잘하는','비주얼 전문','인스타 인플루언서'],
+       styles:['모던스타일'], plays:['스튜디오 촬영','고화질 촬영'],
+       persona:['깔끔한','도전적인'], hopeFee:45000,
+       pf:'화장품 리뷰 릴스 조회 10만+', pr:'코스메틱 리뷰. 인스타 릴스 강점.', grade:'준최1', rating:4.7, done:26},
+      {id:15, name:'제주한달살이', demo:'2534여', cat:'여행', region:'제주 제주시', fav:21,
+       acc:[{ch:'티스토리', link:'jejumonth.tistory.com', fol:'이웃 4.8천 명', grade:'최적2'},
+            {ch:'인스타', link:'@jeju.month', fol:'팔로워 9.3천 명', grade:''}],
+       interests:['여가','카페','맛집'], skills:['사진 잘 찍는','필력있는','배경위주'],
+       styles:['분위기 있는'], plays:['야외촬영','연인과 함께'],
+       persona:['솔직한','소통하는'], hopeFee:35000,
+       pf:'제주 여행 키워드 구글 1페이지 11건', pr:'제주 로컬 여행·카페 전문 블로거.', grade:'최적2', rating:4.8, done:23}
     ],
     apps:[ {campId:1, blgId:1, st:'contacted'}, {campId:2, blgId:2, st:'applied'},
-      {campId:4, blgId:2, st:'applied', price:28000} ],
-    me:1, nextC:5, nextB:9
+      {campId:4, blgId:2, st:'applied', price:28000},
+      {campId:5, blgId:5, st:'applied'}, {campId:5, blgId:9, st:'contacted'},
+      {campId:9, blgId:6, st:'applied'}, {campId:9, blgId:11, st:'applied'},
+      {campId:12, blgId:4, st:'contacted'}, {campId:12, blgId:12, st:'applied'},
+      {campId:14, blgId:3, st:'applied'}, {campId:16, blgId:11, st:'applied'},
+      {campId:18, blgId:6, st:'applied'}, {campId:20, blgId:14, st:'applied'},
+      {campId:6, blgId:9, st:'applied'}, {campId:17, blgId:14, st:'applied', price:32000} ],
+    me:1, nextC:22, nextB:16
   };
 }
 function load(){ try{ S=JSON.parse(localStorage.getItem(KEY)); }catch(e){} if(!S||!S.campaigns) S=seed(); }
@@ -902,6 +1013,11 @@ function thumb(c){
 }
 function chTags(c){ return c.ch.map(x=>'<span class="tag">'+x+'</span>').join(''); }
 function isRev(c){ return c.type==='reverse'; }
+const KIND_COLOR={'방문형':'#0f9d8f','배송형':'#2563eb','기자단':'#b45309','구매형':'#7c3aed'};
+function kindTag(c){
+  const k=c.kind||'방문형';
+  return `<span class="tag" style="background:${KIND_COLOR[k]||'#64748b'};color:#fff;font-weight:700">${k}</span>`;
+}
 function typeTag(c){ return isRev(c)?'<span class="tag rev">역제안</span>':''; }
 function rewardLine(c){
   if(isRev(c)) return '<span class="propfee">금액 역제안형 — 신청 시 원고료 제안</span>'+(c.spon?' + '+c.spon:'');
@@ -936,7 +1052,9 @@ function renderHome(){
   const recent=[...S.bloggers].slice(-3).reverse();
   document.getElementById('homeBloggers').innerHTML=recent.map(bcard).join('');
   document.getElementById('homeTop').innerHTML=sortedByFav().slice(0,5).map(rkRow).join('');
-  document.getElementById('homeCamps').innerHTML=S.campaigns.slice(0,2).map(campCard).join('');
+  /* 유형별로 하나씩 보여주기 */
+  const picks=['방문형','배송형','기자단','구매형'].map(k=>S.campaigns.find(c=>c.kind===k)).filter(Boolean);
+  document.getElementById('homeCamps').innerHTML=picks.map(campCard).join('');
 }
 /* 지역 사전 — 검색어에서 지역을 먼저 뽑아낸다 */
 const REGIONS=['서울','경기','인천','부산','대구','대전','광주','울산','세종','강원','충북','충남','전북','전남','경북','경남','제주'];
@@ -992,15 +1110,28 @@ function campCard(c){
       ? `<button class="btn sm" data-act="detail" data-c="${c.id}" style="background:#7c3aed">금액 제안하기</button>`
       : `<button class="btn sm" data-act="apply" data-c="${c.id}">신청</button>`);
   return `<div class="camp clickable" data-act="detail" data-c="${c.id}"><div class="info">
-    <div>${typeTag(c)}${chTags(c)}<span class="tag r">모집중</span></div>
+    <div>${kindTag(c)}${typeTag(c)}${chTags(c)}<span class="tag r">모집중</span></div>
     <div class="tt">[${c.loc}] ${c.brand}</div>
     <div class="rw">${rewardLine(c)}</div>
     <div class="ap">신청 <b>${appCount(c.id)}</b>/${c.cnt}명 · 키워드: ${c.kw} · <span style="color:var(--teal-d);font-weight:700">상세보기 ›</span></div>
     <div style="margin-top:6px">${st}</div></div>
     <img src="${thumb(c)}" alt="썸네일"></div>`;
 }
+const KINDS=['전체','방문형','배송형','기자단','구매형'];
+let campKind='전체';
+function campFilters(){ return [...document.querySelectorAll('#campFilter span.sel')].map(s=>s.getAttribute('data-f')); }
 function renderCamp(){
-  document.getElementById('campList').innerHTML=S.campaigns.map(campCard).join('')||'<div class="empty">공고가 없습니다.</div>';
+  document.getElementById('campTabs').innerHTML=KINDS.map(k=>{
+    const n = k==='전체' ? S.campaigns.length : S.campaigns.filter(c=>c.kind===k).length;
+    return `<span class="${k===campKind?'on':''}" data-act="campKind" data-k="${k}">${k} ${n}</span>`;
+  }).join('');
+  const fs=campFilters();
+  let list=S.campaigns.filter(c=>campKind==='전체'||c.kind===campKind);
+  if(fs.indexOf('rev')>=0) list=list.filter(isRev);
+  if(fs.indexOf('naver')>=0) list=list.filter(c=>c.ch.indexOf('네이버 블로그')>=0);
+  if(fs.indexOf('google')>=0) list=list.filter(c=>c.ch.some(x=>['워드프레스','티스토리','블로그스팟'].indexOf(x)>=0));
+  document.getElementById('campCount').textContent='총 '+list.length+'개';
+  document.getElementById('campList').innerHTML=list.map(campCard).join('')||'<div class="empty">조건에 맞는 캠페인이 없습니다.</div>';
 }
 function renderTop(){
   document.getElementById('topList').innerHTML=sortedByFav().map(rkRow).join('');
@@ -1080,7 +1211,7 @@ function renderAdv(){
         <div class="r1" style="margin-top:6px"><span class="m">포폴: ${b.pf}</span>${btn}</div></div>`;
     }).join('')||'<div class="empty">아직 신청자가 없습니다. (캠페인 찾기에서 신청해 보세요)</div>';
     return `<div class="camp"><div class="info">
-      <div>${typeTag(c)}${chTags(c)}<span class="tag r">모집중</span></div>
+      <div>${kindTag(c)}${typeTag(c)}${chTags(c)}<span class="tag r">모집중</span></div>
       <div class="tt">[${c.loc}] ${c.brand}</div>
       <div class="rw">${rewardLine(c)}</div>
       <div class="ap">신청 <b>${apps.length}</b>/${c.cnt}명 · 키워드: ${c.kw}</div>
@@ -1211,7 +1342,7 @@ function openDetail(campId){
     <span class="mx" data-act="closeDetail" title="닫기">✕</span>
     <img class="banner" src="${thumb(c)}" alt="" style="margin-top:-42px">
     <div class="inner">
-      <div>${typeTag(c)}${chTags(c)}<span class="tag r">모집중</span></div>
+      <div>${kindTag(c)}${typeTag(c)}${chTags(c)}<span class="tag r">모집중</span></div>
       <h3>[${c.loc}] ${c.brand}</h3>
       <div class="m" style="color:var(--sub);font-size:12.5px">${c.ind} · 신청 ${appCount(c.id)}/${c.cnt}명</div>
       <div class="msec">
@@ -1417,6 +1548,7 @@ document.addEventListener('click', function(ev){
   const chip=ev.target.closest('.chips span');
   if(chip){
     const g=chip.parentElement, max=+g.getAttribute('data-max')||0;
+    if(g.id==='campFilter'){ chip.classList.toggle('sel'); renderCamp(); return; }
     if(g.getAttribute('data-single')){
       [...g.children].forEach(s=>s.classList.remove('sel'));
       chip.classList.add('sel');
@@ -1439,6 +1571,7 @@ document.addEventListener('click', function(ev){
   else if(act==='svcNav') openSvcPage(el.getAttribute('data-id'));
   else if(act==='toolNav') openToolPage(el.getAttribute('data-id'));
   else if(act==='boardNav') openBoard(el.getAttribute('data-b'), el.getAttribute('data-i'));
+  else if(act==='campKind'){ campKind=el.getAttribute('data-k'); renderCamp(); }
   else if(act==='reset') resetDemo();
   else if(act==='homeSearch') homeSearch();
   else if(act==='simCalc') simCalc();
