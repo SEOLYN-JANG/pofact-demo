@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>POFACT MVP 데모 v4</title>
+<title>POFACT MVP 데모</title>
 <style>
   :root{
     --teal:#0f9d8f; --teal-d:#0b6f66; --teal-bg:#e6f7f4; --teal-line:#8fd6c9;
@@ -12,22 +12,34 @@
   *{box-sizing:border-box; margin:0;}
   body{font-family:"Malgun Gothic","맑은 고딕",-apple-system,"Segoe UI",sans-serif;
     background:var(--bg); color:var(--ink); font-size:14px; line-height:1.6;}
-  .top{background:#fff; border-bottom:1px solid var(--line); padding:14px 28px;
-    display:flex; align-items:center; gap:18px; position:sticky; top:0; z-index:10;}
-  .logo{font-weight:800; font-size:20px; color:var(--teal-d); letter-spacing:.5px;}
-  .logo small{font-weight:600; color:var(--sub); font-size:11px; margin-left:8px;}
-  .roletab{display:flex; gap:6px; margin-left:auto;}
-  .roletab button{border:1.5px solid var(--line); background:#fff; border-radius:9px;
-    padding:8px 18px; font-size:14px; font-weight:700; cursor:pointer; font-family:inherit;}
-  .roletab button.on{background:var(--teal); border-color:var(--teal); color:#fff;}
-  .reset{border:0; background:none; color:var(--sub); font-size:12px; cursor:pointer; font-family:inherit; text-decoration:underline;}
-  .wrap{max-width:1080px; margin:22px auto; padding:0 20px;}
-  .cols{display:flex; gap:18px; align-items:flex-start;}
-  .col{flex:1; min-width:0;}
+  .shell{display:flex; min-height:100vh;}
+  /* ── 사이드바 (스텔라이즈 스타일) ── */
+  .side{width:212px; flex:0 0 auto; background:#fff; border-right:1px solid var(--line);
+    padding:20px 14px; position:sticky; top:0; height:100vh; overflow-y:auto;}
+  .side .logo{font-weight:800; font-size:21px; color:var(--teal-d); letter-spacing:.5px; padding:2px 8px 14px;}
+  .side .logo small{display:block; font-weight:600; color:var(--sub); font-size:10.5px; letter-spacing:0;}
+  .side .sec{font-size:10.5px; font-weight:700; color:var(--teal); letter-spacing:1px; margin:14px 8px 5px;}
+  .side .mi{display:flex; align-items:center; gap:9px; padding:9px 10px; border-radius:9px;
+    font-size:13.5px; font-weight:600; color:#374151; cursor:pointer; margin:2px 0; user-select:none;}
+  .side .mi:hover{background:var(--chip);}
+  .side .mi.on{background:var(--teal); color:#fff;}
+  .side .mi svg{width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:1.8; flex:0 0 auto;}
+  .side .guide{margin-top:18px; background:var(--teal-bg); border:1px solid var(--teal-line);
+    border-radius:11px; padding:11px 13px; font-size:12px; color:var(--teal-d);}
+  .side .reset{border:0; background:none; color:var(--sub); font-size:11.5px; cursor:pointer;
+    font-family:inherit; text-decoration:underline; margin:14px 8px 0;}
+  .main{flex:1; min-width:0; padding:22px 26px 60px;}
+  .view{max-width:980px; margin:0 auto;}
+  /* ── 공통 ── */
   .card{background:#fff; border:1px solid var(--line); border-radius:14px; padding:18px 20px; margin-bottom:16px;}
   .card h2{font-size:16px; margin-bottom:10px; color:var(--teal-d);}
   .card h2 .n{display:inline-grid; place-items:center; width:22px; height:22px; border-radius:50%;
     background:var(--teal); color:#fff; font-size:12.5px; margin-right:7px; vertical-align:-3px;}
+  .sechead{display:flex; justify-content:space-between; align-items:baseline; margin:26px 0 4px;}
+  .sechead h2{font-size:17px; color:var(--ink);}
+  .sechead h2 b{color:var(--teal-d);}
+  .sechead .more{font-size:12.5px; color:var(--teal-d); font-weight:700; cursor:pointer;}
+  .sechint{font-size:12px; color:var(--sub); margin-bottom:10px;}
   label{display:block; font-size:12px; color:var(--sub); margin:10px 0 3px; font-weight:700;}
   label b{color:var(--teal-d);}
   input[type=text], input[type=number], textarea, select{width:100%; border:1.5px solid var(--line);
@@ -49,30 +61,86 @@
   .item .m{font-size:12px; color:var(--sub); margin-top:2px;}
   .tag{display:inline-block; background:var(--chip); border-radius:6px; padding:1px 8px; font-size:11.5px; margin:2px 3px 0 0; color:#374151;}
   .tag.t{background:var(--teal); color:#fff; font-weight:700;}
-  .tag.g{background:#0b6f66; color:#fff; font-weight:700;}
   .tag.r{background:#fee2e2; color:#b91c1c; font-weight:700;}
   .tag.rev{background:#7c3aed; color:#fff; font-weight:700;}
   .propfee{color:#b45309; font-weight:700;}
   .empty{color:var(--sub); font-size:13px; padding:8px 2px;}
   .note{font-size:12px; color:var(--sub); margin-top:8px;}
-  .draft{white-space:pre-wrap; background:#fbfdfd; border:1.5px solid var(--teal-line); border-radius:10px;
-    padding:16px 18px; font-size:13.5px; margin-top:12px; line-height:1.75;}
-  .aeobadges span{display:inline-block; background:var(--teal-bg); color:var(--teal-d); border:1px solid var(--teal-line);
-    border-radius:999px; padding:2px 11px; font-size:11.5px; font-weight:700; margin:2px 4px 0 0;}
   .hide{display:none !important;}
   .star{color:var(--teal-d); font-weight:700;}
-  .gentabs{display:flex; gap:6px; flex-wrap:wrap; margin-top:6px;}
-  .gentabs span{border:1.5px solid var(--line); border-radius:8px; padding:6px 14px; font-size:13px;
-    font-weight:700; cursor:pointer; background:#fff; user-select:none;}
-  .gentabs span.on{background:var(--teal); border-color:var(--teal); color:#fff;}
-  .gentabs span.etc{opacity:.5; border-style:dashed;}
-  .gentabs span.etc.on{opacity:1; background:#64748b; border-color:#64748b; border-style:solid;}
-  /* 등록 마법사 */
+  .gr{display:inline-block; background:#fff; border:1.5px solid #f43f5e; color:#e11d48;
+    border-radius:6px; padding:0 7px; font-size:11px; font-weight:700;}
+  .cols{display:flex; gap:18px; align-items:flex-start;}
+  .col{flex:1; min-width:0;}
+  /* ── 홈: 검색 히어로 ── */
+  .hero{background:#fff; border:1px solid var(--line); border-radius:16px; padding:26px 28px; margin-bottom:14px;}
+  .hero h1{font-size:21px; letter-spacing:-.3px; margin-bottom:4px;}
+  .hero h1 b{color:var(--teal-d);}
+  .hero p{font-size:13px; color:var(--sub); margin-bottom:12px;}
+  .srow{display:flex; gap:8px;}
+  .srow input{flex:1; border-radius:999px; padding:11px 18px; border:2px solid var(--teal);}
+  .srow .btn{border-radius:999px; margin-top:0; padding:11px 24px; flex:0 0 auto;}
+  #srchOut{margin-top:12px;}
+  /* ── 배너 ── */
+  .banners{display:flex; gap:12px; margin-bottom:8px;}
+  .bnr{flex:1; border-radius:14px; padding:18px 20px; font-weight:700; font-size:14.5px; line-height:1.5;}
+  .bnr small{display:block; font-weight:700; font-size:11px; letter-spacing:1px; margin-bottom:4px; opacity:.75;}
+  .bnr.g{background:#e7f6ee; color:#14532d;}
+  .bnr.b{background:#e8f0fe; color:#1e3a8a;}
+  @media(max-width:760px){.banners{flex-direction:column;}}
+  /* ── 블로거 카드 ── */
+  .bgrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:12px;}
+  .bcard{background:#fff; border:1.5px solid var(--line); border-radius:14px; padding:15px 17px;}
+  .bcard .bh{display:flex; align-items:center; gap:10px;}
+  .bcard .av{width:42px; height:42px; border-radius:50%; background:var(--teal-bg); color:var(--teal-d);
+    display:grid; place-items:center; font-weight:800; font-size:16px; flex:0 0 auto;}
+  .bcard .nm{font-weight:700; font-size:14.5px;}
+  .bcard .meta{font-size:11.5px; color:var(--sub);}
+  .bcard .st{font-size:12px; color:#374151; margin-top:8px; line-height:1.7;}
+  .bcard .st b{font-size:13px;}
+  .bcard .pr{font-size:12px; color:var(--sub); margin-top:6px; overflow:hidden; text-overflow:ellipsis;
+    display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;}
+  .bcard .bf{display:flex; justify-content:space-between; align-items:center; margin-top:9px;}
+  .avail{display:inline-block; background:var(--teal-bg); color:var(--teal-d); border:1px solid var(--teal-line);
+    border-radius:999px; padding:1px 10px; font-size:11px; font-weight:700;}
+  /* ── TOP 랭킹 ── */
+  .rk{display:flex; align-items:center; gap:12px; background:#fff; border:1.5px solid var(--line);
+    border-radius:12px; padding:11px 15px; margin:8px 0;}
+  .rk .no{width:26px; font-size:16px; font-weight:800; color:var(--teal-d); text-align:center; flex:0 0 auto;}
+  .rk .av{width:38px; height:38px; border-radius:50%; background:var(--teal-bg); color:var(--teal-d);
+    display:grid; place-items:center; font-weight:800; flex:0 0 auto;}
+  .rk .bd{flex:1; min-width:0;}
+  .rk .nm{font-weight:700; font-size:14px;}
+  .rk .meta{font-size:11.5px; color:var(--sub);}
+  .rk .fv{font-size:11.5px; color:var(--sub); text-align:right; flex:0 0 auto;}
+  .rk .fv b{display:block; color:var(--teal-d); font-size:13px;}
+  /* ── 스페셜 포스트(패키지) ── */
+  .pkg{background:#fff; border:1.5px solid var(--line); border-radius:14px; padding:18px 20px;}
+  .pkg .ph{display:flex; justify-content:space-between; align-items:baseline; gap:10px; flex-wrap:wrap;}
+  .pkg h3{font-size:16px;}
+  .pkg .price{font-size:15px; font-weight:800; color:var(--teal-d);}
+  .pkg ul{margin:8px 0 0 0; padding-left:20px; font-size:13px;}
+  .pkg li{margin:3px 0;}
+  /* ── 공고 카드 ── */
+  .camp{display:flex; gap:12px; border:1.5px solid var(--line); border-radius:12px; padding:12px; margin:10px 0; background:#fff; align-items:stretch;}
+  .camp .info{flex:1; min-width:0;}
+  .camp img{width:104px; height:82px; border-radius:10px; object-fit:cover; flex:0 0 auto;}
+  .camp .tt{font-weight:700; font-size:14.5px; margin:2px 0;}
+  .camp .rw{color:var(--teal-d); font-weight:700; font-size:13px;}
+  .camp .ap{font-size:12px; color:var(--sub); margin-top:3px;}
+  .camp .ap b{color:var(--ink);}
+  .camp.clickable{cursor:pointer; transition:box-shadow .15s;}
+  .camp.clickable:hover{box-shadow:0 4px 14px rgba(15,157,143,.15); border-color:var(--teal-line);}
+  /* ── 시뮬레이터 ── */
+  .simres{background:var(--teal-bg); border:1.5px solid var(--teal-line); border-radius:12px;
+    padding:14px 17px; margin-top:12px; font-size:13.5px;}
+  .simres .row{display:flex; justify-content:space-between; margin:4px 0;}
+  .simres .tot{border-top:1.5px solid var(--teal-line); margin-top:8px; padding-top:8px; font-weight:800; color:var(--teal-d);}
+  /* ── 마법사·연동·첨부 ── */
   .steps{display:flex; gap:5px; margin:6px 0 12px;}
   .steps span{flex:1; text-align:center; font-size:11.5px; font-weight:700; color:var(--sub);
     border-bottom:3px solid var(--line); padding-bottom:6px;}
   .steps span.on{color:var(--teal-d); border-color:var(--teal);}
-  /* SNS 연동 */
   .snsrow{display:flex; gap:7px; margin-top:5px;}
   .snsrow select{width:150px; flex:0 0 auto;}
   .snsacc{display:flex; justify-content:space-between; align-items:center; gap:8px;
@@ -81,9 +149,6 @@
   .snsacc b{font-size:13px;}
   .snsacc .lk{color:var(--sub); font-size:11.5px; max-width:190px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
   .snsacc .x{cursor:pointer; color:var(--sub); font-weight:700; padding:0 3px;}
-  .gr{display:inline-block; background:#fff; border:1.5px solid #f43f5e; color:#e11d48;
-    border-radius:6px; padding:0 7px; font-size:11px; font-weight:700;}
-  /* 파일 첨부 */
   .attach{display:inline-flex; align-items:center; gap:7px; border:1.5px dashed var(--teal);
     color:var(--teal-d); background:var(--teal-bg); border-radius:9px; padding:8px 16px;
     font-size:13px; font-weight:700; cursor:pointer; margin-top:6px; user-select:none;}
@@ -94,17 +159,18 @@
   .fitem img{width:34px; height:34px; border-radius:6px; object-fit:cover;}
   .fitem .x{cursor:pointer; color:var(--sub); font-weight:700; padding:0 3px;}
   .fitem .fn{max-width:170px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
-  /* 공고 카드(썸네일) */
-  .camp{display:flex; gap:12px; border:1.5px solid var(--line); border-radius:12px; padding:12px; margin:10px 0; background:#fff; align-items:stretch;}
-  .camp .info{flex:1; min-width:0;}
-  .camp img{width:104px; height:82px; border-radius:10px; object-fit:cover; flex:0 0 auto;}
-  .camp .tt{font-weight:700; font-size:14.5px; margin:2px 0;}
-  .camp .rw{color:var(--teal-d); font-weight:700; font-size:13px;}
-  .camp .ap{font-size:12px; color:var(--sub); margin-top:3px;}
-  .camp .ap b{color:var(--ink);}
-  .camp.clickable{cursor:pointer; transition:box-shadow .15s;}
-  .camp.clickable:hover{box-shadow:0 4px 14px rgba(15,157,143,.15); border-color:var(--teal-line);}
-  /* 상세보기 모달 */
+  /* ── 원고 생성기 ── */
+  .draft{white-space:pre-wrap; background:#fbfdfd; border:1.5px solid var(--teal-line); border-radius:10px;
+    padding:16px 18px; font-size:13.5px; margin-top:12px; line-height:1.75;}
+  .aeobadges span{display:inline-block; background:var(--teal-bg); color:var(--teal-d); border:1px solid var(--teal-line);
+    border-radius:999px; padding:2px 11px; font-size:11.5px; font-weight:700; margin:2px 4px 0 0;}
+  .gentabs{display:flex; gap:6px; flex-wrap:wrap; margin-top:6px;}
+  .gentabs span{border:1.5px solid var(--line); border-radius:8px; padding:6px 14px; font-size:13px;
+    font-weight:700; cursor:pointer; background:#fff; user-select:none;}
+  .gentabs span.on{background:var(--teal); border-color:var(--teal); color:#fff;}
+  .gentabs span.etc{opacity:.5; border-style:dashed;}
+  .gentabs span.etc.on{opacity:1; background:#64748b; border-color:#64748b; border-style:solid;}
+  /* ── 모달·토스트 ── */
   .mbg{position:fixed; inset:0; background:rgba(15,25,35,.45); z-index:50;
     display:flex; align-items:center; justify-content:center; padding:20px;}
   .modal{background:#fff; border-radius:16px; width:100%; max-width:540px; max-height:88vh;
@@ -125,201 +191,292 @@
   .kwbox{background:var(--chip); border-radius:8px; padding:8px 12px; font-size:12.5px; margin-top:6px; color:#374151;}
   .mfoot{display:flex; gap:8px; margin-top:16px;}
   .mfoot .btn{flex:1; margin-top:0; text-align:center;}
-  .toast{position:fixed; left:50%; top:16%; transform:translateX(-50%); background:var(--teal-d);
+  .toast{position:fixed; left:50%; top:12%; transform:translateX(-50%); background:var(--teal-d);
     color:#fff; padding:13px 30px; border-radius:999px; font-weight:700; font-size:14.5px; z-index:99;
     box-shadow:0 8px 24px rgba(11,111,102,.4); opacity:0; pointer-events:none; transition:opacity .25s;}
   .toast.show{opacity:1;}
-  @media(max-width:860px){.cols{flex-direction:column;}}
+  @media(max-width:860px){
+    .shell{flex-direction:column;}
+    .side{width:100%; height:auto; position:static; display:flex; flex-wrap:wrap; gap:2px; align-items:center; padding:10px 12px;}
+    .side .logo{padding:0 10px 0 2px;} .side .sec{display:none;} .side .guide{display:none;}
+    .cols{flex-direction:column;}
+  }
 </style>
 </head>
 <body>
-<div class="top">
-  <div class="logo">POFACT<small>MVP 데모 — 매칭 + 채널별 원고 생성기</small></div>
-  <div class="roletab">
-    <button id="tabAdv" class="on" data-act="role" data-v="adv">광고주 화면</button>
-    <button id="tabBlg" data-act="role" data-v="blg">블로거 화면</button>
+<div class="shell">
+
+  <!-- ───── 사이드바 ───── -->
+  <div class="side">
+    <div class="logo">POFACT<small>텍스트 원고 매칭 · MVP 데모</small></div>
+    <div class="sec">CONTENTS</div>
+    <div class="mi on" data-act="nav" data-v="home"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/></svg>홈</div>
+    <div class="mi" data-act="nav" data-v="top"><svg viewBox="0 0 24 24"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0zM7 5H4v2a3 3 0 0 0 3 3M17 5h3v2a3 3 0 0 1-3 3"/></svg>인기 블로거 TOP</div>
+    <div class="mi" data-act="nav" data-v="camp"><svg viewBox="0 0 24 24"><path d="M4 6h16v12H4zM4 10h16"/></svg>캠페인 찾기</div>
+    <div class="mi" data-act="nav" data-v="sim"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 7h6M9 12h2M13 12h2M9 16h2M13 16h2"/></svg>광고 견적 시뮬레이터</div>
+    <div class="sec">MY</div>
+    <div class="mi" data-act="nav" data-v="adv"><svg viewBox="0 0 24 24"><path d="M3 11l18-6-6 18-3-8z"/></svg>광고주 센터</div>
+    <div class="mi" data-act="nav" data-v="me"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-6 8-6s8 2 8 6"/></svg>내 프로필 (블로거)</div>
+    <div class="guide"><b>POFACT가 처음이신가요?</b><br>홈 → 캠페인 찾기 → 지원 → 컨택되면 원고 생성기가 열립니다.</div>
+    <button class="reset" data-act="reset">데모 초기화</button>
   </div>
-  <button class="reset" data-act="reset">데모 초기화</button>
-</div>
 
-<div class="wrap">
+  <!-- ───── 메인 ───── -->
+  <div class="main">
 
-  <!-- ================= 광고주 ================= -->
-  <div id="viewAdv">
-    <div class="cols">
-      <div class="col">
-        <div class="card">
-          <h2><span class="n">1</span>공고 올리기</h2>
-          <label>공고 유형</label>
-          <div class="chips" id="cType" data-single="1">
-            <span class="sel">일반 공고 (원고료 확정)</span><span>역제안 공고 (인플루언서가 금액 제안)</span>
-          </div>
-          <label>브랜드/가게 이름</label>
-          <input type="text" id="cBrand" placeholder="예) 다비치안경 장안점">
-          <div class="cols" style="gap:10px">
-            <div class="col"><label>지역</label><input type="text" id="cLoc" placeholder="예) 서울/동대문구"></div>
-            <div class="col"><label>업종</label>
-              <select id="cInd"><option>뷰티</option><option>맛집/카페</option><option>병원</option><option>학원</option><option>패션/잡화</option><option>기타</option></select></div>
-          </div>
-          <div class="cols" style="gap:10px">
-            <div class="col"><label>모집 인원</label><input type="number" id="cCnt" value="5" min="1"></div>
-            <div class="col" id="feeWrap"><label>건당 원고료(원) — 사장님이 정함</label><input type="number" id="cFee" value="30000" step="5000"></div>
-          </div>
-          <label>발행 채널 (복수 선택 — 채널에 따라 원고 생성기 화면이 달라집니다)</label>
-          <div class="chips" id="cCh">
-            <span class="sel">워드프레스</span><span class="sel">티스토리</span><span>블로그스팟</span>
-            <span>네이버 블로그</span><span>인스타</span><span>유튜브</span><span>틱톡</span>
-          </div>
-          <label>핵심 키워드 (쉼표로 구분)</label>
-          <input type="text" id="cKw" placeholder="예) 장안동 안경, 동대문 렌즈">
-          <label>협찬/제공 내역</label>
-          <input type="text" id="cSpon" placeholder="예) 12만원 상당의 안경, 선글라스">
-          <label>가이드라인 (블로거에게 미션 가이드로 제공 — 쉼표나 줄바꿈으로 구분)</label>
-          <textarea id="cDesc" rows="3" placeholder="예) 10년차 검안사 상주 강조, 검안 과정·매장 전경 사진 포함, 타 브랜드 비교 언급 금지"></textarea>
-          <button class="btn" data-act="addCampaign">모집 시작</button>
+    <!-- ═══ 홈 ═══ -->
+    <div class="view" id="vHome">
+      <div class="hero">
+        <h1>우리 브랜드에 딱 맞는 블로거, <b>등급 데이터로 찾아드려요.</b></h1>
+        <p>네이버 블로그 · 티스토리 · 워드프레스 · 블로그스팟 — 검증된 계정에 AEO 구조 원고를 발행합니다.</p>
+        <div class="srow">
+          <input type="text" id="srchQ" placeholder="예) 강남 뷰티 블로거, 성수 카페, IT 리뷰">
+          <button class="btn" data-act="homeSearch">AI 매칭</button>
         </div>
+        <div id="srchOut"></div>
       </div>
-      <div class="col">
-        <div class="card">
-          <h2><span class="n">2</span>내 공고 · 신청자 선택</h2>
-          <div id="advList"></div>
-          <p class="note">신청자의 <b>SNS 연동·등급·능력·희망 금액</b>을 보고 [컨택]을 누르면 매칭 완료.</p>
-        </div>
+
+      <div class="banners">
+        <div class="bnr g"><small>원고 생성기</small>원고 걱정은 그만 — AI가 AEO 구조로 초안을 잡고, 블로거가 완성합니다.</div>
+        <div class="bnr b"><small>노출 확인</small>발행하고 끝이 아니에요. 구글·네이버 노출 여부를 알림으로 확인!</div>
+      </div>
+
+      <div class="sechead"><h2>블로거 리스트</h2><span class="more" data-act="nav" data-v="top">전체보기 ›</span></div>
+      <div class="sechint">POFACT에 새로 등록한 블로거를 만나보세요 — 블로그 평가툴이 판정한 등급이 함께 표시됩니다.</div>
+      <div class="bgrid" id="homeBloggers"></div>
+
+      <div class="sechead"><h2>인기 블로거 <b>TOP</b></h2><span class="more" data-act="nav" data-v="top">전체보기 ›</span></div>
+      <div class="sechint">광고주 즐겨찾기를 많이 받은 블로거 순위입니다. (주간 기준)</div>
+      <div id="homeTop"></div>
+
+      <div class="sechead"><h2>진행 중인 캠페인</h2><span class="more" data-act="nav" data-v="camp">전체보기 ›</span></div>
+      <div id="homeCamps"></div>
+
+      <div class="sechead"><h2>스페셜 포스트</h2></div>
+      <div class="sechint">포팩트서비스의 패키지 상품을 소개합니다.</div>
+      <div class="pkg">
+        <div class="ph"><h3><span class="tag t">포팩트서비스</span> AEO 스타터 번들 — 검증 블로그 10곳 동시 발행</h3>
+          <span class="price">1,000,000원 <small style="font-weight:600;color:var(--sub)">(예시가 · VAT 별도)</small></span></div>
+        <ul>
+          <li><b>구성</b> — AEO 구조 원고 10건(질문형 제목·자기완결 답변·FAQ) + 최적·준최적 등급 블로그 10곳 발행</li>
+          <li><b>자동 처리</b> — 협찬 표기 자동 삽입 · 가이드라인 반영 · 발행 검수</li>
+          <li><b>확인</b> — 구글·네이버 노출 확인 알림 제공</li>
+          <li><b>절차</b> — 블로거 선정 → 가이드 전달 → 원고 생성·검수 → 동시 발행</li>
+        </ul>
+        <button class="btn o sm" style="margin-top:10px" data-act="pkgAsk">상담 문의 (데모)</button>
       </div>
     </div>
-  </div>
 
-  <!-- ================= 블로거 ================= -->
-  <div id="viewBlg" class="hide">
-    <div class="cols">
-      <div class="col">
-        <div class="card">
-          <h2><span class="n">1</span>인플루언서 등록 (내 프로필)</h2>
-          <div id="myProfile"></div>
-          <div id="regForm">
-            <div class="steps">
-              <span id="stp1" class="on">1. 플랫폼 연동</span>
-              <span id="stp2">2. 관심사·능력</span>
-              <span id="stp3">3. 스타일·성향</span>
-              <span id="stp4">4. PR·포트폴리오</span>
-            </div>
+    <!-- ═══ TOP 블로거 ═══ -->
+    <div class="view hide" id="vTop">
+      <div class="sechead"><h2>인기 블로거 <b>TOP</b></h2></div>
+      <div class="sechint">광고주 즐겨찾기 기반 순위 — 블로그 평가툴 등급·채널 수치와 함께 확인하세요.</div>
+      <div id="topList"></div>
+      <div class="sechead"><h2>전체 블로거</h2></div>
+      <div class="bgrid" id="allBloggers"></div>
+    </div>
 
-            <div id="rs1">
-              <label>활동명</label>
-              <input type="text" id="bName" placeholder="예) 김블로그">
-              <label>활동지역</label>
-              <div class="cols" style="gap:8px">
-                <div class="col"><select id="bSido"><option>서울</option><option>경기</option><option>인천</option><option>부산</option><option>대구</option><option>대전</option><option>광주</option><option>기타</option></select></div>
-                <div class="col"><input type="text" id="bGu" placeholder="시/군/구 입력 (예: 동대문구)"></div>
-              </div>
-              <label>보유 SNS 연동 — <b>계정 링크를 넣으면 연동됩니다</b> (1개 이상)</label>
-              <div class="snsrow">
-                <select id="snsCh"><option>네이버 블로그</option><option>티스토리</option><option>워드프레스</option><option>블로그스팟</option><option>인스타</option><option>유튜브</option><option>틱톡</option></select>
-                <input type="text" id="snsLink" placeholder="계정 링크 또는 아이디 (예: blog.naver.com/myid)">
-                <button class="btn sm" style="flex:0 0 auto" data-act="snsAdd">연동</button>
-              </div>
-              <div id="snsList"></div>
-              <p class="note">연동하면 평가툴이 이웃·팔로워 수를 불러오고 <b>계정 등급을 자동 판정</b>합니다. (데모는 모의 수치)</p>
-              <button class="btn" data-act="regNext" data-s="2">다음 →</button>
-            </div>
+    <!-- ═══ 캠페인 찾기 ═══ -->
+    <div class="view hide" id="vCamp">
+      <div class="sechead"><h2>캠페인 찾기</h2></div>
+      <div class="sechint">카드를 클릭하면 상세보기(미션 가이드·키워드)가 열립니다. 역제안 공고는 원하는 금액을 제안하며 지원하세요.</div>
+      <div id="campList"></div>
+    </div>
 
-            <div id="rs2" class="hide">
-              <label>관심사 (복수 선택)</label>
-              <div class="chips" id="bInt">
-                <span>숙소</span><span>맛집</span><span>카페</span><span>여가</span><span class="sel">뷰티</span>
-                <span>패션</span><span>생활</span><span>식품</span><span>기타</span>
-              </div>
-              <label>보유 능력 <b>(3개 선택)</b></label>
-              <div class="chips" id="bSkill" data-max="3">
-                <span>사진 잘 찍는</span><span>보정 잘하는</span><span>비주얼 전문</span><span>배경위주</span>
-                <span>전신위주</span><span>필력있는</span><span>전문모델</span><span>네이버 인플루언서</span>
-                <span>인스타 인플루언서</span><span>영상제작자</span><span>마케터</span><span>사진작가</span>
-                <span>포토샵능력자</span><span>능숙한 편집</span>
-              </div>
-              <label>희망 거래 금액 (건당 · 원) — 광고주가 참고해 제안합니다</label>
-              <input type="number" id="bFee" value="30000" step="5000">
-              <button class="btn gray" data-act="regNext" data-s="1">← 이전</button>
-              <button class="btn" data-act="regNext" data-s="3">다음 →</button>
-            </div>
-
-            <div id="rs3" class="hide">
-              <label>콘텐츠 스타일 <b>(3개 선택)</b></label>
-              <div class="chips" id="bStyle" data-max="3">
-                <span>분위기 있는</span><span>일상적인 콘텐츠</span><span>디테일한 콘텐츠</span>
-                <span>생동감 있는 콘텐츠</span><span>모던스타일</span><span>애정가득 콘텐츠</span>
-                <span>자연스러운 콘텐츠</span><span>기타</span>
-              </div>
-              <label>콘텐츠 연출 <b>(3개 선택)</b></label>
-              <div class="chips" id="bPlay" data-max="3">
-                <span>아이와 함께</span><span>강아지와 함께</span><span>고양이와 함께</span><span>연인과 함께</span>
-                <span>친구들과 함께</span><span>가족과 함께</span><span>먹방러</span><span>DSLR 촬영</span>
-                <span>인생샷전문</span><span>스튜디오 촬영</span><span>야외촬영</span><span>실내촬영</span><span>고화질 촬영</span>
-              </div>
-              <label>성격 성향 <b>(3개 선택)</b></label>
-              <div class="chips" id="bPersona" data-max="3">
-                <span>약속 잘 지키는</span><span>소통하는</span><span>도전적인</span><span>친절한</span>
-                <span>성실한</span><span>세심한</span><span>꼼꼼한</span><span>스마트한</span>
-                <span>깔끔한</span><span>솔직한</span><span>쾌활한</span>
-              </div>
-              <button class="btn gray" data-act="regNext" data-s="2">← 이전</button>
-              <button class="btn" data-act="regNext" data-s="4">다음 →</button>
-            </div>
-
-            <div id="rs4" class="hide">
-              <label>자기 PR (광고주에게 보여지는 소개)</label>
-              <textarea id="bPr" rows="3" placeholder="예) 뷰티·생활 리뷰 6년차. 사진 직접 촬영, 마감 엄수. 상위노출 경험 다수."></textarea>
-              <label>포트폴리오 (상위노출 캡처·대표 글 링크 등)</label>
-              <input type="text" id="bPf" placeholder="예) '수분크림 추천' 구글 1페이지 캡처 등 12건">
-              <label>파일 첨부 (캡처 이미지·PDF)</label>
-              <input type="file" id="bFiles" multiple accept="image/*,.pdf" class="hide">
-              <span class="attach" data-act="attach"><svg viewBox="0 0 24 24"><path d="M21 11.5l-8.5 8.5a5 5 0 0 1-7-7l8.5-8.5a3.5 3.5 0 0 1 5 5L10.5 18a2 2 0 0 1-3-3l7.5-7.5"/></svg>파일 첨부하기</span>
-              <div class="flist" id="fileList"></div>
-              <p class="note">등록을 마치면 광고주에게 <b>프로필+SNS 등급</b>이 보입니다.</p>
-              <button class="btn gray" data-act="regNext" data-s="3">← 이전</button>
-              <button class="btn" data-act="regBlogger">등록 완료</button>
-            </div>
-          </div>
+    <!-- ═══ 견적 시뮬레이터 ═══ -->
+    <div class="view hide" id="vSim">
+      <div class="sechead"><h2>광고 견적 시뮬레이터</h2></div>
+      <div class="sechint">예산·발행 채널·블로거 등급을 고르면 매칭 가능한 블로거 배분을 자동 계산합니다. (단가는 데모 기준)</div>
+      <div class="card">
+        <label>예산 (원)</label>
+        <input type="number" id="simBudget" value="300000" step="50000">
+        <label>발행 채널</label>
+        <div class="chips" id="simCh">
+          <span class="sel">네이버 블로그</span><span class="sel">티스토리</span><span>워드프레스</span><span>블로그스팟</span>
         </div>
-        <div class="card">
-          <h2><span class="n">2</span>공고 보고 신청하기</h2>
-          <div id="blgCampList"></div>
+        <label>블로거 등급 (블로그 평가툴 기준)</label>
+        <div class="chips" id="simTier">
+          <span class="sel">최적 (건당 50,000원)</span><span class="sel">준최적 (건당 30,000원)</span><span>일반 (건당 15,000원)</span>
         </div>
+        <label>분배 방식</label>
+        <div class="chips" id="simMode" data-single="1">
+          <span class="sel">자동 추천</span><span>균등 분배</span>
+        </div>
+        <button class="btn" data-act="simCalc">협업 블로거 계산하기</button>
+        <div id="simOut"></div>
       </div>
-      <div class="col">
-        <div class="card">
-          <h2><span class="n">3</span>내 매칭 → 원고 생성기</h2>
-          <div id="myMatches"></div>
-          <p class="note">광고주가 나를 <b>컨택하면</b> 그 캠페인의 [원고 생성기]가 열립니다.</p>
-        </div>
-        <div class="card hide" id="genCard">
-          <h2>원고 생성기 <span class="tag t">컨택 완료 전용</span></h2>
-          <div class="aeobadges">
-            <span>캠페인 정보 자동 연동</span><span>협찬 표기 자동</span><span>AEO 구조</span>
+    </div>
+
+    <!-- ═══ 광고주 센터 ═══ -->
+    <div class="view hide" id="vAdv">
+      <div class="cols">
+        <div class="col">
+          <div class="card">
+            <h2><span class="n">1</span>공고 올리기</h2>
+            <label>공고 유형</label>
+            <div class="chips" id="cType" data-single="1">
+              <span class="sel">일반 공고 (원고료 확정)</span><span>역제안 공고 (블로거가 금액 제안)</span>
+            </div>
+            <label>브랜드/가게 이름</label>
+            <input type="text" id="cBrand" placeholder="예) 다비치안경 장안점">
+            <div class="cols" style="gap:10px">
+              <div class="col"><label>지역</label><input type="text" id="cLoc" placeholder="예) 서울/동대문구"></div>
+              <div class="col"><label>업종</label>
+                <select id="cInd"><option>뷰티</option><option>맛집/카페</option><option>병원</option><option>학원</option><option>패션/잡화</option><option>기타</option></select></div>
+            </div>
+            <div class="cols" style="gap:10px">
+              <div class="col"><label>모집 인원</label><input type="number" id="cCnt" value="5" min="1"></div>
+              <div class="col" id="feeWrap"><label>건당 원고료(원) — 사장님이 정함</label><input type="number" id="cFee" value="30000" step="5000"></div>
+            </div>
+            <label>발행 채널 (복수 선택)</label>
+            <div class="chips" id="cCh">
+              <span class="sel">네이버 블로그</span><span class="sel">티스토리</span><span>워드프레스</span><span>블로그스팟</span>
+              <span>인스타</span><span>유튜브</span><span>틱톡</span>
+            </div>
+            <label>핵심 키워드 (쉼표로 구분)</label>
+            <input type="text" id="cKw" placeholder="예) 장안동 안경, 동대문 렌즈">
+            <label>협찬/제공 내역</label>
+            <input type="text" id="cSpon" placeholder="예) 12만원 상당의 안경, 선글라스">
+            <label>가이드라인 (블로거에게 미션 가이드로 제공 — 쉼표나 줄바꿈으로 구분)</label>
+            <textarea id="cDesc" rows="3" placeholder="예) 10년차 검안사 상주 강조, 검안 과정·매장 전경 사진 포함, 타 브랜드 비교 언급 금지"></textarea>
+            <button class="btn" data-act="addCampaign">모집 시작</button>
           </div>
-          <label>캠페인 선택 (컨택 완료된 캠페인만) — 선택하면 채널·키워드 자동 연동</label>
-          <select id="gCampSel"></select>
-          <label>키워드 (자동 연동)</label>
-          <input type="text" id="gKw" readonly style="background:var(--chip)">
-          <label>발행 채널 (캠페인에서 자동 연동 — 눌러서 전환 가능)</label>
-          <div class="gentabs" id="gCh"></div>
-          <div id="genForm"></div>
-          <label>협찬 내역 (자동 연동 — 수정 가능)</label>
-          <input type="text" id="gSpon" placeholder="예) 12만원 상당의 안경, 선글라스">
-          <label>내용 자유 입력 (필수 — 개인 경험, 감정, 직원 친절도 등)</label>
-          <textarea id="gFree" rows="3" placeholder="예) 직원분이 얼굴형에 맞는 테를 5개나 골라줬다. 검안이 꼼꼼해서 놀람"></textarea>
-          <label>작성 요구 사항 (선택 — 글자 수, 키워드 반복 횟수 등)</label>
-          <input type="text" id="gReq" placeholder="예) 글자 수 2,000자 이상, 사진 20장, 키워드 3회 반복">
-          <button class="btn" data-act="genDraft" id="genBtn">초안 생성</button>
-          <div id="draftOut" class="hide">
-            <div class="draft" id="draftText"></div>
-            <button class="btn o" data-act="copyDraft">초안 복사</button>
-            <span class="note" id="copyMsg"></span>
+        </div>
+        <div class="col">
+          <div class="card">
+            <h2><span class="n">2</span>내 공고 · 신청자 선택</h2>
+            <div id="advList"></div>
+            <p class="note">신청자의 <b>SNS 연동·등급·능력·희망 금액</b>을 보고 [컨택]을 누르면 매칭 완료.</p>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
+
+    <!-- ═══ 내 프로필(블로거) ═══ -->
+    <div class="view hide" id="vMe">
+      <div class="cols">
+        <div class="col">
+          <div class="card">
+            <h2><span class="n">1</span>인플루언서 등록 (내 프로필)</h2>
+            <div id="myProfile"></div>
+            <div id="regForm">
+              <div class="steps">
+                <span id="stp1" class="on">1. 플랫폼 연동</span>
+                <span id="stp2">2. 관심사·능력</span>
+                <span id="stp3">3. 스타일·성향</span>
+                <span id="stp4">4. PR·포트폴리오</span>
+              </div>
+              <div id="rs1">
+                <label>활동명</label>
+                <input type="text" id="bName" placeholder="예) 김블로그">
+                <label>활동지역</label>
+                <div class="cols" style="gap:8px">
+                  <div class="col"><select id="bSido"><option>서울</option><option>경기</option><option>인천</option><option>부산</option><option>대구</option><option>대전</option><option>광주</option><option>기타</option></select></div>
+                  <div class="col"><input type="text" id="bGu" placeholder="시/군/구 입력 (예: 동대문구)"></div>
+                </div>
+                <label>보유 SNS 연동 — <b>계정 링크를 넣으면 연동됩니다</b> (1개 이상)</label>
+                <div class="snsrow">
+                  <select id="snsCh"><option>네이버 블로그</option><option>티스토리</option><option>워드프레스</option><option>블로그스팟</option><option>인스타</option><option>유튜브</option><option>틱톡</option></select>
+                  <input type="text" id="snsLink" placeholder="계정 링크 또는 아이디">
+                  <button class="btn sm" style="flex:0 0 auto" data-act="snsAdd">연동</button>
+                </div>
+                <div id="snsList"></div>
+                <p class="note">연동하면 평가툴이 이웃·팔로워 수를 불러오고 <b>계정 등급을 자동 판정</b>합니다. (데모는 모의 수치)</p>
+                <button class="btn" data-act="regNext" data-s="2">다음 →</button>
+              </div>
+              <div id="rs2" class="hide">
+                <label>관심사 (복수 선택)</label>
+                <div class="chips" id="bInt">
+                  <span>숙소</span><span>맛집</span><span>카페</span><span>여가</span><span class="sel">뷰티</span>
+                  <span>패션</span><span>생활</span><span>식품</span><span>기타</span>
+                </div>
+                <label>보유 능력 <b>(3개 선택)</b></label>
+                <div class="chips" id="bSkill" data-max="3">
+                  <span>사진 잘 찍는</span><span>보정 잘하는</span><span>비주얼 전문</span><span>배경위주</span>
+                  <span>전신위주</span><span>필력있는</span><span>전문모델</span><span>네이버 인플루언서</span>
+                  <span>인스타 인플루언서</span><span>영상제작자</span><span>마케터</span><span>사진작가</span>
+                  <span>포토샵능력자</span><span>능숙한 편집</span>
+                </div>
+                <label>희망 거래 금액 (건당 · 원) — 광고주가 참고해 제안합니다</label>
+                <input type="number" id="bFee" value="30000" step="5000">
+                <button class="btn gray" data-act="regNext" data-s="1">← 이전</button>
+                <button class="btn" data-act="regNext" data-s="3">다음 →</button>
+              </div>
+              <div id="rs3" class="hide">
+                <label>콘텐츠 스타일 <b>(3개 선택)</b></label>
+                <div class="chips" id="bStyle" data-max="3">
+                  <span>분위기 있는</span><span>일상적인 콘텐츠</span><span>디테일한 콘텐츠</span>
+                  <span>생동감 있는 콘텐츠</span><span>모던스타일</span><span>애정가득 콘텐츠</span>
+                  <span>자연스러운 콘텐츠</span><span>기타</span>
+                </div>
+                <label>콘텐츠 연출 <b>(3개 선택)</b></label>
+                <div class="chips" id="bPlay" data-max="3">
+                  <span>아이와 함께</span><span>강아지와 함께</span><span>고양이와 함께</span><span>연인과 함께</span>
+                  <span>친구들과 함께</span><span>가족과 함께</span><span>먹방러</span><span>DSLR 촬영</span>
+                  <span>인생샷전문</span><span>스튜디오 촬영</span><span>야외촬영</span><span>실내촬영</span><span>고화질 촬영</span>
+                </div>
+                <label>성격 성향 <b>(3개 선택)</b></label>
+                <div class="chips" id="bPersona" data-max="3">
+                  <span>약속 잘 지키는</span><span>소통하는</span><span>도전적인</span><span>친절한</span>
+                  <span>성실한</span><span>세심한</span><span>꼼꼼한</span><span>스마트한</span>
+                  <span>깔끔한</span><span>솔직한</span><span>쾌활한</span>
+                </div>
+                <button class="btn gray" data-act="regNext" data-s="2">← 이전</button>
+                <button class="btn" data-act="regNext" data-s="4">다음 →</button>
+              </div>
+              <div id="rs4" class="hide">
+                <label>자기 PR (광고주에게 보여지는 소개)</label>
+                <textarea id="bPr" rows="3" placeholder="예) 뷰티·생활 리뷰 6년차. 사진 직접 촬영, 마감 엄수."></textarea>
+                <label>포트폴리오 (상위노출 캡처·대표 글 링크 등)</label>
+                <input type="text" id="bPf" placeholder="예) '수분크림 추천' 구글 1페이지 캡처 등 12건">
+                <label>파일 첨부 (캡처 이미지·PDF)</label>
+                <input type="file" id="bFiles" multiple accept="image/*,.pdf" class="hide">
+                <span class="attach" data-act="attach"><svg viewBox="0 0 24 24"><path d="M21 11.5l-8.5 8.5a5 5 0 0 1-7-7l8.5-8.5a3.5 3.5 0 0 1 5 5L10.5 18a2 2 0 0 1-3-3l7.5-7.5"/></svg>파일 첨부하기</span>
+                <div class="flist" id="fileList"></div>
+                <p class="note">등록을 마치면 광고주에게 <b>프로필+SNS 등급</b>이 보입니다.</p>
+                <button class="btn gray" data-act="regNext" data-s="3">← 이전</button>
+                <button class="btn" data-act="regBlogger">등록 완료</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <h2><span class="n">2</span>내 매칭 → 원고 생성기</h2>
+            <div id="myMatches"></div>
+            <p class="note">광고주가 나를 <b>컨택하면</b> 그 캠페인의 [원고 생성기]가 열립니다. 캠페인 지원은 <b>캠페인 찾기</b>에서.</p>
+          </div>
+          <div class="card hide" id="genCard">
+            <h2>원고 생성기 <span class="tag t">컨택 완료 전용</span></h2>
+            <div class="aeobadges">
+              <span>캠페인 정보 자동 연동</span><span>협찬 표기 자동</span><span>AEO 구조</span>
+            </div>
+            <label>캠페인 선택 (컨택 완료된 캠페인만) — 선택하면 채널·키워드 자동 연동</label>
+            <select id="gCampSel"></select>
+            <label>키워드 (자동 연동)</label>
+            <input type="text" id="gKw" readonly style="background:var(--chip)">
+            <label>발행 채널 (캠페인에서 자동 연동 — 눌러서 전환 가능)</label>
+            <div class="gentabs" id="gCh"></div>
+            <div id="genForm"></div>
+            <label>협찬 내역 (자동 연동 — 수정 가능)</label>
+            <input type="text" id="gSpon" placeholder="예) 12만원 상당의 안경, 선글라스">
+            <label>내용 자유 입력 (필수 — 개인 경험, 감정, 직원 친절도 등)</label>
+            <textarea id="gFree" rows="3" placeholder="예) 직원분이 얼굴형에 맞는 테를 5개나 골라줬다"></textarea>
+            <label>작성 요구 사항 (선택 — 글자 수, 키워드 반복 횟수 등)</label>
+            <input type="text" id="gReq" placeholder="예) 글자 수 2,000자 이상, 사진 20장, 키워드 3회 반복">
+            <button class="btn" data-act="genDraft" id="genBtn">초안 생성</button>
+            <div id="draftOut" class="hide">
+              <div class="draft" id="draftText"></div>
+              <button class="btn o" data-act="copyDraft">초안 복사</button>
+              <span class="note" id="copyMsg"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /main -->
+</div><!-- /shell -->
 
 <div class="mbg hide" id="detailBg" data-act="closeDetail">
   <div class="modal" id="detailModal"></div>
@@ -327,10 +484,11 @@
 <div class="toast" id="toast"></div>
 
 <script>
-const KEY='pofact_mvp_v5';
+const KEY='pofact_mvp_v6';
 const CH_TYPE={'워드프레스':'blog','티스토리':'blog','블로그스팟':'blog','네이버 블로그':'blog',
   '인스타':'insta','유튜브':'youtube','틱톡':'tiktok'};
 const TYPE_NAME={blog:'블로그 원고 (AEO 구조)', insta:'인스타 캡션', youtube:'유튜브 스크립트', tiktok:'틱톡 숏폼 스크립트'};
+const TIER_PRICE={'최적':50000,'준최적':30000,'일반':15000};
 let S=null, curGenCamp=null, curGenCh=null;
 let regAccounts=[], attachedFiles=[];
 
@@ -341,51 +499,92 @@ function seed(){
        ch:['워드프레스','티스토리','인스타'], kw:'민감성 수분크림, 수분크림 추천',
        spon:'3만원 상당의 수분크림 본품', desc:'무향·무색소 강조, 민감 피부 테스트 완료 언급, 사용 전후 피부결 사진 포함, 의약품 오인 표현 금지'},
       {id:2, brand:'동네커피 로스터리', loc:'서울/연남동', ind:'맛집/카페', cnt:3, fee:20000,
-       ch:['티스토리','유튜브','틱톡'], kw:'연남동 카페 추천, 스페셜티 원두',
+       ch:['티스토리','네이버 블로그'], kw:'연남동 카페 추천, 스페셜티 원두',
        spon:'2만원 상당의 음료·디저트 이용권', desc:'매일 아침 직접 로스팅 강조, 시그니처 메뉴 사진 필수, 매장 외관·내부 컷 포함'},
       {id:3, brand:'다비치안경 장안점', loc:'서울/동대문구', ind:'패션/잡화', cnt:3, fee:0,
        ch:['네이버 블로그','티스토리'], kw:'장안동 안경, 동대문 렌즈',
        spon:'12만원 상당의 안경, 선글라스', desc:'10년차 검안사 상주 강조, 검안 과정·매장 전경 사진 포함, 초과 금액 본인 부담 안내, 타 브랜드 비교 금지'},
       {id:4, brand:'헬시밀 샐러드', loc:'서울/성수동', ind:'맛집/카페', cnt:5, fee:0, type:'reverse',
-       ch:['네이버 블로그','인스타'], kw:'성수 샐러드 맛집, 다이어트 도시락',
+       ch:['네이버 블로그','워드프레스'], kw:'성수 샐러드 맛집, 다이어트 도시락',
        spon:'2만원 상당의 샐러드 세트', desc:'신선 재료 당일 조리 강조, 칼로리 정보 포함, 점심시간 방문 컷 권장'}
     ],
     bloggers:[
-      {id:1, name:'김블로그', region:'서울 강남구',
+      {id:1, name:'김블로그', demo:'2534여', cat:'뷰티', region:'서울 강남구', fav:31,
        acc:[{ch:'네이버 블로그', link:'blog.naver.com/kimblog', fol:'이웃 8.3천 명', grade:'준최1'},
             {ch:'인스타', link:'@kim.blog', fol:'팔로워 2.5천 명', grade:''}],
-       interests:['뷰티','생활'], skills:['사진 잘 찍는','필력있는','꼼꼼한 편집'],
+       interests:['뷰티','생활'], skills:['사진 잘 찍는','필력있는','능숙한 편집'],
        styles:['디테일한 콘텐츠','자연스러운 콘텐츠'], plays:['고화질 촬영','실내촬영'],
        persona:['약속 잘 지키는','꼼꼼한'], hopeFee:30000,
-       pf:"'수분크림 추천' 구글 1페이지 등 12건", pr:'뷰티·생활 리뷰 6년차', grade:'준최1', rating:4.8, done:24},
-      {id:2, name:'여행하는제이', region:'서울 마포구',
+       pf:"'수분크림 추천' 구글 1페이지 등 12건", pr:'뷰티·생활 리뷰 6년차. 사진 직접 촬영, 마감 엄수.', grade:'준최1', rating:4.8, done:24},
+      {id:2, name:'여행하는제이', demo:'2534남', cat:'여행·카페', region:'서울 마포구', fav:24,
        acc:[{ch:'티스토리', link:'jaytravel.tistory.com', fol:'이웃 4.1천 명', grade:'최적2'},
             {ch:'유튜브', link:'youtube.com/@jaytravel', fol:'구독자 1.2천 명', grade:''}],
        interests:['카페','맛집','여가'], skills:['영상제작자','사진 잘 찍는','능숙한 편집'],
        styles:['생동감 있는 콘텐츠'], plays:['야외촬영','연인과 함께'],
        persona:['소통하는','쾌활한'], hopeFee:25000,
-       pf:'여행·카페 상위노출 7건', pr:'카페 투어 전문', grade:'최적2', rating:4.6, done:9}
+       pf:'여행·카페 상위노출 7건', pr:'카페 투어 전문. 구글 검색 상위 노출 다수.', grade:'최적2', rating:4.6, done:9},
+      {id:3, name:'살림의여왕', demo:'3544여', cat:'생활', region:'경기 성남시', fav:45,
+       acc:[{ch:'네이버 블로그', link:'blog.naver.com/queenliving', fol:'이웃 12.4천 명', grade:'최적1'}],
+       interests:['생활','식품'], skills:['필력있는','네이버 인플루언서','세심한'],
+       styles:['일상적인 콘텐츠'], plays:['실내촬영','가족과 함께'],
+       persona:['성실한','친절한'], hopeFee:50000,
+       pf:"'주방 수납' 네이버 1페이지 등 20건", pr:'살림·리빙 리뷰 8년차. 네이버 인플루언서.', grade:'최적1', rating:4.9, done:41},
+      {id:4, name:'IT리뷰어준', demo:'2534남', cat:'IT·테크', region:'서울 강남구', fav:28,
+       acc:[{ch:'워드프레스', link:'junreview.com', fol:'월 방문 5.2만', grade:'최적2'},
+            {ch:'티스토리', link:'junit.tistory.com', fol:'이웃 3.8천 명', grade:'준최1'}],
+       interests:['기타','생활'], skills:['필력있는','마케터','능숙한 편집'],
+       styles:['디테일한 콘텐츠'], plays:['고화질 촬영','실내촬영'],
+       persona:['꼼꼼한','솔직한'], hopeFee:40000,
+       pf:'구글 검색 1페이지 리뷰 15건', pr:'가전·앱 리뷰 전문. 구글 SEO에 강합니다.', grade:'최적2', rating:4.7, done:18},
+      {id:5, name:'맛집헌터', demo:'2534여', cat:'맛집', region:'부산 해운대구', fav:19,
+       acc:[{ch:'네이버 블로그', link:'blog.naver.com/tastyhunt', fol:'이웃 6.7천 명', grade:'준최2'}],
+       interests:['맛집','카페'], skills:['사진 잘 찍는','먹방러','친절한'],
+       styles:['생동감 있는 콘텐츠'], plays:['야외촬영','친구들과 함께'],
+       persona:['쾌활한','솔직한'], hopeFee:20000,
+       pf:'부산 맛집 상위노출 9건', pr:'부산·경남 맛집 전문 리뷰어.', grade:'준최2', rating:4.5, done:15},
+      {id:6, name:'육아하는하루', demo:'3544여', cat:'육아', region:'인천 연수구', fav:26,
+       acc:[{ch:'네이버 블로그', link:'blog.naver.com/harudays', fol:'이웃 9.1천 명', grade:'준최1'},
+            {ch:'인스타', link:'@haru.days', fol:'팔로워 8.0천 명', grade:''}],
+       interests:['생활','식품','기타'], skills:['필력있는','세심한','사진 잘 찍는'],
+       styles:['애정가득 콘텐츠'], plays:['아이와 함께','실내촬영'],
+       persona:['성실한','약속 잘 지키는'], hopeFee:30000,
+       pf:'육아용품 리뷰 상위노출 11건', pr:'두 아이 엄마의 꼼꼼한 육아템 리뷰.', grade:'준최1', rating:4.8, done:22},
+      {id:7, name:'헬스로그', demo:'2534남', cat:'건강', region:'서울 송파구', fav:12,
+       acc:[{ch:'블로그스팟', link:'healthlog.blogspot.com', fol:'월 방문 2.1만', grade:'최적2'}],
+       interests:['여가','생활'], skills:['필력있는','마케터','성실한'],
+       styles:['디테일한 콘텐츠'], plays:['야외촬영','고화질 촬영'],
+       persona:['도전적인','성실한'], hopeFee:25000,
+       pf:'구글 건강 키워드 1페이지 6건', pr:'운동·보조제 리뷰. 구글 검색 유입 중심.', grade:'최적2', rating:4.4, done:7},
+      {id:8, name:'카페투어수민', demo:'1824여', cat:'카페', region:'서울 마포구', fav:17,
+       acc:[{ch:'티스토리', link:'sumincafe.tistory.com', fol:'이웃 3.2천 명', grade:'준최1'},
+            {ch:'인스타', link:'@sumin.cafe', fol:'팔로워 1.2만 명', grade:''}],
+       interests:['카페','여가'], skills:['사진 잘 찍는','비주얼 전문','보정 잘하는'],
+       styles:['분위기 있는'], plays:['인생샷전문','실내촬영'],
+       persona:['소통하는','깔끔한'], hopeFee:20000,
+       pf:'연남·성수 카페 상위노출 8건', pr:'감성 카페 투어. 사진 퀄리티로 승부합니다.', grade:'준최1', rating:4.6, done:11}
     ],
     apps:[ {campId:1, blgId:1, st:'contacted'}, {campId:2, blgId:2, st:'applied'},
       {campId:4, blgId:2, st:'applied', price:28000} ],
-    me:1, nextC:5, nextB:3
+    me:1, nextC:5, nextB:9
   };
 }
 function load(){ try{ S=JSON.parse(localStorage.getItem(KEY)); }catch(e){} if(!S||!S.campaigns) S=seed(); }
 function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
 function resetDemo(){ try{ localStorage.removeItem(KEY); }catch(e){} S=seed(); curGenCamp=null; curGenCh=null;
   regAccounts=[]; attachedFiles=[]; renderSns(); renderFiles();
-  document.getElementById('genCard').classList.add('hide'); regStep(1); renderAll(); }
+  document.getElementById('genCard').classList.add('hide'); regStep(1); renderAll(); nav('home'); }
 
-function setRole(r){
-  document.getElementById('tabAdv').classList.toggle('on', r==='adv');
-  document.getElementById('tabBlg').classList.toggle('on', r==='blg');
-  document.getElementById('viewAdv').classList.toggle('hide', r!=='adv');
-  document.getElementById('viewBlg').classList.toggle('hide', r!=='blg');
+/* ── 내비게이션 ── */
+function nav(v){
+  ['home','top','camp','sim','adv','me'].forEach(x=>{
+    document.getElementById('v'+x.charAt(0).toUpperCase()+x.slice(1)).classList.toggle('hide', x!==v);
+  });
+  document.querySelectorAll('.side .mi').forEach(mi=>mi.classList.toggle('on', mi.getAttribute('data-v')===v));
+  window.scrollTo({top:0});
 }
 function chipVals(id){ return [...document.querySelectorAll('#'+id+' span.sel')].map(s=>s.textContent.trim()); }
 
-/* ---------- 썸네일 ---------- */
+/* ── 썸네일·헬퍼 ── */
 function thumb(c){
   const col={'뷰티':['#f472b6','#a78bfa'],'맛집/카페':['#f59e0b','#ef4444'],'병원':['#38bdf8','#6366f1'],
     '학원':['#34d399','#0ea5e9'],'패션/잡화':['#818cf8','#0f9d8f'],'기타':['#94a3b8','#64748b']};
@@ -409,21 +608,121 @@ function rewardLine(c){
 }
 function appCount(cid){ return S.apps.filter(a=>a.campId===cid).length; }
 function accLine(b){ return b.acc.map(a=>a.ch+' '+a.fol+(a.grade?' <span class="gr">'+a.grade+'</span>':'')).join(' · '); }
+function tierOf(b){ const g=b.grade||''; if(g.indexOf('최적')===0) return '최적'; if(g.indexOf('준최')===0) return '준최적'; return '일반'; }
 
-/* ---------- 광고주 ---------- */
+/* ── 블로거 카드/랭킹 ── */
+function bcard(b){
+  return `<div class="bcard">
+    <div class="bh"><div class="av">${b.name.charAt(0)}</div>
+      <div><div class="nm">${b.name} ${b.grade?'<span class="gr">'+b.grade+'</span>':''}</div>
+      <div class="meta">${b.demo||''} / ${b.cat||'-'} / ${b.region||'-'}</div></div></div>
+    <div class="st">${b.acc.map(a=>'<b>'+a.fol+'</b> '+a.ch).join(' · ')}</div>
+    <div class="pr">${b.pr}</div>
+    <div class="bf"><span class="avail">제안 가능</span>
+      <span class="star">${b.rating?('★'+b.rating+' ('+b.done+'건)'):'신규'}</span></div>
+  </div>`;
+}
+function rkRow(b, i){
+  return `<div class="rk"><div class="no">${i+1}</div><div class="av">${b.name.charAt(0)}</div>
+    <div class="bd"><div class="nm">${b.name} ${b.grade?'<span class="gr">'+b.grade+'</span>':''}</div>
+    <div class="meta">${b.demo||''} / ${b.cat||'-'} / ${b.region||'-'} · ${b.acc.map(a=>a.fol).join(' · ')}</div></div>
+    <div class="fv"><b>${b.fav||0}</b>즐겨찾기</div></div>`;
+}
+function sortedByFav(){ return [...S.bloggers].sort((a,b)=>(b.fav||0)-(a.fav||0)); }
+
+/* ── 홈 렌더 + AI 매칭 검색 ── */
+function renderHome(){
+  const recent=[...S.bloggers].slice(-3).reverse();
+  document.getElementById('homeBloggers').innerHTML=recent.map(bcard).join('');
+  document.getElementById('homeTop').innerHTML=sortedByFav().slice(0,5).map(rkRow).join('');
+  document.getElementById('homeCamps').innerHTML=S.campaigns.slice(0,2).map(campCard).join('');
+}
+function homeSearch(){
+  const q=(document.getElementById('srchQ').value||'').trim();
+  const out=document.getElementById('srchOut');
+  if(!q){ out.innerHTML='<div class="empty">키워드를 입력해 보세요. 예) 강남 뷰티, 성수 카페, IT</div>'; return; }
+  const toks=q.split(/[\s,]+/).filter(Boolean);
+  const scored=S.bloggers.map(b=>{
+    const hay=[b.name,b.cat,b.region,b.pr,(b.interests||[]).join(' '),(b.skills||[]).join(' ')].join(' ');
+    let sc=0; toks.forEach(t=>{ if(hay.indexOf(t)>=0) sc++; });
+    return {b, sc};
+  }).filter(x=>x.sc>0).sort((a,b)=>b.sc-a.sc || (b.b.fav||0)-(a.b.fav||0)).slice(0,3);
+  out.innerHTML = scored.length
+    ? '<div class="note" style="margin:10px 0 6px">AI 매칭 결과 — 등급·관심사·지역 기반 추천 (데모)</div><div class="bgrid">'+scored.map(x=>bcard(x.b)).join('')+'</div>'
+    : '<div class="empty">조건에 맞는 블로거가 없습니다. 다른 키워드로 검색해 보세요.</div>';
+}
+
+/* ── 캠페인 카드/목록 ── */
+function campCard(c){
+  const a=S.apps.find(x=>x.campId===c.id&&x.blgId===S.me);
+  const st=a? (a.st==='contacted'?'<span class="tag t">컨택 완료</span>'
+      :'<span class="tag">신청함'+(a.price?(' · 제안 '+a.price.toLocaleString()+'원'):'')+'</span>')
+    : (isRev(c)
+      ? `<button class="btn sm" data-act="detail" data-c="${c.id}" style="background:#7c3aed">금액 제안하기</button>`
+      : `<button class="btn sm" data-act="apply" data-c="${c.id}">신청</button>`);
+  return `<div class="camp clickable" data-act="detail" data-c="${c.id}"><div class="info">
+    <div>${typeTag(c)}${chTags(c)}<span class="tag r">모집중</span></div>
+    <div class="tt">[${c.loc}] ${c.brand}</div>
+    <div class="rw">${rewardLine(c)}</div>
+    <div class="ap">신청 <b>${appCount(c.id)}</b>/${c.cnt}명 · 키워드: ${c.kw} · <span style="color:var(--teal-d);font-weight:700">상세보기 ›</span></div>
+    <div style="margin-top:6px">${st}</div></div>
+    <img src="${thumb(c)}" alt="썸네일"></div>`;
+}
+function renderCamp(){
+  document.getElementById('campList').innerHTML=S.campaigns.map(campCard).join('')||'<div class="empty">공고가 없습니다.</div>';
+}
+function renderTop(){
+  document.getElementById('topList').innerHTML=sortedByFav().map(rkRow).join('');
+  document.getElementById('allBloggers').innerHTML=S.bloggers.map(bcard).join('');
+}
+
+/* ── 견적 시뮬레이터 ── */
+function simCalc(){
+  const budget=+document.getElementById('simBudget').value||0;
+  const tiers=chipVals('simTier').map(t=>t.split(' ')[0]);
+  const mode=(chipVals('simMode')[0]||'자동');
+  if(budget<=0||!tiers.length){ alert('예산과 등급을 선택해 주세요.'); return; }
+  const avail={}; S.bloggers.forEach(b=>{ const t=tierOf(b); avail[t]=(avail[t]||0)+1; });
+  let rows=[], used=0;
+  if(mode.indexOf('균등')===0){
+    const share=Math.floor(budget/tiers.length);
+    tiers.forEach(t=>{
+      const n=Math.min(Math.floor(share/TIER_PRICE[t]), avail[t]||0);
+      rows.push({t,n}); used+=n*TIER_PRICE[t];
+    });
+  }else{
+    let rem=budget;
+    const sorted=[...tiers].sort((a,b)=>TIER_PRICE[b]-TIER_PRICE[a]);
+    sorted.forEach((t,i)=>{
+      const cap=avail[t]||0;
+      const slice=(i===sorted.length-1)?rem:Math.floor(rem*0.5);
+      const n=Math.min(Math.floor(slice/TIER_PRICE[t]), cap);
+      rows.push({t,n}); rem-=n*TIER_PRICE[t]; used+=n*TIER_PRICE[t];
+    });
+  }
+  const total=rows.reduce((s,r)=>s+r.n,0);
+  document.getElementById('simOut').innerHTML=`<div class="simres">
+    ${rows.map(r=>`<div class="row"><span>${r.t} 블로거 <b>${r.n}명</b> × ${TIER_PRICE[r.t].toLocaleString()}원 <span class="note" style="margin:0">(보유 ${ (avail[r.t]||0) }명)</span></span><span>${(r.n*TIER_PRICE[r.t]).toLocaleString()}원</span></div>`).join('')}
+    <div class="row tot"><span>총 ${total}건 발행</span><span>사용 ${used.toLocaleString()}원 / 잔여 ${(budget-used).toLocaleString()}원</span></div>
+    <div class="note">모든 원고는 AEO 구조 + 협찬 표기 자동 + 발행 검수가 포함됩니다. (데모 단가 기준)</div>
+  </div>
+  <button class="btn" data-act="simToAdv">이 조건으로 공고 올리기 →</button>`;
+}
+
+/* ── 광고주 ── */
 function addCampaign(){
   const b=document.getElementById('cBrand').value.trim();
   const kw=document.getElementById('cKw').value.trim();
   const ch=chipVals('cCh');
   if(!b||!kw){ alert('브랜드 이름과 키워드를 입력해 주세요.'); return; }
   if(!ch.length){ alert('발행 채널을 1개 이상 선택해 주세요.'); return; }
-  const isRev=(chipVals('cType')[0]||'').includes('역제안');
+  const rev=(chipVals('cType')[0]||'').includes('역제안');
   S.campaigns.push({id:S.nextC++, brand:b, loc:document.getElementById('cLoc').value.trim()||'우리동네',
-    ind:document.getElementById('cInd').value, type:isRev?'reverse':'normal',
-    cnt:+document.getElementById('cCnt').value||1, fee:isRev?0:(+document.getElementById('cFee').value||0),
+    ind:document.getElementById('cInd').value, type:rev?'reverse':'normal',
+    cnt:+document.getElementById('cCnt').value||1, fee:rev?0:(+document.getElementById('cFee').value||0),
     ch:ch, kw:kw, spon:document.getElementById('cSpon').value.trim(),
     desc:document.getElementById('cDesc').value.trim()});
-  save(); renderAll();
+  save(); renderAll(); toast('공고가 등록되었습니다');
   ['cBrand','cLoc','cKw','cSpon','cDesc'].forEach(i=>document.getElementById(i).value='');
 }
 function contact(campId, blgId){
@@ -448,7 +747,7 @@ function renderAdv(){
         <div class="m">희망 ${(b.hopeFee||0).toLocaleString()}원 · ${b.pr}</div>
         ${a.price?('<div class="m propfee">이 공고 제안가: '+a.price.toLocaleString()+'원</div>'):''}
         <div class="r1" style="margin-top:6px"><span class="m">포폴: ${b.pf}</span>${btn}</div></div>`;
-    }).join('')||'<div class="empty">아직 신청자가 없습니다. (블로거 화면에서 신청해 보세요)</div>';
+    }).join('')||'<div class="empty">아직 신청자가 없습니다. (캠페인 찾기에서 신청해 보세요)</div>';
     return `<div class="camp"><div class="info">
       <div>${typeTag(c)}${chTags(c)}<span class="tag r">모집중</span></div>
       <div class="tt">[${c.loc}] ${c.brand}</div>
@@ -459,7 +758,7 @@ function renderAdv(){
   }).join('');
 }
 
-/* ---------- SNS 연동 ---------- */
+/* ── SNS 연동 ── */
 function mockStat(ch, link){
   const n=((link.length*7+ch.length*13)%89+11)/10;
   const f=n.toFixed(1)+'천 명';
@@ -484,7 +783,7 @@ function renderSns(){
      <span class="x" data-act="snsRm" data-i="${i}">✕</span></span></div>`).join('');
 }
 
-/* ---------- 파일 첨부 ---------- */
+/* ── 파일 첨부 ── */
 function renderFiles(){
   document.getElementById('fileList').innerHTML=attachedFiles.map((f,i)=>{
     const img=f.url?`<img src="${f.url}" alt="">`:'';
@@ -500,7 +799,7 @@ function addFiles(fileList){
   renderFiles();
 }
 
-/* ---------- 등록 마법사 ---------- */
+/* ── 등록 마법사 ── */
 function regStep(s){
   [1,2,3,4].forEach(i=>{
     document.getElementById('rs'+i).classList.toggle('hide', i!==s);
@@ -521,20 +820,21 @@ function regBlogger(){
   let pf=document.getElementById('bPf').value.trim()||'-';
   if(attachedFiles.length) pf+=' · 첨부 '+attachedFiles.length+'건('+attachedFiles.map(f=>f.name).join(', ')+')';
   const blogAcc=regAccounts.find(a=>a.grade);
-  S.bloggers.push({id:S.nextB, name:n,
+  const ints=chipVals('bInt');
+  S.bloggers.push({id:S.nextB, name:n, demo:'', cat:ints[0]||'-', fav:0,
     region:document.getElementById('bSido').value+' '+(document.getElementById('bGu').value.trim()||''),
     acc:regAccounts.slice(),
-    interests:chipVals('bInt'), skills:chipVals('bSkill'), styles:chipVals('bStyle'),
+    interests:ints, skills:chipVals('bSkill'), styles:chipVals('bStyle'),
     plays:chipVals('bPlay'), persona:chipVals('bPersona'),
     hopeFee:+document.getElementById('bFee').value||0,
     pf:pf, pr:document.getElementById('bPr').value.trim()||'-',
     grade:blogAcc?blogAcc.grade:'일반', rating:0, done:0});
   S.me=S.nextB; S.nextB++;
   regAccounts=[]; attachedFiles=[]; renderSns(); renderFiles();
-  save(); regStep(1); renderAll();
+  save(); regStep(1); renderAll(); toast('등록 완료 — 등급이 판정되었습니다');
 }
 function applyCamp(campId, price){
-  if(!me()){ alert('먼저 인플루언서 등록을 완료해 주세요.'); return; }
+  if(!me()){ alert('먼저 [내 프로필]에서 인플루언서 등록을 완료해 주세요.'); return; }
   if(!S.apps.find(a=>a.campId===campId&&a.blgId===S.me)){
     const app={campId:campId, blgId:S.me, st:'applied'};
     if(price>0) app.price=price;
@@ -542,35 +842,18 @@ function applyCamp(campId, price){
   }
 }
 function me(){ return S.bloggers.find(b=>b.id===S.me); }
-function renderBlg(){
+function renderMe(){
   const m=me();
   document.getElementById('myProfile').innerHTML=m?`<div class="item hl">
-    <div class="r1"><span class="t">${m.name}</span>
+    <div class="r1"><span class="t">${m.name} ${m.grade?'<span class="gr">'+m.grade+'</span>':''}</span>
     <span class="star">${m.rating?('★'+m.rating+' ('+m.done+'건)'):'신규'}</span></div>
     <div class="m">활동지역: ${m.region||'-'} · 희망 ${(m.hopeFee||0).toLocaleString()}원</div>
     <div class="m">${accLine(m)}</div>
     <div class="m">관심사: ${(m.interests||[]).join('·')||'-'} · 능력: ${(m.skills||[]).join('·')||'-'}</div>
-    <div class="m">스타일: ${(m.styles||[]).join('·')||'-'} · 연출: ${(m.plays||[]).join('·')||'-'} · 성향: ${(m.persona||[]).join('·')||'-'}</div>
     <div class="m">포폴: ${m.pf}</div>
     <div class="m" style="color:var(--teal-d)">등록 완료 — 광고주에게 이 프로필이 보입니다</div>
     <button class="btn sm o" style="margin-top:8px" data-act="newProfile">다른 계정으로 등록 체험 →</button></div>`:'';
   document.getElementById('regForm').style.display=m?'none':'block';
-
-  document.getElementById('blgCampList').innerHTML=S.campaigns.map(c=>{
-    const a=S.apps.find(x=>x.campId===c.id&&x.blgId===S.me);
-    const st=a? (a.st==='contacted'?'<span class="tag t">컨택 완료</span>'
-        :'<span class="tag">신청함'+(a.price?(' · 제안 '+a.price.toLocaleString()+'원'):'')+'</span>')
-      : (isRev(c)
-        ? `<button class="btn sm" data-act="detail" data-c="${c.id}" style="background:#7c3aed">금액 제안하기</button>`
-        : `<button class="btn sm" data-act="apply" data-c="${c.id}">신청</button>`);
-    return `<div class="camp clickable" data-act="detail" data-c="${c.id}"><div class="info">
-      <div>${typeTag(c)}${chTags(c)}<span class="tag r">모집중</span></div>
-      <div class="tt">[${c.loc}] ${c.brand}</div>
-      <div class="rw">${rewardLine(c)}</div>
-      <div class="ap">신청 <b>${appCount(c.id)}</b>/${c.cnt}명 · 키워드: ${c.kw} · <span style="color:var(--teal-d);font-weight:700">상세보기 ›</span></div>
-      <div style="margin-top:6px">${st}</div></div>
-      <img src="${thumb(c)}" alt="썸네일"></div>`;
-  }).join('')||'<div class="empty">공고가 없습니다.</div>';
 
   const mine=S.apps.filter(a=>a.blgId===S.me&&a.st==='contacted');
   document.getElementById('myMatches').innerHTML=mine.map(a=>{
@@ -581,7 +864,7 @@ function renderBlg(){
   }).join('')||'<div class="empty">컨택 완료된 매칭이 없습니다.</div>';
 }
 
-/* ---------- 캠페인 상세보기 ---------- */
+/* ── 캠페인 상세보기 ── */
 function fmtD(d){ return String(d.getFullYear()).slice(2)+'.'+String(d.getMonth()+1).padStart(2,'0')+'.'+String(d.getDate()).padStart(2,'0'); }
 function openDetail(campId){
   const c=S.campaigns.find(x=>x.id===campId); if(!c) return;
@@ -600,7 +883,6 @@ function openDetail(campId){
       <div>${typeTag(c)}${chTags(c)}<span class="tag r">모집중</span></div>
       <h3>[${c.loc}] ${c.brand}</h3>
       <div class="m" style="color:var(--sub);font-size:12.5px">${c.ind} · 신청 ${appCount(c.id)}/${c.cnt}명</div>
-
       <div class="msec">
         <div class="mh">캠페인 정보</div>
         <div class="mrow"><span class="mk">협찬 상품</span><span class="mv">${c.spon||'-'}</span></div>
@@ -609,7 +891,6 @@ function openDetail(campId){
         <div class="mrow"><span class="mk">리뷰 마감</span><span class="mv">${fmtD(rv)}</span></div>
         <div class="mrow"><span class="mk">발행 채널</span><span class="mv">${c.ch.join(', ')}</span></div>
       </div>
-
       <div class="msec">
         <div class="mh">미션 가이드 — 이렇게 홍보해 주세요</div>
         <ol>
@@ -621,13 +902,11 @@ function openDetail(campId){
         <div class="mh" style="margin-top:10px">키워드 — 본문에 포함해 주세요</div>
         <div class="kwbox">${tags}</div>
       </div>
-
       <div class="msec">
         <div class="mh">방문/제공 정보</div>
         <div class="mrow"><span class="mk">지역</span><span class="mv">${c.loc}</span></div>
         <div class="mrow"><span class="mk">예약/수령 방법</span><span class="mv">선정 후 담당자 연락처로 예약 (POFACT 체험단임을 사전 고지)</span></div>
       </div>
-
       <div class="mfoot">${applyBtn}<button class="btn o" data-act="closeDetail" style="flex:0 0 auto">닫기</button></div>
     </div>`;
   document.getElementById('detailBg').classList.remove('hide');
@@ -639,7 +918,7 @@ function toast(msg){
   setTimeout(function(){ t.classList.remove('show'); }, 1600);
 }
 
-/* ---------- 원고 생성기 ---------- */
+/* ── 원고 생성기 ── */
 function contactedCamps(){
   return S.apps.filter(a=>a.blgId===S.me&&a.st==='contacted')
     .map(a=>S.campaigns.find(c=>c.id===a.campId)).filter(Boolean);
@@ -800,7 +1079,7 @@ function copyDraft(){
   }else{ document.getElementById('copyMsg').textContent='복사는 보안 설정상 이 환경에서 제한됩니다.'; }
 }
 
-/* ---------- 클릭·변경 위임 처리 ---------- */
+/* ── 클릭·변경 위임 ── */
 document.addEventListener('keydown', function(ev){ if(ev.key==='Escape') closeDetail(); });
 document.addEventListener('click', function(ev){
  try{
@@ -824,8 +1103,12 @@ document.addEventListener('click', function(ev){
   const el=ev.target.closest('[data-act]');
   if(!el) return;
   const act=el.getAttribute('data-act');
-  if(act==='role') setRole(el.getAttribute('data-v'));
+  if(act==='nav') nav(el.getAttribute('data-v'));
   else if(act==='reset') resetDemo();
+  else if(act==='homeSearch') homeSearch();
+  else if(act==='simCalc') simCalc();
+  else if(act==='simToAdv') nav('adv');
+  else if(act==='pkgAsk') toast('상담 문의가 접수되었습니다 (데모)');
   else if(act==='addCampaign') addCampaign();
   else if(act==='regNext') regNext(+el.getAttribute('data-s'));
   else if(act==='regBlogger') regBlogger();
@@ -838,7 +1121,7 @@ document.addEventListener('click', function(ev){
   else if(act==='detail') openDetail(+el.getAttribute('data-c'));
   else if(act==='closeDetail'){ if(el.id==='detailBg' && ev.target!==el) return; closeDetail(); }
   else if(act==='applyModal'){
-    if(!me()){ alert('먼저 인플루언서 등록을 완료해 주세요.'); return; }
+    if(!me()){ alert('먼저 [내 프로필]에서 인플루언서 등록을 완료해 주세요.'); return; }
     let price=0;
     if(el.getAttribute('data-rev')){
       price=+(document.getElementById('propFee')||{}).value||0;
@@ -848,7 +1131,6 @@ document.addEventListener('click', function(ev){
     toast(price>0?('지원이 완료되었습니다 (제안 '+price.toLocaleString()+'원)'):'지원이 완료되었습니다');
     setTimeout(closeDetail, 800);
   }
-  else if(act==='contact') contact(+el.getAttribute('data-c'), +el.getAttribute('data-b'));
   else if(act==='openGen') openGen(+el.getAttribute('data-c'));
   else if(act==='genCh') setGenCh(el.getAttribute('data-ch'));
   else if(act==='genDraft') genDraft();
@@ -859,8 +1141,11 @@ document.addEventListener('change', function(ev){
   if(ev.target && ev.target.id==='gCampSel') loadGenCamp(ev.target.value);
   if(ev.target && ev.target.id==='bFiles'){ addFiles(ev.target.files); ev.target.value=''; }
 });
+document.addEventListener('keydown', function(ev){
+  if(ev.key==='Enter' && ev.target && ev.target.id==='srchQ') homeSearch();
+});
 
-function renderAll(){ renderAdv(); renderBlg(); }
+function renderAll(){ renderHome(); renderTop(); renderCamp(); renderAdv(); renderMe(); }
 load(); renderAll();
 </script>
 </body>
