@@ -26,6 +26,9 @@
   .side .mi svg{width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:1.8; flex:0 0 auto;}
   .side .mi.sub{padding:6px 10px 6px 35px; font-size:12.5px; color:var(--sub); font-weight:600;}
   .side .mi.sub.on{background:var(--teal-bg); color:var(--teal-d);}
+  .side .mi .chev{width:13px; height:13px; margin-left:auto; transition:transform .15s; flex:0 0 auto;}
+  .side .mi.open .chev{transform:rotate(90deg);}
+  .subwrap.closed{display:none;}
   .crumb{font-size:12.5px; color:var(--sub); margin:4px 0 10px;}
   .crumb b{color:var(--teal-d); cursor:pointer;}
   .defband{background:var(--teal-bg); border-left:3px solid var(--teal); border-radius:0 10px 10px 0;
@@ -221,18 +224,40 @@
     <div class="mi" data-act="nav" data-v="camp"><svg viewBox="0 0 24 24"><path d="M4 6h16v12H4zM4 10h16"/></svg>캠페인 찾기</div>
     <div class="mi" data-act="nav" data-v="sim"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 7h6M9 12h2M13 12h2M9 16h2M13 16h2"/></svg>광고 견적 시뮬레이터</div>
     <div class="sec">SERVICE</div>
-    <div class="mi" data-act="nav" data-v="svc"><svg viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg>포팩트서비스</div>
-    <div class="mi sub" data-act="svcNav" data-id="1">블로그배포</div>
-    <div class="mi sub" data-act="svcNav" data-id="2">서브홈페이지 칼럼</div>
-    <div class="mi sub" data-act="svcNav" data-id="3">워드프레스 브랜드블로그</div>
-    <div class="mi sub" data-act="svcNav" data-id="4">네이버 블로그 운영대행</div>
-    <div class="mi sub" data-act="svcNav" data-id="5">AEO·GEO·SEO 패키지</div>
-    <div class="mi sub" data-act="svcNav" data-id="6">홈페이지 AEO·GEO·SEO</div>
-    <div class="mi sub" data-act="svcNav" data-id="7">뉴스레터 대행</div>
-    <div class="mi" data-act="nav" data-v="tool"><svg viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L4 17v3h3l5.3-5.3a4 4 0 0 0 5.4-5.4l-2.4 2.4-2.4-2.4z"/></svg>마케팅툴 <span class="tag" style="margin-left:auto">준비중</span></div>
+    <div class="mi" data-act="toggle" data-g="svc" id="miSvc"><svg viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg>포팩트서비스<svg class="chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>
+    <div class="subwrap closed" id="gSvc">
+      <div class="mi sub" data-act="nav" data-v="svc">전체 보기</div>
+      <div class="mi sub" data-act="svcNav" data-id="1">블로그배포</div>
+      <div class="mi sub" data-act="svcNav" data-id="2">서브홈페이지 칼럼</div>
+      <div class="mi sub" data-act="svcNav" data-id="3">워드프레스 브랜드블로그</div>
+      <div class="mi sub" data-act="svcNav" data-id="4">네이버 블로그 운영대행</div>
+      <div class="mi sub" data-act="svcNav" data-id="5">AEO·GEO·SEO 패키지</div>
+      <div class="mi sub" data-act="svcNav" data-id="6">홈페이지 AEO·GEO·SEO</div>
+      <div class="mi sub" data-act="svcNav" data-id="7">뉴스레터 대행</div>
+    </div>
+    <div class="mi" data-act="toggle" data-g="tool" id="miTool"><svg viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L4 17v3h3l5.3-5.3a4 4 0 0 0 5.4-5.4l-2.4 2.4-2.4-2.4z"/></svg>마케팅툴 <span class="tag" style="margin-left:auto">준비중</span><svg class="chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>
+    <div class="subwrap closed" id="gTool">
+      <div class="mi sub" data-act="nav" data-v="tool">전체 보기</div>
+      <div class="mi sub" data-act="toolNav" data-id="1">홈페이지 AEO·GEO·SEO 체크기</div>
+      <div class="mi sub" data-act="toolNav" data-id="2">운영 중인 블로그 평가</div>
+      <div class="mi sub" data-act="toolNav" data-id="3">브랜드 AI 가시성 체크</div>
+    </div>
     <div class="sec">COMMUNITY</div>
-    <div class="mi" data-act="nav" data-v="mkt"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/><path d="M8 9h8M8 12h5"/></svg>마케터들의 장</div>
-    <div class="mi" data-act="nav" data-v="blgm"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-9.5A4 4 0 0 1 12 8a4 4 0 0 1 7 2.5C19 15.6 12 20 12 20z"/></svg>블로거들의 장</div>
+    <div class="mi" data-act="toggle" data-g="mkt" id="miMkt"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/><path d="M8 9h8M8 12h5"/></svg>마케터들의 장<svg class="chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>
+    <div class="subwrap closed" id="gMkt">
+      <div class="mi sub" data-act="nav" data-v="mkt">전체 보기</div>
+      <div class="mi sub" data-act="boardNav" data-b="mkt" data-i="0">AEO · GEO 연구소</div>
+      <div class="mi sub" data-act="boardNav" data-b="mkt" data-i="1">SEO 연구소</div>
+      <div class="mi sub" data-act="boardNav" data-b="mkt" data-i="2">채널 연구소</div>
+      <div class="mi sub" data-act="boardNav" data-b="mkt" data-i="3">마케팅업체 리스트</div>
+    </div>
+    <div class="mi" data-act="toggle" data-g="blgm" id="miBlgm"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-9.5A4 4 0 0 1 12 8a4 4 0 0 1 7 2.5C19 15.6 12 20 12 20z"/></svg>블로거들의 장<svg class="chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>
+    <div class="subwrap closed" id="gBlgm">
+      <div class="mi sub" data-act="nav" data-v="blgm">전체 보기</div>
+      <div class="mi sub" data-act="boardNav" data-b="blgm" data-i="0">블로거 수익화 — 채널별</div>
+      <div class="mi sub" data-act="boardNav" data-b="blgm" data-i="1">체험단업체 리스트</div>
+      <div class="mi sub" data-act="boardNav" data-b="blgm" data-i="2">어필리에이트</div>
+    </div>
     <div class="sec">MY</div>
     <div class="mi" data-act="nav" data-v="adv"><svg viewBox="0 0 24 24"><path d="M3 11l18-6-6 18-3-8z"/></svg>광고주 센터</div>
     <div class="mi" data-act="nav" data-v="me"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-6 8-6s8 2 8 6"/></svg>내 프로필 (블로거)</div>
@@ -340,67 +365,31 @@
     <!-- ═══ 포팩트서비스 상품 상세 ═══ -->
     <div class="view hide" id="vSvcp"></div>
 
+    <!-- ═══ 마케팅툴 개별 페이지 ═══ -->
+    <div class="view hide" id="vToolp"></div>
+
+    <!-- ═══ 게시판 개별 페이지 ═══ -->
+    <div class="view hide" id="vBoard"></div>
+
     <!-- ═══ 마케팅툴 ═══ -->
     <div class="view hide" id="vTool">
       <div class="sechead"><h2>마케팅툴</h2></div>
       <div class="sechint">무료 도구 3종 — 지금은 준비 중입니다. 오픈되면 홈에서 바로 쓸 수 있어요.</div>
-      <div class="bgrid">
-        <div class="bcard">
-          <div class="nm">홈페이지 AEO·GEO·SEO 체크기</div>
-          <div class="pr" style="margin-top:6px">내 홈페이지가 AI와 구글에 잘 읽히는 구조인지 무료 진단</div>
-          <button class="btn sm" style="margin-top:10px" data-act="toolSoon">실행하기</button>
-        </div>
-        <div class="bcard">
-          <div class="nm">운영 중인 블로그 평가</div>
-          <div class="pr" style="margin-top:6px">블로그 지수·활동성을 분석해 등급 판정 — 매칭 등급의 기준</div>
-          <button class="btn sm" style="margin-top:10px" data-act="toolSoon">실행하기</button>
-        </div>
-        <div class="bcard">
-          <div class="nm">우리 브랜드 AI 가시성 체크</div>
-          <div class="pr" style="margin-top:6px">챗GPT 등 AI가 우리 브랜드를 언급하는지 확인</div>
-          <button class="btn sm" style="margin-top:10px" data-act="toolSoon">실행하기</button>
-        </div>
-      </div>
+      <div class="bgrid" id="toolGrid"></div>
     </div>
 
     <!-- ═══ 마케터들의 장 ═══ -->
     <div class="view hide" id="vMkt">
       <div class="sechead"><h2>마케터들의 장</h2></div>
-      <div class="sechint">마케터를 위한 채널별 연구소 — 기술 이야기와 검증된 업체 정보를 나눕니다. (데모 게시판)</div>
-      <div class="card"><h2>AEO · GEO 연구소</h2>
-        <div class="item" data-act="postSoon" style="cursor:pointer"><div class="t">챗GPT가 내 글을 인용하게 만드는 문단 구조</div><div class="m">조회 1,204 · 댓글 18</div></div>
-        <div class="item" data-act="postSoon" style="cursor:pointer"><div class="t">AI 검색 시대, 질문형 제목이 중요한 이유</div><div class="m">조회 863 · 댓글 9</div></div>
-      </div>
-      <div class="card"><h2>SEO 연구소 — 구글 · 네이버</h2>
-        <div class="item" data-act="postSoon" style="cursor:pointer"><div class="t">구글 SEO — 제목 태그 하나로 순위가 바뀐 사례</div><div class="m">조회 977 · 댓글 12</div></div>
-        <div class="item" data-act="postSoon" style="cursor:pointer"><div class="t">네이버 SEO — 2026 검색 반영 변화 정리</div><div class="m">조회 1,530 · 댓글 24</div></div>
-      </div>
-      <div class="card"><h2>채널 연구소 — 워드프레스 · 블로그스팟 · 네이버 · 티스토리</h2>
-        <div class="item" data-act="postSoon" style="cursor:pointer"><div class="t">워드프레스 초기 세팅에서 놓치기 쉬운 색인 설정</div><div class="m">조회 645 · 댓글 7</div></div>
-        <div class="item" data-act="postSoon" style="cursor:pointer"><div class="t">블로그스팟이 구글 검색에 유리한 이유</div><div class="m">조회 512 · 댓글 5</div></div>
-        <div class="item" data-act="postSoon" style="cursor:pointer"><div class="t">티스토리 · 네이버 병행 운영 전략</div><div class="m">조회 891 · 댓글 15</div></div>
-      </div>
-      <div class="card"><h2>마케팅업체 리스트</h2>
-        <div class="item" data-act="postSoon" style="cursor:pointer"><div class="t">검증된 마케팅 업체 모음 (계속 업데이트)</div><div class="m">조회 2,102 · 댓글 31</div></div>
-      </div>
+      <div class="sechint">마케터를 위한 채널별 연구소 — 카테고리를 클릭하면 게시판으로 이동합니다. (데모)</div>
+      <div id="mktIndex"></div>
     </div>
 
     <!-- ═══ 블로거들의 장 ═══ -->
     <div class="view hide" id="vBlgm">
       <div class="sechead"><h2>블로거들의 장</h2></div>
-      <div class="sechint">블로거 수익화 정보 — 채널별 수익화, 체험단, 어필리에이트까지. (데모 게시판)</div>
-      <div class="card"><h2>블로거 수익화 — 채널별</h2>
-        <div class="item" data-act="postSoon" style="cursor:pointer"><div class="t">네이버 블로그로 월 50만 원 만드는 현실 루트</div><div class="m">조회 3,214 · 댓글 42</div></div>
-        <div class="item" data-act="postSoon" style="cursor:pointer"><div class="t">티스토리 + 애드센스 6개월 수익 기록</div><div class="m">조회 2,877 · 댓글 35</div></div>
-        <div class="item" data-act="postSoon" style="cursor:pointer"><div class="t">워드프레스 · 블로그스팟 수익화 시작 가이드</div><div class="m">조회 1,466 · 댓글 11</div></div>
-      </div>
-      <div class="card"><h2>체험단업체 리스트</h2>
-        <div class="item" data-act="postSoon" style="cursor:pointer"><div class="t">믿을 수 있는 체험단 플랫폼 모음</div><div class="m">조회 1,932 · 댓글 27</div></div>
-      </div>
-      <div class="card"><h2>어필리에이트 (제휴 수익)</h2>
-        <div class="item" data-act="postSoon" style="cursor:pointer"><div class="t">쿠팡 파트너스 시작 가이드 — 링크 하나로 시작하기</div><div class="m">조회 2,540 · 댓글 19</div></div>
-        <div class="item" data-act="postSoon" style="cursor:pointer"><div class="t">제휴 링크 쓸 때 협찬 표기, 이렇게 하세요</div><div class="m">조회 1,105 · 댓글 8</div></div>
-      </div>
+      <div class="sechint">블로거 수익화 정보 — 카테고리를 클릭하면 게시판으로 이동합니다. (데모)</div>
+      <div id="blgmIndex"></div>
     </div>
 
     <!-- ═══ 광고주 센터 ═══ -->
@@ -671,18 +660,40 @@ function resetDemo(){ try{ localStorage.removeItem(KEY); }catch(e){} S=seed(); c
   document.getElementById('genCard').classList.add('hide'); regStep(1); renderAll(); nav('home'); }
 
 /* ── 내비게이션 ── */
-let curSvcId=0;
+let curSvcId=0, curToolId=0, curBoard={b:'',i:-1};
+const VIEWS=['home','top','camp','sim','svc','svcp','tool','toolp','mkt','blgm','board','adv','me'];
+/* 그룹(아코디언) ↔ 뷰 매핑 */
+const GROUP_OF={svc:'svc', svcp:'svc', tool:'tool', toolp:'tool', mkt:'mkt', blgm:'blgm'};
+function openGroup(g, forceOpen){
+  const wrap=document.getElementById('g'+g.charAt(0).toUpperCase()+g.slice(1));
+  const mi=document.getElementById('mi'+g.charAt(0).toUpperCase()+g.slice(1));
+  if(!wrap||!mi) return;
+  const willOpen = forceOpen===true ? true : (forceOpen===false ? false : wrap.classList.contains('closed'));
+  wrap.classList.toggle('closed', !willOpen);
+  mi.classList.toggle('open', willOpen);
+}
 function nav(v){
-  ['home','top','camp','sim','svc','svcp','tool','mkt','blgm','adv','me'].forEach(x=>{
-    document.getElementById('v'+x.charAt(0).toUpperCase()+x.slice(1)).classList.toggle('hide', x!==v);
+  VIEWS.forEach(x=>{
+    const el=document.getElementById('v'+x.charAt(0).toUpperCase()+x.slice(1));
+    if(el) el.classList.toggle('hide', x!==v);
   });
+  /* 상위 메뉴 활성 표시 */
   document.querySelectorAll('.side .mi').forEach(mi=>{
-    if(mi.getAttribute('data-act')==='svcNav'){
+    const act=mi.getAttribute('data-act');
+    if(act==='toggle'){
+      mi.classList.toggle('on', GROUP_OF[v]===mi.getAttribute('data-g'));
+    }else if(act==='svcNav'){
       mi.classList.toggle('on', v==='svcp' && +mi.getAttribute('data-id')===curSvcId);
+    }else if(act==='toolNav'){
+      mi.classList.toggle('on', v==='toolp' && +mi.getAttribute('data-id')===curToolId);
+    }else if(act==='boardNav'){
+      mi.classList.toggle('on', v==='board' && mi.getAttribute('data-b')===curBoard.b && +mi.getAttribute('data-i')===curBoard.i);
     }else{
-      mi.classList.toggle('on', mi.getAttribute('data-v')===v || (v==='svcp' && mi.getAttribute('data-v')==='svc'));
+      mi.classList.toggle('on', mi.getAttribute('data-v')===v);
     }
   });
+  /* 해당 그룹 자동 펼침 */
+  if(GROUP_OF[v]) openGroup(GROUP_OF[v], true);
   window.scrollTo({top:0});
 }
 
@@ -731,6 +742,80 @@ const SVC=[
   steps:['구독자·톤 설계','콘텐츠 기획','발행·성과 리포트'],
   faq:[['플랫폼은 뭘 쓰나요?','메일리 또는 스티비 중 브랜드에 맞는 쪽을 추천합니다.'],['소재가 없어도 되나요?','블로그·캠페인 콘텐츠를 재구성해 소재를 만듭니다.'],['효과 측정은요?','오픈율·클릭률 리포트를 제공합니다.']]}
 ];
+/* ── 마케팅툴 (준비중) ── */
+const TOOLS=[
+ {id:1, name:'홈페이지 AEO·GEO·SEO 체크기',
+  def:'우리 홈페이지가 AI와 구글에 잘 읽히는 구조인지 무료로 진단합니다.',
+  items:['제목·문단 구조가 질문형·자기완결형인지','FAQ·구조화 데이터(Schema) 적용 여부','AI 크롤러 허용·llms.txt·sitemap 설정','개선 우선순위 리포트']},
+ {id:2, name:'운영 중인 블로그 평가',
+  def:'블로그 지수·활동성을 분석해 등급을 판정합니다. 매칭에서 광고주가 보는 등급의 기준이 됩니다.',
+  items:['채널 연동 후 지수·이웃·발행 주기 분석','최적 / 준최적 / 일반 등급 판정','상위노출 이력 기반 강점 키워드 추출','등급 상승을 위한 개선 제안']},
+ {id:3, name:'브랜드 AI 가시성 체크',
+  def:'챗GPT 등 AI가 우리 브랜드를 답변에 언급하는지 확인합니다.',
+  items:['업종 대표 질문에 브랜드가 인용되는지 확인','경쟁 브랜드와 언급 빈도 비교','인용되는 소스(글·페이지) 추적','미언급 시 보완할 콘텐츠 제안']}
+];
+function openToolPage(id){
+  const t=TOOLS.find(x=>x.id===+id); if(!t) return;
+  curToolId=t.id;
+  document.getElementById('vToolp').innerHTML=`
+    <div class="crumb"><b data-act="nav" data-v="tool">마케팅툴</b> › ${t.name}</div>
+    <div class="sechead"><h2>${t.name} <span class="tag">준비중</span></h2></div>
+    <div class="defband">${t.def}</div>
+    <div class="card"><h2>이런 걸 확인합니다</h2>
+      <ul>${t.items.map(i=>'<li>'+i+'</li>').join('')}</ul>
+      <p class="note">이 툴은 현재 준비 중입니다. 오픈되면 홈에서 바로 실행할 수 있습니다.</p>
+      <button class="btn" data-act="toolSoon">실행하기</button>
+      <button class="btn gray" data-act="nav" data-v="tool">← 툴 목록</button>
+    </div>`;
+  nav('toolp');
+}
+
+/* ── 게시판 (마케터들의 장 / 블로거들의 장) ── */
+const BOARDS={
+ mkt:[
+  {name:'AEO · GEO 연구소', hint:'AI가 글을 인용하게 만드는 방법을 연구합니다.',
+   posts:[['챗GPT가 내 글을 인용하게 만드는 문단 구조',1204,18],['AI 검색 시대, 질문형 제목이 중요한 이유',863,9],['자기완결형 문장이란 무엇인가',704,6]]},
+  {name:'SEO 연구소', hint:'구글·네이버 검색 노출 실험 기록.',
+   posts:[['구글 SEO — 제목 태그 하나로 순위가 바뀐 사례',977,12],['네이버 SEO — 2026 검색 반영 변화 정리',1530,24],['백링크, 아직도 효과 있나요?',622,8]]},
+  {name:'채널 연구소', hint:'워드프레스 · 블로그스팟 · 네이버 · 티스토리 채널별 운영법.',
+   posts:[['워드프레스 초기 세팅에서 놓치기 쉬운 색인 설정',645,7],['블로그스팟이 구글 검색에 유리한 이유',512,5],['티스토리 · 네이버 병행 운영 전략',891,15]]},
+  {name:'마케팅업체 리스트', hint:'검증된 마케팅 업체 정보를 공유합니다.',
+   posts:[['검증된 마케팅 업체 모음 (계속 업데이트)',2102,31],['대행사 고를 때 확인할 5가지',488,4]]}
+ ],
+ blgm:[
+  {name:'블로거 수익화 — 채널별', hint:'채널별로 수익을 만드는 현실적인 방법.',
+   posts:[['네이버 블로그로 월 50만 원 만드는 현실 루트',3214,42],['티스토리 + 애드센스 6개월 수익 기록',2877,35],['워드프레스 · 블로그스팟 수익화 시작 가이드',1466,11]]},
+  {name:'체험단업체 리스트', hint:'믿을 수 있는 체험단 플랫폼 정보.',
+   posts:[['믿을 수 있는 체험단 플랫폼 모음',1932,27],['체험단 신청 전 확인할 것',745,9]]},
+  {name:'어필리에이트', hint:'제휴 링크로 만드는 지속 수익.',
+   posts:[['쿠팡 파트너스 시작 가이드 — 링크 하나로 시작하기',2540,19],['제휴 링크 쓸 때 협찬 표기, 이렇게 하세요',1105,8]]}
+ ]
+};
+const BOARD_TITLE={mkt:'마케터들의 장', blgm:'블로거들의 장'};
+function openBoard(b, i){
+  const cat=(BOARDS[b]||[])[+i]; if(!cat) return;
+  curBoard={b:b, i:+i};
+  document.getElementById('vBoard').innerHTML=`
+    <div class="crumb"><b data-act="nav" data-v="${b}">${BOARD_TITLE[b]}</b> › ${cat.name}</div>
+    <div class="sechead"><h2>${cat.name}</h2></div>
+    <div class="sechint">${cat.hint} (데모 게시판)</div>
+    <div class="card">
+      ${cat.posts.map(p=>`<div class="item" data-act="postSoon" style="cursor:pointer">
+        <div class="t" style="font-size:13.5px">${p[0]}</div>
+        <div class="m">조회 ${p[1].toLocaleString()} · 댓글 ${p[2]}</div></div>`).join('')}
+      <button class="btn gray" data-act="nav" data-v="${b}">← ${BOARD_TITLE[b]}</button>
+    </div>`;
+  nav('board');
+}
+function renderBoardIndex(b){
+  return (BOARDS[b]||[]).map((cat,i)=>`<div class="card" data-act="boardNav" data-b="${b}" data-i="${i}" style="cursor:pointer">
+    <h2>${cat.name} <span style="float:right;font-size:12px;color:var(--teal-d)">글 ${cat.posts.length} ›</span></h2>
+    <div class="note" style="margin:0 0 6px">${cat.hint}</div>
+    ${cat.posts.slice(0,2).map(p=>`<div class="item"><div class="t" style="font-size:13.5px">${p[0]}</div>
+      <div class="m">조회 ${p[1].toLocaleString()} · 댓글 ${p[2]}</div></div>`).join('')}
+  </div>`).join('');
+}
+
 function renderSvcGrid(){
   document.getElementById('svcGrid').innerHTML=SVC.map(s=>
     `<div class="bcard" data-act="svcNav" data-id="${s.id}" style="cursor:pointer">
@@ -1286,7 +1371,10 @@ document.addEventListener('click', function(ev){
   if(!el) return;
   const act=el.getAttribute('data-act');
   if(act==='nav') nav(el.getAttribute('data-v'));
+  else if(act==='toggle') openGroup(el.getAttribute('data-g'));
   else if(act==='svcNav') openSvcPage(el.getAttribute('data-id'));
+  else if(act==='toolNav') openToolPage(el.getAttribute('data-id'));
+  else if(act==='boardNav') openBoard(el.getAttribute('data-b'), el.getAttribute('data-i'));
   else if(act==='reset') resetDemo();
   else if(act==='homeSearch') homeSearch();
   else if(act==='simCalc') simCalc();
@@ -1330,7 +1418,19 @@ document.addEventListener('keydown', function(ev){
   if(ev.key==='Enter' && ev.target && ev.target.id==='srchQ') homeSearch();
 });
 
-function renderAll(){ renderHome(); renderTop(); renderCamp(); renderAdv(); renderMe(); renderSvcGrid(); }
+function renderToolGrid(){
+  document.getElementById('toolGrid').innerHTML=TOOLS.map(t=>
+    `<div class="bcard" data-act="toolNav" data-id="${t.id}" style="cursor:pointer">
+      <div class="nm">${t.name} <span class="tag">준비중</span></div>
+      <div class="pr" style="margin-top:6px">${t.def}</div>
+      <div class="bf"><span class="avail">무료 예정</span>
+      <span style="color:var(--teal-d); font-weight:700; font-size:12px">자세히 ›</span></div>
+    </div>`).join('');
+}
+function renderAll(){ renderHome(); renderTop(); renderCamp(); renderAdv(); renderMe(); renderSvcGrid(); renderToolGrid();
+  document.getElementById('mktIndex').innerHTML=renderBoardIndex('mkt');
+  document.getElementById('blgmIndex').innerHTML=renderBoardIndex('blgm');
+}
 load(); renderAll();
 </script>
 </body>
