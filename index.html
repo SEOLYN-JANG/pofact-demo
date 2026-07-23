@@ -24,6 +24,12 @@
   .side .mi:hover{background:var(--chip);}
   .side .mi.on{background:var(--teal); color:#fff;}
   .side .mi svg{width:16px; height:16px; stroke:currentColor; fill:none; stroke-width:1.8; flex:0 0 auto;}
+  .side .mi.sub{padding:6px 10px 6px 35px; font-size:12.5px; color:var(--sub); font-weight:600;}
+  .side .mi.sub.on{background:var(--teal-bg); color:var(--teal-d);}
+  .crumb{font-size:12.5px; color:var(--sub); margin:4px 0 10px;}
+  .crumb b{color:var(--teal-d); cursor:pointer;}
+  .defband{background:var(--teal-bg); border-left:3px solid var(--teal); border-radius:0 10px 10px 0;
+    padding:12px 16px; font-size:13.5px; margin:10px 0 14px; color:var(--teal-d);}
   .side .guide{margin-top:18px; background:var(--teal-bg); border:1px solid var(--teal-line);
     border-radius:11px; padding:11px 13px; font-size:12px; color:var(--teal-d);}
   .side .reset{border:0; background:none; color:var(--sub); font-size:11.5px; cursor:pointer;
@@ -216,6 +222,13 @@
     <div class="mi" data-act="nav" data-v="sim"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 7h6M9 12h2M13 12h2M9 16h2M13 16h2"/></svg>광고 견적 시뮬레이터</div>
     <div class="sec">SERVICE</div>
     <div class="mi" data-act="nav" data-v="svc"><svg viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg>포팩트서비스</div>
+    <div class="mi sub" data-act="svcNav" data-id="1">블로그배포</div>
+    <div class="mi sub" data-act="svcNav" data-id="2">서브홈페이지 칼럼</div>
+    <div class="mi sub" data-act="svcNav" data-id="3">워드프레스 브랜드블로그</div>
+    <div class="mi sub" data-act="svcNav" data-id="4">네이버 블로그 운영대행</div>
+    <div class="mi sub" data-act="svcNav" data-id="5">AEO·GEO·SEO 패키지</div>
+    <div class="mi sub" data-act="svcNav" data-id="6">홈페이지 AEO·GEO·SEO</div>
+    <div class="mi sub" data-act="svcNav" data-id="7">뉴스레터 대행</div>
     <div class="mi" data-act="nav" data-v="tool"><svg viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L4 17v3h3l5.3-5.3a4 4 0 0 0 5.4-5.4l-2.4 2.4-2.4-2.4z"/></svg>마케팅툴 <span class="tag" style="margin-left:auto">준비중</span></div>
     <div class="sec">COMMUNITY</div>
     <div class="mi" data-act="nav" data-v="mkt"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/><path d="M8 9h8M8 12h5"/></svg>마케터들의 장</div>
@@ -313,54 +326,19 @@
       </div>
     </div>
 
-    <!-- ═══ 포팩트서비스 ═══ -->
+    <!-- ═══ 포팩트서비스 개요 ═══ -->
     <div class="view hide" id="vSvc">
       <div class="sechead"><h2>포팩트서비스</h2></div>
-      <div class="sechint">손이 많이 가는 일은 포팩트가 직접 해드립니다 — 기획부터 발행까지. (가격은 임시 가격, 데모 기준)</div>
-      <div class="pkg" style="margin-bottom:12px">
-        <div class="ph"><h3><span class="tag t">AI+사람</span> 블로그배포</h3><span class="price">1건 1만원 · 10건 8만원 · 100건 60만원</span></div>
-        <ul>
-          <li>워드프레스 · 구글 블로그스팟 · 티스토리 · 네이버 블로그 — 채널별 동일 단가</li>
-          <li>AI가 AEO 구조 초안 생성 → 사람이 검수 후 발행</li>
-        </ul>
-        <button class="btn o sm" style="margin-top:10px" data-act="pkgAsk">상담 문의 (데모)</button>
-      </div>
-      <div class="pkg" style="margin-bottom:12px">
-        <div class="ph"><h3><span class="tag t">AI+사람</span> 서브홈페이지 칼럼 · 워드프레스 브랜드블로그</h3><span class="price">세팅 20만원 · 운영 1건 1만원~</span></div>
-        <ul>
-          <li>서브 홈페이지 칼럼 세팅 20만원 · 브랜드 칼럼 1건 1만 / 10건 8만 / 100건 60만</li>
-          <li>워드프레스 브랜드블로그 세팅 20만원 · 운영 동일 단가</li>
-        </ul>
-        <button class="btn o sm" style="margin-top:10px" data-act="pkgAsk">상담 문의 (데모)</button>
-      </div>
-      <div class="pkg" style="margin-bottom:12px">
-        <div class="ph"><h3><span class="tag t">사람</span> 네이버 브랜드 블로그 운영대행</h3><span class="price">10건 50만원 · 20건 70만원</span></div>
-        <ul>
-          <li>네이버 블로그 세팅(디자인) 20만원</li>
-          <li>브랜드(가이드 준수) · 병원(의료법 준수) · 전문직(변호사법 준수) · 학원(교육법 준수)</li>
-        </ul>
-        <button class="btn o sm" style="margin-top:10px" data-act="pkgAsk">상담 문의 (데모)</button>
-      </div>
-      <div class="pkg" style="margin-bottom:12px">
-        <div class="ph"><h3><span class="tag t">AI+사람</span> AEO·GEO·SEO 패키지</h3><span class="price">베이직 · 프리미엄 (복합 구성)</span></div>
-        <ul><li>배포 + 운영대행 + 홈페이지 최적화를 묶은 복합 상품 — 상담 후 구성</li></ul>
-        <button class="btn o sm" style="margin-top:10px" data-act="pkgAsk">상담 문의 (데모)</button>
-      </div>
-      <div class="pkg" style="margin-bottom:12px">
-        <div class="ph"><h3><span class="tag t">사람</span> 홈페이지 AEO·GEO·SEO</h3><span class="price">리뉴얼 100만 / 200만 / 엔터프라이즈</span></div>
-        <ul><li>최적화 리뉴얼 · 최적화 신규 제작(엔터프라이즈) — AI·구글이 읽는 구조로</li></ul>
-        <button class="btn o sm" style="margin-top:10px" data-act="pkgAsk">상담 문의 (데모)</button>
-      </div>
-      <div class="pkg" style="margin-bottom:12px">
-        <div class="ph"><h3>뉴스레터 대행</h3><span class="price">10건 50만원 · 20건 70만원</span></div>
-        <ul><li>메일리 · 스티비 발행 대행</li></ul>
-        <button class="btn o sm" style="margin-top:10px" data-act="pkgAsk">상담 문의 (데모)</button>
-      </div>
-      <div class="pkg">
+      <div class="sechint">손이 많이 가는 일은 포팩트가 직접 해드립니다 — 상품을 선택하면 상세 페이지로 이동합니다. (가격은 임시 가격)</div>
+      <div class="bgrid" id="svcGrid"></div>
+      <div class="pkg" style="margin-top:12px">
         <div class="ph"><h3>추후 확장</h3><span class="tag">준비중</span></div>
         <ul><li>유튜브 · 틱톡 · 인스타 · 스레드 운영 서비스</li></ul>
       </div>
     </div>
+
+    <!-- ═══ 포팩트서비스 상품 상세 ═══ -->
+    <div class="view hide" id="vSvcp"></div>
 
     <!-- ═══ 마케팅툴 ═══ -->
     <div class="view hide" id="vTool">
@@ -693,12 +671,98 @@ function resetDemo(){ try{ localStorage.removeItem(KEY); }catch(e){} S=seed(); c
   document.getElementById('genCard').classList.add('hide'); regStep(1); renderAll(); nav('home'); }
 
 /* ── 내비게이션 ── */
+let curSvcId=0;
 function nav(v){
-  ['home','top','camp','sim','svc','tool','mkt','blgm','adv','me'].forEach(x=>{
+  ['home','top','camp','sim','svc','svcp','tool','mkt','blgm','adv','me'].forEach(x=>{
     document.getElementById('v'+x.charAt(0).toUpperCase()+x.slice(1)).classList.toggle('hide', x!==v);
   });
-  document.querySelectorAll('.side .mi').forEach(mi=>mi.classList.toggle('on', mi.getAttribute('data-v')===v));
+  document.querySelectorAll('.side .mi').forEach(mi=>{
+    if(mi.getAttribute('data-act')==='svcNav'){
+      mi.classList.toggle('on', v==='svcp' && +mi.getAttribute('data-id')===curSvcId);
+    }else{
+      mi.classList.toggle('on', mi.getAttribute('data-v')===v || (v==='svcp' && mi.getAttribute('data-v')==='svc'));
+    }
+  });
   window.scrollTo({top:0});
+}
+
+/* ── 포팩트서비스 상품 데이터 (페이지 1개 = 상품 1개, AEO 기본) ── */
+const SVC=[
+ {id:1, name:'블로그배포', tag:'AI+사람', price:'1건 1만원 · 10건 8만원 · 100건 60만원',
+  def:'블로그배포는 AI가 AEO 구조(질문형 제목·자기완결 답변·FAQ)로 작성한 원고를 검증된 블로그 채널에 발행해, 검색과 AI 답변 양쪽의 노출을 만드는 서비스입니다.',
+  rows:[['워드프레스','1건 1만원 / 10건 8만원 / 100건 60만원'],['구글 블로그스팟','1건 1만원 / 10건 8만원 / 100건 60만원'],['티스토리','1건 1만원 / 10건 8만원 / 100건 60만원'],['네이버 블로그','1건 1만원 / 10건 8만원 / 100건 60만원']],
+  why:['같은 글도 어디에 실리느냐에 따라 구글·AI가 읽을 수 있는지가 달라집니다','워드프레스·블로그스팟·티스토리는 구글 색인에 유리해 AI 답변 노출의 기반이 됩니다','채널을 나눠 발행하면 같은 키워드를 여러 입구에서 잡을 수 있습니다'],
+  steps:['키워드·가이드 접수','AI가 AEO 구조 초안 생성','사람 검수·수정','채널별 발행','노출 확인 리포트'],
+  faq:[['원고는 누가 쓰나요?','AI가 AEO 구조로 초안을 만들고, 담당자가 검수·수정해 발행합니다.'],['어떤 채널에 발행되나요?','워드프레스·블로그스팟·티스토리·네이버 중 선택하며, AI 노출 목적이라면 구글 색인 채널을 권장합니다.'],['발행 후 확인은 어떻게 하나요?','구글·네이버 노출 여부를 확인해 알려드립니다.']]},
+ {id:2, name:'서브홈페이지 칼럼', tag:'AI+사람', price:'세팅 20만원 · 칼럼 1건 1만원~',
+  def:'서브홈페이지 칼럼은 회사 홈페이지 안에 칼럼(블로그) 섹션을 만들어, 브랜드가 소유한 도메인에 검색·AI 노출용 콘텐츠 자산을 쌓는 서비스입니다.',
+  rows:[['서브 홈페이지 칼럼 세팅','20만원 (1회)'],['브랜드 칼럼 발행','1건 1만원 / 10건 8만원 / 100건 60만원']],
+  why:['남의 플랫폼이 아닌 우리 도메인에 쌓이는 콘텐츠는 온전히 브랜드 자산이 됩니다','홈페이지에 주제 관련 글이 쌓이면 도메인 전체의 검색 신뢰도가 올라갑니다','AI는 브랜드 공식 사이트의 글을 신뢰도 높은 근거로 인용합니다'],
+  steps:['홈페이지 점검·칼럼 섹션 세팅','키워드 설계','AI 초안+검수 발행','색인 등록·노출 확인'],
+  faq:[['홈페이지가 없어도 되나요?','칼럼 섹션은 기존 홈페이지에 추가합니다. 홈페이지가 없다면 [홈페이지 AEO·GEO·SEO] 상품을 먼저 확인하세요.'],['몇 건부터 효과가 있나요?','주제당 10건 이상 쌓일 때 검색 신뢰도가 붙기 시작합니다.'],['글 소유권은 누구에게 있나요?','전부 브랜드 소유입니다.']]},
+ {id:3, name:'워드프레스 브랜드블로그', tag:'AI+사람', price:'세팅 20만원 · 운영 1건 1만원~',
+  def:'워드프레스 브랜드블로그는 브랜드 전용 워드프레스 블로그를 만들어 구글과 AI가 잘 읽는 구조로 운영하는 서비스입니다.',
+  rows:[['브랜드블로그 세팅','20만원 (1회, 디자인·기본 SEO 설정 포함)'],['브랜드블로그 운영','1건 1만원 / 10건 8만원 / 100건 60만원']],
+  why:['워드프레스는 구글 색인과 구조화 데이터 적용에 가장 유리한 플랫폼입니다','네이버 정책 변화에 영향받지 않는 독립 채널을 확보합니다','AI 크롤러 허용·사이트맵 등 AEO 기술 설정을 자유롭게 할 수 있습니다'],
+  steps:['블로그 세팅(디자인·SEO)','키워드 설계','AI 초안+검수 발행','서치콘솔 등록·노출 확인'],
+  faq:[['도메인은 누구 소유인가요?','브랜드 소유 도메인으로 세팅해 드립니다.'],['네이버 블로그와 뭐가 다른가요?','네이버 글은 구글·AI가 거의 가져가지 못합니다. 워드프레스는 구글 검색과 AI 답변에 노출됩니다.'],['운영만 맡길 수도 있나요?','이미 워드프레스가 있다면 운영만 진행 가능합니다.']]},
+ {id:4, name:'네이버 브랜드 블로그 운영대행', tag:'사람', price:'10건 50만원 · 20건 70만원',
+  def:'네이버 브랜드 블로그 운영대행은 업종별 법규(의료법·변호사법·교육법)를 준수하며 브랜드 공식 네이버 블로그를 사람이 직접 운영하는 서비스입니다.',
+  rows:[['네이버 블로그 세팅(디자인)','20만원 (1회)'],['브랜드 블로그 운영 — 브랜드 가이드 준수','10건 50만원 / 20건 70만원'],['병원 블로그 운영 — 의료법 준수','10건 50만원 / 20건 70만원'],['전문직 블로그 운영 — 변호사법 준수','10건 50만원 / 20건 70만원'],['학원 블로그 운영 — 교육법 준수','10건 50만원 / 20건 70만원']],
+  why:['네이버는 한국 소비자 검색의 기본 — 브랜드 공식 블로그는 신뢰의 최소 조건입니다','병원·전문직·학원은 광고 법규 위반 시 제재 대상이라 준수 경험이 필수입니다','플레이스·검색과 연결되는 공식 채널은 사람이 일관되게 운영해야 합니다'],
+  steps:['블로그 진단·세팅','업종 법규 체크리스트 확정','원고 기획·작성(사람)','법규 검수 후 발행','월간 리포트'],
+  faq:[['AI로 쓰지 않나요?','네이버 공식 블로그는 저품질 위험을 줄이기 위해 사람이 직접 작성합니다.'],['의료광고 심의도 해주나요?','심의 대상 여부를 검토하고 심의 절차를 안내합니다.'],['우리 블로그 계정으로 하나요?','네, 브랜드 계정으로 운영하며 소유권은 브랜드에 있습니다.']]},
+ {id:5, name:'AEO·GEO·SEO 패키지', tag:'AI+사람', price:'베이직 · 프리미엄 (복합 구성)',
+  def:'AEO·GEO·SEO 패키지는 블로그배포·브랜드블로그·홈페이지 최적화를 묶어, AI가 브랜드를 읽고(AEO) 추천하게(GEO) 만드는 통합 상품입니다.',
+  rows:[['베이직 패키지','복합 상품 구성 — 상담 후 확정'],['프리미엄 패키지','복합 상품 구성 — 상담 후 확정']],
+  why:['채널 하나만 해서는 AI가 브랜드를 하나의 개체로 인식하지 못합니다','홈페이지+블로그+배포가 같은 메시지로 묶일 때 인용 확률이 올라갑니다','따로 맡기는 것보다 통합 구성이 비용·일관성 모두 유리합니다'],
+  steps:['브랜드 진단(무료)','패키지 구성 제안','채널별 세팅·발행','월간 노출 리포트'],
+  faq:[['어떤 걸 묶어야 할지 모르겠어요.','무료 진단 후 업종과 목표에 맞는 구성을 제안해 드립니다.'],['기간은 얼마나 걸리나요?','세팅 2주 + 월 단위 운영이 기본입니다.'],['성과는 어떻게 확인하나요?','검색 노출·AI 언급 여부를 리포트로 제공합니다.']]},
+ {id:6, name:'홈페이지 AEO·GEO·SEO', tag:'사람', price:'리뉴얼 100만 / 200만 / 엔터프라이즈',
+  def:'홈페이지 AEO·GEO·SEO는 기존 홈페이지를 AI와 검색엔진이 잘 읽는 구조(질문형 구조·구조화 데이터·AI 크롤러 허용)로 리뉴얼하거나 신규 제작하는 서비스입니다.',
+  rows:[['최적화 리뉴얼','100만원 / 200만원 / 엔터프라이즈'],['최적화 신규 제작','엔터프라이즈 (상담)']],
+  why:['홈페이지가 AI에 읽히지 않으면 다른 채널 노력도 반감됩니다','구조화 데이터·sitemap·AI 크롤러 설정은 홈페이지 단에서만 가능합니다','AI는 공식 홈페이지를 브랜드 정보의 1차 출처로 사용합니다'],
+  steps:['홈페이지 AEO 진단','구조 설계(질문형·FAQ·정의문)','구조화 데이터·기술 적용','색인 등록·AI 가시성 확인'],
+  faq:[['디자인도 바뀌나요?','리뉴얼 범위에 따라 구조만 손대거나 디자인까지 함께 진행합니다.'],['어떤 게 달라지나요?','제목 구조·FAQ·구조화 데이터·AI 크롤러 허용 등 읽히는 구조가 달라집니다.'],['효과 확인은요?','구글 색인·AI 답변 언급 여부로 확인합니다.']]},
+ {id:7, name:'뉴스레터 대행', tag:'사람', price:'10건 50만원 · 20건 70만원',
+  def:'뉴스레터 대행은 메일리·스티비로 브랜드 뉴스레터를 기획·발행해 고객과의 반복 접점을 만드는 서비스입니다.',
+  rows:[['메일리 발행 대행','10건 50만원 / 20건 70만원'],['스티비 발행 대행','10건 50만원 / 20건 70만원']],
+  why:['검색·AI 노출로 온 손님을 구독자로 전환해 반복 방문을 만듭니다','뉴스레터 콘텐츠는 블로그 글로 재활용되어 AEO 자산이 됩니다','알고리즘에 좌우되지 않는 직접 채널을 확보합니다'],
+  steps:['구독자·톤 설계','콘텐츠 기획','발행·성과 리포트'],
+  faq:[['플랫폼은 뭘 쓰나요?','메일리 또는 스티비 중 브랜드에 맞는 쪽을 추천합니다.'],['소재가 없어도 되나요?','블로그·캠페인 콘텐츠를 재구성해 소재를 만듭니다.'],['효과 측정은요?','오픈율·클릭률 리포트를 제공합니다.']]}
+];
+function renderSvcGrid(){
+  document.getElementById('svcGrid').innerHTML=SVC.map(s=>
+    `<div class="bcard" data-act="svcNav" data-id="${s.id}" style="cursor:pointer">
+      <div class="nm"><span class="tag t">${s.tag}</span> ${s.name}</div>
+      <div class="pr" style="margin-top:6px">${s.def}</div>
+      <div class="bf"><span class="price" style="font-size:12.5px; font-weight:700; color:var(--teal-d)">${s.price}</span>
+      <span style="color:var(--teal-d); font-weight:700; font-size:12px">자세히 ›</span></div>
+    </div>`).join('');
+}
+function openSvcPage(id){
+  const s=SVC.find(x=>x.id===+id); if(!s) return;
+  curSvcId=s.id;
+  document.getElementById('vSvcp').innerHTML=`
+    <div class="crumb"><b data-act="nav" data-v="svc">포팩트서비스</b> › ${s.name}</div>
+    <div class="sechead"><h2><span class="tag t">${s.tag}</span> ${s.name}</h2></div>
+    <div class="defband">${s.def}</div>
+    <div class="card"><h2>가격</h2>
+      ${s.rows.map(r=>`<div class="mrow" style="font-size:13.5px; margin:6px 0"><span class="mk" style="width:220px">${r[0]}</span><span class="mv"><b>${r[1]}</b></span></div>`).join('')}
+      <p class="note">가격은 임시 가격이며, 경쟁사 리서치·수익성 분석 후 확정합니다. (데모)</p>
+    </div>
+    <div class="card"><h2>왜 필요한가</h2>
+      <ul>${s.why.map(w=>'<li>'+w+'</li>').join('')}</ul>
+    </div>
+    <div class="card"><h2>진행 절차</h2>
+      <div class="chips">${s.steps.map((st,i)=>'<span class="sel">'+(i+1)+'. '+st+'</span>').join('')}</div>
+    </div>
+    <div class="card"><h2>자주 묻는 질문 (FAQ)</h2>
+      ${s.faq.map(f=>`<div class="item"><div class="t" style="font-size:13.5px">Q. ${f[0]}</div><div class="m" style="font-size:12.5px">A. ${f[1]}</div></div>`).join('')}
+    </div>
+    <button class="btn" data-act="pkgAsk">상담 문의 (데모)</button>
+    <button class="btn gray" data-act="nav" data-v="svc">← 서비스 목록</button>`;
+  nav('svcp');
 }
 function chipVals(id){ return [...document.querySelectorAll('#'+id+' span.sel')].map(s=>s.textContent.trim()); }
 
@@ -1222,6 +1286,7 @@ document.addEventListener('click', function(ev){
   if(!el) return;
   const act=el.getAttribute('data-act');
   if(act==='nav') nav(el.getAttribute('data-v'));
+  else if(act==='svcNav') openSvcPage(el.getAttribute('data-id'));
   else if(act==='reset') resetDemo();
   else if(act==='homeSearch') homeSearch();
   else if(act==='simCalc') simCalc();
@@ -1265,7 +1330,7 @@ document.addEventListener('keydown', function(ev){
   if(ev.key==='Enter' && ev.target && ev.target.id==='srchQ') homeSearch();
 });
 
-function renderAll(){ renderHome(); renderTop(); renderCamp(); renderAdv(); renderMe(); }
+function renderAll(){ renderHome(); renderTop(); renderCamp(); renderAdv(); renderMe(); renderSvcGrid(); }
 load(); renderAll();
 </script>
 </body>
