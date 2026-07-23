@@ -179,6 +179,29 @@
   .gentabs span.on{background:var(--teal); border-color:var(--teal); color:#fff;}
   .gentabs span.etc{opacity:.5; border-style:dashed;}
   .gentabs span.etc.on{opacity:1; background:#64748b; border-color:#64748b; border-style:solid;}
+  /* ── 캠페인 유형 아이콘 내비 ── */
+  .kindnav{display:flex; gap:6px; background:#fff; border:1px solid var(--line); border-radius:14px;
+    padding:12px 10px; margin-bottom:10px;}
+  .kindnav .ki{flex:1; text-align:center; cursor:pointer; user-select:none; border-radius:10px;
+    padding:8px 4px; transition:background .12s;}
+  .kindnav .ki:hover{background:var(--chip);}
+  .kindnav .ki .ic{width:40px; height:40px; margin:0 auto 5px; border-radius:12px; display:grid; place-items:center;
+    background:var(--chip); color:var(--sub);}
+  .kindnav .ki .ic svg{width:21px; height:21px; stroke:currentColor; fill:none; stroke-width:1.7;}
+  .kindnav .ki .lb{font-size:12.5px; font-weight:700; color:var(--sub);}
+  .kindnav .ki .ct{font-size:11px; color:#9aa5b1;}
+  .kindnav .ki.on .ic{background:var(--teal); color:#fff;}
+  .kindnav .ki.on .lb{color:var(--teal-d);}
+  /* ── 드롭다운 필터바 ── */
+  .filterbar{display:flex; gap:8px; margin-bottom:12px;}
+  .filterbar select{flex:1; border-radius:999px; padding:9px 15px; border:1.5px solid var(--line);
+    background:#fff; font-size:13px; font-weight:600; color:var(--ink); cursor:pointer;
+    appearance:none; -webkit-appearance:none;
+    background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat:no-repeat; background-position:right 14px center; padding-right:34px;}
+  .filterbar select:focus{outline:none; border-color:var(--teal);}
+  @media(max-width:640px){ .filterbar{flex-wrap:wrap;} .filterbar select{flex:1 1 45%;}
+    .kindnav .ki .lb{font-size:11.5px;} }
   /* ── 모달·토스트 ── */
   .mbg{position:fixed; inset:0; background:rgba(15,25,35,.45); z-index:50;
     display:flex; align-items:center; justify-content:center; padding:20px;}
@@ -324,9 +347,14 @@
     <div class="view hide" id="vCamp">
       <div class="sechead"><h2>캠페인 찾기</h2><span class="more" id="campCount"></span></div>
       <div class="sechint">카드를 클릭하면 상세보기(미션 가이드·키워드)가 열립니다. 역제안 공고는 원하는 금액을 제안하며 지원하세요.</div>
-      <div class="gentabs" id="campTabs" style="margin-bottom:6px"></div>
-      <div class="chips" id="campFilter" style="margin-bottom:10px">
-        <span data-f="rev">역제안만</span><span data-f="naver">네이버</span><span data-f="google">구글 채널</span>
+      <div class="kindnav" id="campTabs"></div>
+      <div class="filterbar">
+        <select id="fRegion"><option value="">지역 전체</option></select>
+        <select id="fCh"><option value="">채널 전체</option>
+          <option>네이버 블로그</option><option>티스토리</option><option>워드프레스</option>
+          <option>블로그스팟</option><option>인스타</option><option>유튜브</option></select>
+        <select id="fType"><option value="">공고 유형 전체</option>
+          <option value="normal">일반 공고</option><option value="reverse">역제안 공고</option></select>
       </div>
       <div id="campList"></div>
     </div>
@@ -1117,21 +1145,38 @@ function campCard(c){
     <div style="margin-top:6px">${st}</div></div>
     <img src="${thumb(c)}" alt="썸네일"></div>`;
 }
+const KIND_ICON={
+ '전체':'<circle cx="12" cy="12" r="9"/><path d="M9 12h6M12 9v6"/>',
+ '방문형':'<path d="M12 21s-7-5.6-7-10a7 7 0 1 1 14 0c0 4.4-7 10-7 10z"/><circle cx="12" cy="11" r="2.5"/>',
+ '배송형':'<path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="1.8"/><circle cx="17" cy="18" r="1.8"/>',
+ '기자단':'<path d="M4 4h11l5 5v11H4z"/><path d="M8 10h7M8 14h5"/>',
+ '구매형':'<path d="M6 8h12l-1 12H7z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>'
+};
 const KINDS=['전체','방문형','배송형','기자단','구매형'];
 let campKind='전체';
-function campFilters(){ return [...document.querySelectorAll('#campFilter span.sel')].map(s=>s.getAttribute('data-f')); }
+function campRegions(){
+  const set={}; S.campaigns.forEach(c=>{ const r=(c.loc||'').split('/')[0]; if(r) set[r]=1; });
+  return Object.keys(set).sort();
+}
 function renderCamp(){
+  /* 유형 아이콘 내비 */
   document.getElementById('campTabs').innerHTML=KINDS.map(k=>{
     const n = k==='전체' ? S.campaigns.length : S.campaigns.filter(c=>c.kind===k).length;
-    return `<span class="${k===campKind?'on':''}" data-act="campKind" data-k="${k}">${k} ${n}</span>`;
+    return `<div class="ki ${k===campKind?'on':''}" data-act="campKind" data-k="${k}">
+      <div class="ic"><svg viewBox="0 0 24 24">${KIND_ICON[k]}</svg></div>
+      <div class="lb">${k}</div><div class="ct">${n}</div></div>`;
   }).join('');
-  const fs=campFilters();
+  /* 지역 드롭다운 옵션 (선택 유지) */
+  const fR=document.getElementById('fRegion'), keep=fR.value;
+  fR.innerHTML='<option value="">지역 전체</option>'+campRegions().map(r=>`<option${r===keep?' selected':''}>${r}</option>`).join('');
+  const vR=fR.value, vC=document.getElementById('fCh').value, vT=document.getElementById('fType').value;
+
   let list=S.campaigns.filter(c=>campKind==='전체'||c.kind===campKind);
-  if(fs.indexOf('rev')>=0) list=list.filter(isRev);
-  if(fs.indexOf('naver')>=0) list=list.filter(c=>c.ch.indexOf('네이버 블로그')>=0);
-  if(fs.indexOf('google')>=0) list=list.filter(c=>c.ch.some(x=>['워드프레스','티스토리','블로그스팟'].indexOf(x)>=0));
+  if(vR) list=list.filter(c=>(c.loc||'').split('/')[0]===vR);
+  if(vC) list=list.filter(c=>c.ch.indexOf(vC)>=0);
+  if(vT) list=list.filter(c=>vT==='reverse'?isRev(c):!isRev(c));
   document.getElementById('campCount').textContent='총 '+list.length+'개';
-  document.getElementById('campList').innerHTML=list.map(campCard).join('')||'<div class="empty">조건에 맞는 캠페인이 없습니다.</div>';
+  document.getElementById('campList').innerHTML=list.map(campCard).join('')||'<div class="empty">조건에 맞는 캠페인이 없습니다. 필터를 바꿔보세요.</div>';
 }
 function renderTop(){
   document.getElementById('topList').innerHTML=sortedByFav().map(rkRow).join('');
@@ -1548,7 +1593,6 @@ document.addEventListener('click', function(ev){
   const chip=ev.target.closest('.chips span');
   if(chip){
     const g=chip.parentElement, max=+g.getAttribute('data-max')||0;
-    if(g.id==='campFilter'){ chip.classList.toggle('sel'); renderCamp(); return; }
     if(g.getAttribute('data-single')){
       [...g.children].forEach(s=>s.classList.remove('sel'));
       chip.classList.add('sel');
@@ -1611,6 +1655,7 @@ document.addEventListener('click', function(ev){
 document.addEventListener('change', function(ev){
   if(ev.target && ev.target.id==='gCampSel') loadGenCamp(ev.target.value);
   if(ev.target && ev.target.id==='bFiles'){ addFiles(ev.target.files); ev.target.value=''; }
+  if(ev.target && ['fRegion','fCh','fType'].indexOf(ev.target.id)>=0) renderCamp();
 });
 document.addEventListener('keydown', function(ev){
   if(ev.key==='Enter' && ev.target && ev.target.id==='srchQ') homeSearch();
