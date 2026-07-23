@@ -214,6 +214,12 @@
     <div class="mi" data-act="nav" data-v="top"><svg viewBox="0 0 24 24"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0zM7 5H4v2a3 3 0 0 0 3 3M17 5h3v2a3 3 0 0 1-3 3"/></svg>인기 블로거 TOP</div>
     <div class="mi" data-act="nav" data-v="camp"><svg viewBox="0 0 24 24"><path d="M4 6h16v12H4zM4 10h16"/></svg>캠페인 찾기</div>
     <div class="mi" data-act="nav" data-v="sim"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 7h6M9 12h2M13 12h2M9 16h2M13 16h2"/></svg>광고 견적 시뮬레이터</div>
+    <div class="sec">SERVICE</div>
+    <div class="mi" data-act="nav" data-v="svc"><svg viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg>포팩트서비스</div>
+    <div class="mi" data-act="nav" data-v="tool"><svg viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L4 17v3h3l5.3-5.3a4 4 0 0 0 5.4-5.4l-2.4 2.4-2.4-2.4z"/></svg>마케팅툴 <span class="tag" style="margin-left:auto">준비중</span></div>
+    <div class="sec">COMMUNITY</div>
+    <div class="mi" data-act="nav" data-v="mkt"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/><path d="M8 9h8M8 12h5"/></svg>마케터들의 장</div>
+    <div class="mi" data-act="nav" data-v="blgm"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-9.5A4 4 0 0 1 12 8a4 4 0 0 1 7 2.5C19 15.6 12 20 12 20z"/></svg>블로거들의 장</div>
     <div class="sec">MY</div>
     <div class="mi" data-act="nav" data-v="adv"><svg viewBox="0 0 24 24"><path d="M3 11l18-6-6 18-3-8z"/></svg>광고주 센터</div>
     <div class="mi" data-act="nav" data-v="me"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-6 8-6s8 2 8 6"/></svg>내 프로필 (블로거)</div>
@@ -304,6 +310,118 @@
         </div>
         <button class="btn" data-act="simCalc">협업 블로거 계산하기</button>
         <div id="simOut"></div>
+      </div>
+    </div>
+
+    <!-- ═══ 포팩트서비스 ═══ -->
+    <div class="view hide" id="vSvc">
+      <div class="sechead"><h2>포팩트서비스</h2></div>
+      <div class="sechint">손이 많이 가는 일은 포팩트가 직접 해드립니다 — 기획부터 발행까지. (가격은 임시 가격, 데모 기준)</div>
+      <div class="pkg" style="margin-bottom:12px">
+        <div class="ph"><h3><span class="tag t">AI+사람</span> 블로그배포</h3><span class="price">1건 1만원 · 10건 8만원 · 100건 60만원</span></div>
+        <ul>
+          <li>워드프레스 · 구글 블로그스팟 · 티스토리 · 네이버 블로그 — 채널별 동일 단가</li>
+          <li>AI가 AEO 구조 초안 생성 → 사람이 검수 후 발행</li>
+        </ul>
+        <button class="btn o sm" style="margin-top:10px" data-act="pkgAsk">상담 문의 (데모)</button>
+      </div>
+      <div class="pkg" style="margin-bottom:12px">
+        <div class="ph"><h3><span class="tag t">AI+사람</span> 서브홈페이지 칼럼 · 워드프레스 브랜드블로그</h3><span class="price">세팅 20만원 · 운영 1건 1만원~</span></div>
+        <ul>
+          <li>서브 홈페이지 칼럼 세팅 20만원 · 브랜드 칼럼 1건 1만 / 10건 8만 / 100건 60만</li>
+          <li>워드프레스 브랜드블로그 세팅 20만원 · 운영 동일 단가</li>
+        </ul>
+        <button class="btn o sm" style="margin-top:10px" data-act="pkgAsk">상담 문의 (데모)</button>
+      </div>
+      <div class="pkg" style="margin-bottom:12px">
+        <div class="ph"><h3><span class="tag t">사람</span> 네이버 브랜드 블로그 운영대행</h3><span class="price">10건 50만원 · 20건 70만원</span></div>
+        <ul>
+          <li>네이버 블로그 세팅(디자인) 20만원</li>
+          <li>브랜드(가이드 준수) · 병원(의료법 준수) · 전문직(변호사법 준수) · 학원(교육법 준수)</li>
+        </ul>
+        <button class="btn o sm" style="margin-top:10px" data-act="pkgAsk">상담 문의 (데모)</button>
+      </div>
+      <div class="pkg" style="margin-bottom:12px">
+        <div class="ph"><h3><span class="tag t">AI+사람</span> AEO·GEO·SEO 패키지</h3><span class="price">베이직 · 프리미엄 (복합 구성)</span></div>
+        <ul><li>배포 + 운영대행 + 홈페이지 최적화를 묶은 복합 상품 — 상담 후 구성</li></ul>
+        <button class="btn o sm" style="margin-top:10px" data-act="pkgAsk">상담 문의 (데모)</button>
+      </div>
+      <div class="pkg" style="margin-bottom:12px">
+        <div class="ph"><h3><span class="tag t">사람</span> 홈페이지 AEO·GEO·SEO</h3><span class="price">리뉴얼 100만 / 200만 / 엔터프라이즈</span></div>
+        <ul><li>최적화 리뉴얼 · 최적화 신규 제작(엔터프라이즈) — AI·구글이 읽는 구조로</li></ul>
+        <button class="btn o sm" style="margin-top:10px" data-act="pkgAsk">상담 문의 (데모)</button>
+      </div>
+      <div class="pkg" style="margin-bottom:12px">
+        <div class="ph"><h3>뉴스레터 대행</h3><span class="price">10건 50만원 · 20건 70만원</span></div>
+        <ul><li>메일리 · 스티비 발행 대행</li></ul>
+        <button class="btn o sm" style="margin-top:10px" data-act="pkgAsk">상담 문의 (데모)</button>
+      </div>
+      <div class="pkg">
+        <div class="ph"><h3>추후 확장</h3><span class="tag">준비중</span></div>
+        <ul><li>유튜브 · 틱톡 · 인스타 · 스레드 운영 서비스</li></ul>
+      </div>
+    </div>
+
+    <!-- ═══ 마케팅툴 ═══ -->
+    <div class="view hide" id="vTool">
+      <div class="sechead"><h2>마케팅툴</h2></div>
+      <div class="sechint">무료 도구 3종 — 지금은 준비 중입니다. 오픈되면 홈에서 바로 쓸 수 있어요.</div>
+      <div class="bgrid">
+        <div class="bcard">
+          <div class="nm">홈페이지 AEO·GEO·SEO 체크기</div>
+          <div class="pr" style="margin-top:6px">내 홈페이지가 AI와 구글에 잘 읽히는 구조인지 무료 진단</div>
+          <button class="btn sm" style="margin-top:10px" data-act="toolSoon">실행하기</button>
+        </div>
+        <div class="bcard">
+          <div class="nm">운영 중인 블로그 평가</div>
+          <div class="pr" style="margin-top:6px">블로그 지수·활동성을 분석해 등급 판정 — 매칭 등급의 기준</div>
+          <button class="btn sm" style="margin-top:10px" data-act="toolSoon">실행하기</button>
+        </div>
+        <div class="bcard">
+          <div class="nm">우리 브랜드 AI 가시성 체크</div>
+          <div class="pr" style="margin-top:6px">챗GPT 등 AI가 우리 브랜드를 언급하는지 확인</div>
+          <button class="btn sm" style="margin-top:10px" data-act="toolSoon">실행하기</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ 마케터들의 장 ═══ -->
+    <div class="view hide" id="vMkt">
+      <div class="sechead"><h2>마케터들의 장</h2></div>
+      <div class="sechint">마케터를 위한 채널별 연구소 — 기술 이야기와 검증된 업체 정보를 나눕니다. (데모 게시판)</div>
+      <div class="card"><h2>AEO · GEO 연구소</h2>
+        <div class="item" data-act="postSoon" style="cursor:pointer"><div class="t">챗GPT가 내 글을 인용하게 만드는 문단 구조</div><div class="m">조회 1,204 · 댓글 18</div></div>
+        <div class="item" data-act="postSoon" style="cursor:pointer"><div class="t">AI 검색 시대, 질문형 제목이 중요한 이유</div><div class="m">조회 863 · 댓글 9</div></div>
+      </div>
+      <div class="card"><h2>SEO 연구소 — 구글 · 네이버</h2>
+        <div class="item" data-act="postSoon" style="cursor:pointer"><div class="t">구글 SEO — 제목 태그 하나로 순위가 바뀐 사례</div><div class="m">조회 977 · 댓글 12</div></div>
+        <div class="item" data-act="postSoon" style="cursor:pointer"><div class="t">네이버 SEO — 2026 검색 반영 변화 정리</div><div class="m">조회 1,530 · 댓글 24</div></div>
+      </div>
+      <div class="card"><h2>채널 연구소 — 워드프레스 · 블로그스팟 · 네이버 · 티스토리</h2>
+        <div class="item" data-act="postSoon" style="cursor:pointer"><div class="t">워드프레스 초기 세팅에서 놓치기 쉬운 색인 설정</div><div class="m">조회 645 · 댓글 7</div></div>
+        <div class="item" data-act="postSoon" style="cursor:pointer"><div class="t">블로그스팟이 구글 검색에 유리한 이유</div><div class="m">조회 512 · 댓글 5</div></div>
+        <div class="item" data-act="postSoon" style="cursor:pointer"><div class="t">티스토리 · 네이버 병행 운영 전략</div><div class="m">조회 891 · 댓글 15</div></div>
+      </div>
+      <div class="card"><h2>마케팅업체 리스트</h2>
+        <div class="item" data-act="postSoon" style="cursor:pointer"><div class="t">검증된 마케팅 업체 모음 (계속 업데이트)</div><div class="m">조회 2,102 · 댓글 31</div></div>
+      </div>
+    </div>
+
+    <!-- ═══ 블로거들의 장 ═══ -->
+    <div class="view hide" id="vBlgm">
+      <div class="sechead"><h2>블로거들의 장</h2></div>
+      <div class="sechint">블로거 수익화 정보 — 채널별 수익화, 체험단, 어필리에이트까지. (데모 게시판)</div>
+      <div class="card"><h2>블로거 수익화 — 채널별</h2>
+        <div class="item" data-act="postSoon" style="cursor:pointer"><div class="t">네이버 블로그로 월 50만 원 만드는 현실 루트</div><div class="m">조회 3,214 · 댓글 42</div></div>
+        <div class="item" data-act="postSoon" style="cursor:pointer"><div class="t">티스토리 + 애드센스 6개월 수익 기록</div><div class="m">조회 2,877 · 댓글 35</div></div>
+        <div class="item" data-act="postSoon" style="cursor:pointer"><div class="t">워드프레스 · 블로그스팟 수익화 시작 가이드</div><div class="m">조회 1,466 · 댓글 11</div></div>
+      </div>
+      <div class="card"><h2>체험단업체 리스트</h2>
+        <div class="item" data-act="postSoon" style="cursor:pointer"><div class="t">믿을 수 있는 체험단 플랫폼 모음</div><div class="m">조회 1,932 · 댓글 27</div></div>
+      </div>
+      <div class="card"><h2>어필리에이트 (제휴 수익)</h2>
+        <div class="item" data-act="postSoon" style="cursor:pointer"><div class="t">쿠팡 파트너스 시작 가이드 — 링크 하나로 시작하기</div><div class="m">조회 2,540 · 댓글 19</div></div>
+        <div class="item" data-act="postSoon" style="cursor:pointer"><div class="t">제휴 링크 쓸 때 협찬 표기, 이렇게 하세요</div><div class="m">조회 1,105 · 댓글 8</div></div>
       </div>
     </div>
 
@@ -576,7 +694,7 @@ function resetDemo(){ try{ localStorage.removeItem(KEY); }catch(e){} S=seed(); c
 
 /* ── 내비게이션 ── */
 function nav(v){
-  ['home','top','camp','sim','adv','me'].forEach(x=>{
+  ['home','top','camp','sim','svc','tool','mkt','blgm','adv','me'].forEach(x=>{
     document.getElementById('v'+x.charAt(0).toUpperCase()+x.slice(1)).classList.toggle('hide', x!==v);
   });
   document.querySelectorAll('.side .mi').forEach(mi=>mi.classList.toggle('on', mi.getAttribute('data-v')===v));
@@ -1109,6 +1227,8 @@ document.addEventListener('click', function(ev){
   else if(act==='simCalc') simCalc();
   else if(act==='simToAdv') nav('adv');
   else if(act==='pkgAsk') toast('상담 문의가 접수되었습니다 (데모)');
+  else if(act==='toolSoon') toast('아직 준비 중입니다 — 곧 오픈해요!');
+  else if(act==='postSoon') toast('게시판은 준비 중입니다 (데모)');
   else if(act==='addCampaign') addCampaign();
   else if(act==='regNext') regNext(+el.getAttribute('data-s'));
   else if(act==='regBlogger') regBlogger();
