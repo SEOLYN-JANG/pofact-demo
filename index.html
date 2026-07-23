@@ -779,41 +779,75 @@ const BOARDS={
    posts:[['구글 SEO — 제목 태그 하나로 순위가 바뀐 사례',977,12],['네이버 SEO — 2026 검색 반영 변화 정리',1530,24],['백링크, 아직도 효과 있나요?',622,8]]},
   {name:'채널 연구소', hint:'워드프레스 · 블로그스팟 · 네이버 · 티스토리 채널별 운영법.',
    posts:[['워드프레스 초기 세팅에서 놓치기 쉬운 색인 설정',645,7],['블로그스팟이 구글 검색에 유리한 이유',512,5],['티스토리 · 네이버 병행 운영 전략',891,15]]},
-  {name:'마케팅업체 리스트', hint:'검증된 마케팅 업체 정보를 공유합니다.',
-   posts:[['검증된 마케팅 업체 모음 (계속 업데이트)',2102,31],['대행사 고를 때 확인할 5가지',488,4]]}
+  {name:'마케팅업체 리스트', hint:'업체·프리랜서가 직접 올리는 홍보/구인 게시판 — 단가와 조건을 자유롭게 등록하세요.', board:'promo', writeLabel:'홍보글 등록',
+   ads:[
+    {tit:'블로그 배포 1건 1,000원부터 — 실계정 300곳 보유', who:'제이드마케팅', tag:'홍보', meta:'네이버·티스토리 배포 / 당일 발행', price:'1건 1,000원~', hit:842},
+    {tit:'카페 바이럴 하실 분 구합니다 (맘카페 위주)', who:'브릿지컴퍼니', tag:'구인', meta:'월 30건 / 지역 카페 계정 보유자', price:'건당 협의', hit:517},
+    {tit:'워드프레스 SEO 세팅 대행 — 구글 색인까지', who:'코드앤그로스', tag:'홍보', meta:'사이트맵·스키마·서치콘솔 등록 포함', price:'건당 15만원', hit:436},
+    {tit:'상세페이지·배너 디자인 외주 받습니다', who:'프리랜서 김디자인', tag:'홍보', meta:'포트폴리오 링크 첨부 / 3일 내 초안', price:'장당 5만원~', hit:388},
+    {tit:'플레이스 상위노출 팀 — 파트너사 모집', who:'로컬플러스', tag:'제휴', meta:'지역 대행사 제휴 / 수익 배분', price:'제휴 조건 협의', hit:721}
+   ]}
  ],
  blgm:[
   {name:'블로거 수익화 — 채널별', hint:'채널별로 수익을 만드는 현실적인 방법.',
    posts:[['네이버 블로그로 월 50만 원 만드는 현실 루트',3214,42],['티스토리 + 애드센스 6개월 수익 기록',2877,35],['워드프레스 · 블로그스팟 수익화 시작 가이드',1466,11]]},
-  {name:'체험단업체 리스트', hint:'믿을 수 있는 체험단 플랫폼 정보.',
-   posts:[['믿을 수 있는 체험단 플랫폼 모음',1932,27],['체험단 신청 전 확인할 것',745,9]]},
+  {name:'체험단업체 리스트', hint:'체험단 업체가 직접 올리는 모집 알림판 — 진행 중인 체험단을 자유롭게 등록하세요.', board:'promo', writeLabel:'체험단 등록',
+   ads:[
+    {tit:'[강남/신사] 피부과 리프팅 체험단 모집 (5명)', who:'뷰티체험단', tag:'모집중', meta:'방문형 / 네이버 블로그 / 준최적 이상', price:'30만원 상당 시술', hit:1204},
+    {tit:'[전국] 강아지 사료 배송형 체험단 20명', who:'펫리뷰', tag:'모집중', meta:'배송형 / 인스타·블로그 동시', price:'제품 제공 + 1만원', hit:962},
+    {tit:'[성수] 신규 브런치 카페 오픈 체험단', who:'로컬체험단', tag:'마감임박', meta:'방문형 / 2인 식사권', price:'5만원 상당', hit:718},
+    {tit:'[온라인] 다이어트 보조제 구매형 체험단', who:'헬스마켓', tag:'모집중', meta:'구매형 / 페이백 / 영수증 리뷰', price:'구매가 100% 페이백', hit:530},
+    {tit:'[부산] 헤어살롱 펌·염색 체험단 3명', who:'뷰티체험단', tag:'모집중', meta:'방문형 / 사진 15장 이상', price:'20만원 상당', hit:445}
+   ]},
   {name:'어필리에이트', hint:'제휴 링크로 만드는 지속 수익.',
    posts:[['쿠팡 파트너스 시작 가이드 — 링크 하나로 시작하기',2540,19],['제휴 링크 쓸 때 협찬 표기, 이렇게 하세요',1105,8]]}
  ]
 };
 const BOARD_TITLE={mkt:'마케터들의 장', blgm:'블로거들의 장'};
+function adRow(a){
+  const tagCls = a.tag==='마감임박' ? 'tag r' : (a.tag==='구인' ? 'tag rev' : 'tag t');
+  return `<div class="item" data-act="postSoon" style="cursor:pointer">
+    <div class="r1"><span class="t" style="font-size:13.5px"><span class="${tagCls}">${a.tag}</span> ${a.tit}</span>
+      <span class="propfee" style="font-size:12.5px">${a.price}</span></div>
+    <div class="m">${a.who} · ${a.meta} · 조회 ${a.hit.toLocaleString()}</div></div>`;
+}
 function openBoard(b, i){
   const cat=(BOARDS[b]||[])[+i]; if(!cat) return;
   curBoard={b:b, i:+i};
+  const isPromo = cat.board==='promo';
+  const body = isPromo
+    ? `<div class="r1" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+         <span class="note" style="margin:0">누구나 등록할 수 있는 홍보/모집 게시판입니다.</span>
+         <button class="btn sm" data-act="promoWrite">${cat.writeLabel} +</button></div>
+       ${cat.ads.map(adRow).join('')}`
+    : cat.posts.map(p=>`<div class="item" data-act="postSoon" style="cursor:pointer">
+        <div class="t" style="font-size:13.5px">${p[0]}</div>
+        <div class="m">조회 ${p[1].toLocaleString()} · 댓글 ${p[2]}</div></div>`).join('');
   document.getElementById('vBoard').innerHTML=`
     <div class="crumb"><b data-act="nav" data-v="${b}">${BOARD_TITLE[b]}</b> › ${cat.name}</div>
     <div class="sechead"><h2>${cat.name}</h2></div>
-    <div class="sechint">${cat.hint} (데모 게시판)</div>
+    <div class="sechint">${cat.hint}</div>
     <div class="card">
-      ${cat.posts.map(p=>`<div class="item" data-act="postSoon" style="cursor:pointer">
-        <div class="t" style="font-size:13.5px">${p[0]}</div>
-        <div class="m">조회 ${p[1].toLocaleString()} · 댓글 ${p[2]}</div></div>`).join('')}
+      ${body}
       <button class="btn gray" data-act="nav" data-v="${b}">← ${BOARD_TITLE[b]}</button>
     </div>`;
   nav('board');
 }
 function renderBoardIndex(b){
-  return (BOARDS[b]||[]).map((cat,i)=>`<div class="card" data-act="boardNav" data-b="${b}" data-i="${i}" style="cursor:pointer">
-    <h2>${cat.name} <span style="float:right;font-size:12px;color:var(--teal-d)">글 ${cat.posts.length} ›</span></h2>
-    <div class="note" style="margin:0 0 6px">${cat.hint}</div>
-    ${cat.posts.slice(0,2).map(p=>`<div class="item"><div class="t" style="font-size:13.5px">${p[0]}</div>
-      <div class="m">조회 ${p[1].toLocaleString()} · 댓글 ${p[2]}</div></div>`).join('')}
-  </div>`).join('');
+  return (BOARDS[b]||[]).map((cat,i)=>{
+    const isPromo = cat.board==='promo';
+    const cnt = isPromo ? cat.ads.length : cat.posts.length;
+    const preview = isPromo
+      ? cat.ads.slice(0,2).map(adRow).join('')
+      : cat.posts.slice(0,2).map(p=>`<div class="item"><div class="t" style="font-size:13.5px">${p[0]}</div>
+          <div class="m">조회 ${p[1].toLocaleString()} · 댓글 ${p[2]}</div></div>`).join('');
+    return `<div class="card" data-act="boardNav" data-b="${b}" data-i="${i}" style="cursor:pointer">
+      <h2>${cat.name} ${isPromo?'<span class="tag rev">등록판</span>':''}
+        <span style="float:right;font-size:12px;color:var(--teal-d)">${isPromo?'등록 '+cnt:'글 '+cnt} ›</span></h2>
+      <div class="note" style="margin:0 0 6px">${cat.hint}</div>
+      ${preview}
+    </div>`;
+  }).join('');
 }
 
 function renderSvcGrid(){
@@ -1382,6 +1416,7 @@ document.addEventListener('click', function(ev){
   else if(act==='pkgAsk') toast('상담 문의가 접수되었습니다 (데모)');
   else if(act==='toolSoon') toast('아직 준비 중입니다 — 곧 오픈해요!');
   else if(act==='postSoon') toast('게시판은 준비 중입니다 (데모)');
+  else if(act==='promoWrite') toast('등록 기능은 준비 중입니다 (데모)');
   else if(act==='addCampaign') addCampaign();
   else if(act==='regNext') regNext(+el.getAttribute('data-s'));
   else if(act==='regBlogger') regBlogger();
