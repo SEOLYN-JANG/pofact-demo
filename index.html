@@ -348,14 +348,7 @@
       <div class="sechead"><h2>캠페인 찾기</h2><span class="more" id="campCount"></span></div>
       <div class="sechint">카드를 클릭하면 상세보기(미션 가이드·키워드)가 열립니다. 역제안 공고는 원하는 금액을 제안하며 지원하세요.</div>
       <div class="kindnav" id="campTabs"></div>
-      <div class="filterbar">
-        <select id="fRegion"><option value="">지역 전체</option></select>
-        <select id="fCh"><option value="">채널 전체</option>
-          <option>네이버 블로그</option><option>티스토리</option><option>워드프레스</option>
-          <option>블로그스팟</option><option>인스타</option><option>유튜브</option></select>
-        <select id="fType"><option value="">공고 유형 전체</option>
-          <option value="normal">일반 공고</option><option value="reverse">역제안 공고</option></select>
-      </div>
+      <div class="filterbar" id="filterBar"></div>
       <div id="campList"></div>
     </div>
 
@@ -430,6 +423,10 @@
         <div class="col">
           <div class="card">
             <h2><span class="n">1</span>공고 올리기</h2>
+            <label>캠페인 유형</label>
+            <div class="chips" id="cKind" data-single="1">
+              <span class="sel">방문형</span><span>배송형</span><span>기자단</span><span>구매형</span>
+            </div>
             <label>공고 유형</label>
             <div class="chips" id="cType" data-single="1">
               <span class="sel">일반 공고 (원고료 확정)</span><span>역제안 공고 (블로거가 금액 제안)</span>
@@ -437,7 +434,7 @@
             <label>브랜드/가게 이름</label>
             <input type="text" id="cBrand" placeholder="예) 다비치안경 장안점">
             <div class="cols" style="gap:10px">
-              <div class="col"><label>지역</label><input type="text" id="cLoc" placeholder="예) 서울/동대문구"></div>
+              <div class="col" id="locWrap"><label id="locLabel">방문 지역</label><input type="text" id="cLoc" placeholder="예) 서울/동대문구"></div>
               <div class="col"><label>업종</label>
                 <select id="cInd"><option>뷰티</option><option>맛집/카페</option><option>병원</option><option>학원</option><option>패션/잡화</option><option>기타</option></select></div>
             </div>
@@ -452,7 +449,7 @@
             </div>
             <label>핵심 키워드 (쉼표로 구분)</label>
             <input type="text" id="cKw" placeholder="예) 장안동 안경, 동대문 렌즈">
-            <label>협찬/제공 내역</label>
+            <label id="sponLabel">협찬/제공 내역</label>
             <input type="text" id="cSpon" placeholder="예) 12만원 상당의 안경, 선글라스">
             <label>가이드라인 (블로거에게 미션 가이드로 제공 — 쉼표나 줄바꿈으로 구분)</label>
             <textarea id="cDesc" rows="3" placeholder="예) 10년차 검안사 상주 강조, 검안 과정·매장 전경 사진 포함, 타 브랜드 비교 언급 금지"></textarea>
@@ -1153,10 +1150,50 @@ const KIND_ICON={
  '구매형':'<path d="M6 8h12l-1 12H7z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>'
 };
 const KINDS=['전체','방문형','배송형','기자단','구매형'];
+/* 유형별 미션 안내 문구 */
+const KIND_MISSION={
+ '방문형':['협찬(제공) 내역을 초과하는 금액은 본인 부담입니다.','매장 방문 후 직접 촬영한 사진만 사용해 주세요.'],
+ '배송형':['제품 수령 후 14일 이내 발행해 주세요.','수령한 제품은 반납하지 않으며, 재판매는 금지됩니다.'],
+ '기자단':['방문 없이 제공된 자료만으로 작성합니다.','업종별 광고 법규(의료·변호사·교육)를 반드시 준수해 주세요.'],
+ '구매형':['본인이 직접 구매한 뒤 리뷰를 작성합니다.','구매 영수증·주문번호 인증 후 페이백이 지급됩니다.']
+};
+/* 유형별 안내 섹션 */
+const KIND_INFO={
+ '방문형':{title:'방문 정보', key:'예약 방법', val:'선정 후 담당자 연락처로 예약 (POFACT 체험단임을 사전 고지)'},
+ '배송형':{title:'배송 정보', key:'수령 방법', val:'선정 후 등록한 주소로 발송 (평균 2~3일 소요)'},
+ '기자단':{title:'자료 제공 정보', key:'자료 전달', val:'선정 후 브랜드 제공 자료·이미지를 전달 (방문 불필요)'},
+ '구매형':{title:'구매·페이백 정보', key:'페이백 방법', val:'직접 구매 → 리뷰 발행 → 영수증 인증 후 페이백 지급'}
+};
 let campKind='전체';
-function campRegions(){
-  const set={}; S.campaigns.forEach(c=>{ const r=(c.loc||'').split('/')[0]; if(r) set[r]=1; });
-  return Object.keys(set).sort();
+/* 유형별로 노출할 필터 — 방문형만 지역, 나머지는 업종이 유용 */
+const KIND_FILTERS={
+  '전체':['region','ch','type'],
+  '방문형':['region','ind','ch'],   /* 방문은 지역이 핵심 */
+  '배송형':['ind','ch','type'],     /* 전국 배송 → 지역 무의미 */
+  '기자단':['ind','ch','type'],     /* 방문 없음 → 지역 무의미 */
+  '구매형':['ind','ch','type']      /* 온라인 구매 → 지역 무의미 */
+};
+let campF={region:'', ind:'', ch:'', type:''};
+function kindList(){ return S.campaigns.filter(c=>campKind==='전체'||c.kind===campKind); }
+function uniq(arr){ const s={}; arr.forEach(v=>{ if(v) s[v]=1; }); return Object.keys(s).sort(); }
+function renderCampFilters(){
+  const base=kindList();
+  const use=KIND_FILTERS[campKind]||KIND_FILTERS['전체'];
+  const defs={
+    region:{label:'지역', opts:uniq(base.map(c=>(c.loc||'').split('/')[0]))},
+    ind:{label:'업종', opts:uniq(base.map(c=>c.ind))},
+    ch:{label:'채널', opts:uniq([].concat.apply([], base.map(c=>c.ch)))},
+    type:{label:'공고 유형', opts:['일반 공고','역제안 공고']}
+  };
+  /* 이 유형에서 안 쓰는 필터는 값도 비운다 */
+  Object.keys(campF).forEach(k=>{ if(use.indexOf(k)<0) campF[k]=''; });
+  /* 남은 값이 현재 목록에 없으면 초기화 */
+  use.forEach(k=>{ if(campF[k] && defs[k].opts.indexOf(campF[k])<0) campF[k]=''; });
+  document.getElementById('filterBar').innerHTML=use.map(k=>{
+    const d=defs[k];
+    return `<select data-f="${k}"><option value="">${d.label} 전체</option>`+
+      d.opts.map(o=>`<option${o===campF[k]?' selected':''}>${o}</option>`).join('')+`</select>`;
+  }).join('');
 }
 function renderCamp(){
   /* 유형 아이콘 내비 */
@@ -1166,15 +1203,12 @@ function renderCamp(){
       <div class="ic"><svg viewBox="0 0 24 24">${KIND_ICON[k]}</svg></div>
       <div class="lb">${k}</div><div class="ct">${n}</div></div>`;
   }).join('');
-  /* 지역 드롭다운 옵션 (선택 유지) */
-  const fR=document.getElementById('fRegion'), keep=fR.value;
-  fR.innerHTML='<option value="">지역 전체</option>'+campRegions().map(r=>`<option${r===keep?' selected':''}>${r}</option>`).join('');
-  const vR=fR.value, vC=document.getElementById('fCh').value, vT=document.getElementById('fType').value;
-
-  let list=S.campaigns.filter(c=>campKind==='전체'||c.kind===campKind);
-  if(vR) list=list.filter(c=>(c.loc||'').split('/')[0]===vR);
-  if(vC) list=list.filter(c=>c.ch.indexOf(vC)>=0);
-  if(vT) list=list.filter(c=>vT==='reverse'?isRev(c):!isRev(c));
+  renderCampFilters();
+  let list=kindList();
+  if(campF.region) list=list.filter(c=>(c.loc||'').split('/')[0]===campF.region);
+  if(campF.ind) list=list.filter(c=>c.ind===campF.ind);
+  if(campF.ch) list=list.filter(c=>c.ch.indexOf(campF.ch)>=0);
+  if(campF.type) list=list.filter(c=>campF.type==='역제안 공고'?isRev(c):!isRev(c));
   document.getElementById('campCount').textContent='총 '+list.length+'개';
   document.getElementById('campList').innerHTML=list.map(campCard).join('')||'<div class="empty">조건에 맞는 캠페인이 없습니다. 필터를 바꿔보세요.</div>';
 }
@@ -1224,12 +1258,14 @@ function addCampaign(){
   if(!b||!kw){ alert('브랜드 이름과 키워드를 입력해 주세요.'); return; }
   if(!ch.length){ alert('발행 채널을 1개 이상 선택해 주세요.'); return; }
   const rev=(chipVals('cType')[0]||'').includes('역제안');
-  S.campaigns.push({id:S.nextC++, brand:b, loc:document.getElementById('cLoc').value.trim()||'우리동네',
+  const kind=chipVals('cKind')[0]||'방문형';
+  const locVal=document.getElementById('cLoc').value.trim() || (kind==='방문형'?'우리동네':'전국');
+  S.campaigns.push({id:S.nextC++, kind:kind, brand:b, loc:locVal,
     ind:document.getElementById('cInd').value, type:rev?'reverse':'normal',
     cnt:+document.getElementById('cCnt').value||1, fee:rev?0:(+document.getElementById('cFee').value||0),
     ch:ch, kw:kw, spon:document.getElementById('cSpon').value.trim(),
     desc:document.getElementById('cDesc').value.trim()});
-  save(); renderAll(); toast('공고가 등록되었습니다');
+  save(); renderAll(); toast(kind+' 공고가 등록되었습니다');
   ['cBrand','cLoc','cKw','cSpon','cDesc'].forEach(i=>document.getElementById(i).value='');
 }
 function contact(campId, blgId){
@@ -1401,7 +1437,7 @@ function openDetail(campId){
       <div class="msec">
         <div class="mh">미션 가이드 — 이렇게 홍보해 주세요</div>
         <ol>
-          <li>협찬(제공) 내역을 초과하는 금액은 본인 부담입니다.</li>
+          ${KIND_MISSION[c.kind||'방문형'].map(m=>'<li>'+m+'</li>').join('')}
           <li>글자 수 2,000자 이상 · 사진 15장 이상 권장. 원고 검수 후 제공/정산됩니다.</li>
           ${c.desc?c.desc.split(/[,\n]/).map(s=>s.trim()).filter(Boolean).map(s=>'<li><b>'+s+'</b></li>').join(''):'<li>세부 가이드라인은 컨택 후 안내됩니다.</li>'}
           <li>컨택 완료 후 <b>원고 생성기</b>를 사용하면 협찬 표기·AEO 구조·가이드라인이 자동 반영됩니다.</li>
@@ -1410,9 +1446,9 @@ function openDetail(campId){
         <div class="kwbox">${tags}</div>
       </div>
       <div class="msec">
-        <div class="mh">방문/제공 정보</div>
-        <div class="mrow"><span class="mk">지역</span><span class="mv">${c.loc}</span></div>
-        <div class="mrow"><span class="mk">예약/수령 방법</span><span class="mv">선정 후 담당자 연락처로 예약 (POFACT 체험단임을 사전 고지)</span></div>
+        <div class="mh">${KIND_INFO[c.kind||'방문형'].title}</div>
+        <div class="mrow"><span class="mk">${(c.kind==='방문형'||!c.kind)?'방문 지역':'대상 지역'}</span><span class="mv">${c.loc}</span></div>
+        <div class="mrow"><span class="mk">${KIND_INFO[c.kind||'방문형'].key}</span><span class="mv">${KIND_INFO[c.kind||'방문형'].val}</span></div>
       </div>
       <div class="mfoot">${applyBtn}<button class="btn o" data-act="closeDetail" style="flex:0 0 auto">닫기</button></div>
     </div>`;
@@ -1600,6 +1636,13 @@ document.addEventListener('click', function(ev){
         const rev=chip.textContent.includes('역제안');
         document.getElementById('feeWrap').style.visibility=rev?'hidden':'visible';
       }
+      if(g.id==='cKind'){
+        const k=chip.textContent.trim(), visit=(k==='방문형');
+        document.getElementById('locLabel').textContent=visit?'방문 지역':'대상 지역 (전국이면 비워두세요)';
+        document.getElementById('cLoc').placeholder=visit?'예) 서울/동대문구':'전국';
+        const sponLb=document.getElementById('sponLabel');
+        if(sponLb) sponLb.textContent=(k==='구매형')?'페이백 금액·조건':(k==='기자단'?'제공 내역 (원고료 등)':'협찬/제공 내역');
+      }
       return;
     }
     if(!chip.classList.contains('sel') && max && g.querySelectorAll('span.sel').length>=max){
@@ -1655,7 +1698,9 @@ document.addEventListener('click', function(ev){
 document.addEventListener('change', function(ev){
   if(ev.target && ev.target.id==='gCampSel') loadGenCamp(ev.target.value);
   if(ev.target && ev.target.id==='bFiles'){ addFiles(ev.target.files); ev.target.value=''; }
-  if(ev.target && ['fRegion','fCh','fType'].indexOf(ev.target.id)>=0) renderCamp();
+  if(ev.target && ev.target.matches && ev.target.matches('#filterBar select')){
+    campF[ev.target.getAttribute('data-f')]=ev.target.value; renderCamp();
+  }
 });
 document.addEventListener('keydown', function(ev){
   if(ev.key==='Enter' && ev.target && ev.target.id==='srchQ') homeSearch();
