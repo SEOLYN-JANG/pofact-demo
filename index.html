@@ -189,8 +189,13 @@
   .advcamp .head .h-cnt{text-align:center; flex:0 0 auto; padding-left:6px;}
   .advcamp .head .h-cnt b{display:block; font-size:19px; color:var(--teal-d); font-weight:800; font-variant-numeric:tabular-nums;}
   .advcamp .head .h-cnt span{font-size:10.5px; color:var(--sub);}
-  .applist{padding:4px 10px 10px;}
-  .appl{display:flex; gap:12px; align-items:center; padding:12px 8px;}
+  .advcamp .head{cursor:pointer;}
+  .advcamp .head .chev2{width:18px; height:18px; stroke:var(--sub); fill:none; stroke-width:2; flex:0 0 auto; transition:transform .18s;}
+  .advcamp.open .head .chev2{transform:rotate(180deg);}
+  .applist{padding:4px 10px 10px; display:none;}
+  .advcamp.open .applist{display:block;}
+  .appl{display:flex; gap:12px; align-items:center; padding:12px 8px; cursor:pointer; border-radius:10px;}
+  .appl:hover{background:var(--chip);}
   .appl + .appl{border-top:1px solid var(--line);}
   .appl .av{width:40px; height:40px; border-radius:12px; background:var(--grad); color:#fff; display:grid; place-items:center; font-weight:800; font-size:15px; flex:0 0 auto;}
   .appl .a-body{flex:1; min-width:0;}
@@ -1675,7 +1680,7 @@ function addCampaign(){
   const rev=(chipVals('cType')[0]||'').includes('협의');
   const kind=chipVals('cKind')[0]||'방문형';
   const locVal=document.getElementById('cLoc').value.trim() || (kind==='방문형'?'우리동네':'전국');
-  S.campaigns.push({id:S.nextC++, kind:kind, brand:b, loc:locVal,
+  S.campaigns.push({id:S.nextC++, kind:kind, brand:b, loc:locVal, mine:true,
     ind:document.getElementById('cInd').value, type:rev?'reverse':'normal',
     cnt:+document.getElementById('cCnt').value||1, fee:rev?0:(+document.getElementById('cFee').value||0),
     ch:ch, kw:kw, spon:document.getElementById('cSpon').value.trim(),
@@ -1691,36 +1696,40 @@ function contact(campId, blgId){
   const a=S.apps.find(x=>x.campId===campId&&x.blgId===blgId);
   if(a){ a.st='contacted'; save(); renderAll(); }
 }
+const MY_CAMPS=[1,2,4];
+function myCampaigns(){ return S.campaigns.filter(c=>c.mine||MY_CAMPS.indexOf(c.id)>=0); }
 function renderAdv(){
   const el=document.getElementById('advList');
-  if(!S.campaigns.length){ el.innerHTML='<div class="empty">아직 올린 공고가 없습니다. 위 [+ 새 공고 올리기]에서 시작하세요.</div>'; return; }
-  el.innerHTML=S.campaigns.map(c=>{
+  const list=myCampaigns();
+  if(!list.length){ el.innerHTML='<div class="empty">아직 올린 공고가 없습니다. 위 [+ 새 공고 올리기]에서 시작하세요.</div>'; return; }
+  el.innerHTML=list.map((c,ci)=>{
     const apps=S.apps.filter(a=>a.campId===c.id);
     const contacted=apps.filter(a=>a.st==='contacted').length;
     const rows=apps.map(a=>{
       const b=S.bloggers.find(x=>x.id===a.blgId); if(!b) return '';
       const done=a.st==='contacted';
       const money=a.price?('<b class="propfee">제안가 '+a.price.toLocaleString()+'원</b>'):('희망 '+(b.hopeFee||0).toLocaleString()+'원');
-      return `<div class="appl">
+      return `<div class="appl" data-act="viewBlg" data-b="${b.id}">
         <div class="av">${b.name.charAt(0)}</div>
         <div class="a-body">
           <div class="a-nm">${b.name} ${b.grade?'<span class="gr">'+b.grade+'</span>':''} <span class="star" style="font-size:11.5px">★${b.rating||'-'}</span></div>
           <div class="a-sub">${b.acc.map(x=>x.ch).join('·')} · ${(b.skills||[]).slice(0,2).join('·')||'-'}</div>
-          <div class="a-sub">${money} · ${b.region||''} · 완료 ${b.done||0}건</div>
+          <div class="a-sub">${money} · ${b.region||''} · 완료 ${b.done||0}건 · <span style="color:var(--teal-d);font-weight:700">프로필 보기 ›</span></div>
         </div>
         <div class="a-right">${done?'<span class="tag t">컨택 완료</span>':`<button class="btn sm" data-act="contact" data-c="${c.id}" data-b="${b.id}">컨택하기</button>`}</div>
       </div>`;
     }).join('')||'<div class="empty" style="padding:16px 10px">아직 신청자가 없습니다. 시간이 지나면 블로거가 지원합니다.</div>';
-    return `<div class="advcamp">
-      <div class="head">
+    return `<div class="advcamp ${ci===0?'open':''}">
+      <div class="head" data-act="advToggle">
         <img src="${thumb(c)}" alt="">
         <div class="h-info">
           <div>${kindTag(c)}${typeTag(c)}<span class="tag r">모집중</span></div>
           <div class="h-tt">[${c.loc}] ${c.brand}</div>
           <div class="h-rw">${rewardLine(c)}</div>
-          <div class="h-meta">키워드 ${c.kw} · ${c.ch.join('·')}</div>
+          <div class="h-meta">신청자 ${apps.length}명 · 클릭해서 펼치기</div>
         </div>
         <div class="h-cnt"><b>${apps.length}/${c.cnt}</b><span>신청 · 컨택 ${contacted}</span></div>
+        <svg class="chev2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
       </div>
       <div class="applist">${rows}</div>
     </div>`;
@@ -1887,6 +1896,45 @@ function openDetail(campId){
   document.getElementById('detailBg').classList.remove('hide');
 }
 function closeDetail(){ document.getElementById('detailBg').classList.add('hide'); }
+/* ── 블로거 프로필(PR) 모달 ── */
+function chipRow(arr){ return (arr||[]).map(x=>'<span class="tag" style="margin:2px 4px 2px 0">'+x+'</span>').join('')||'-'; }
+function openBloggerProfile(blgId){
+  const b=S.bloggers.find(x=>x.id===blgId); if(!b) return;
+  const offer=b.offer==='무료'?'무료 진행 가능 (제공 서비스만)':(b.offer==='둘다'?'고료·무료 모두 가능':'고료 진행');
+  document.getElementById('detailModal').innerHTML=`
+    <span class="mx" data-act="closeDetail" title="닫기">✕</span>
+    <div class="inner">
+      <div style="display:flex; align-items:center; gap:13px; margin-bottom:4px">
+        <div class="appl" style="padding:0"><div class="av" style="width:52px;height:52px;font-size:19px;border-radius:15px">${b.name.charAt(0)}</div></div>
+        <div><h3 style="margin:0">${b.name} ${b.grade?'<span class="gr">'+b.grade+'</span>':''}</h3>
+          <div class="m" style="color:var(--sub);font-size:12.5px">${b.demo||''} · ${b.cat||'-'} · ${b.region||'-'} · ★${b.rating||'-'} (${b.done||0}건)</div></div>
+      </div>
+      <div class="defband" style="margin:12px 0">${b.pr||'-'}</div>
+      <div class="msec">
+        <div class="mh">연동 계정</div>
+        ${b.acc.map(a=>`<div class="mrow"><span class="mk">${a.ch}</span><span class="mv">${a.fol}${a.grade?' <span class="gr">'+a.grade+'</span>':''} <span class="note" style="display:inline">${a.link}</span></span></div>`).join('')}
+      </div>
+      <div class="msec">
+        <div class="mh">거래 조건</div>
+        <div class="mrow"><span class="mk">제안 방식</span><span class="mv"><b class="propfee">${offer}</b></span></div>
+        <div class="mrow"><span class="mk">게시 단가</span><span class="mv">1건당 ${(b.hopeFee||0).toLocaleString()}원~</span></div>
+      </div>
+      <div class="msec">
+        <div class="mh">프로필</div>
+        <div class="mrow"><span class="mk">관심사</span><span class="mv">${chipRow(b.interests)}</span></div>
+        <div class="mrow"><span class="mk">보유 능력</span><span class="mv">${chipRow(b.skills)}</span></div>
+        <div class="mrow"><span class="mk">콘텐츠 스타일</span><span class="mv">${chipRow(b.styles)}</span></div>
+        <div class="mrow"><span class="mk">연출</span><span class="mv">${chipRow(b.plays)}</span></div>
+        <div class="mrow"><span class="mk">성향</span><span class="mv">${chipRow(b.persona)}</span></div>
+        <div class="mrow"><span class="mk">포트폴리오</span><span class="mv">${b.pf||'-'}</span></div>
+      </div>
+      <div class="mfoot">
+        <button class="btn" data-act="propose" data-b="${b.id}">이 블로거에게 제안</button>
+        <button class="btn o" data-act="closeDetail" style="flex:0 0 auto">닫기</button>
+      </div>
+    </div>`;
+  document.getElementById('detailBg').classList.remove('hide');
+}
 function toast(msg){
   const t=document.getElementById('toast');
   t.textContent=msg; t.classList.add('show');
@@ -2102,6 +2150,8 @@ document.addEventListener('click', function(ev){
   else if(act==='boardNav') openBoard(el.getAttribute('data-b'), el.getAttribute('data-i'));
   else if(act==='article') openArticle(el.getAttribute('data-b'), el.getAttribute('data-i'), el.getAttribute('data-j'));
   else if(act==='promoNav') openPromo(el.getAttribute('data-b'));
+  else if(act==='advToggle'){ const box=el.closest('.advcamp'); if(box) box.classList.toggle('open'); }
+  else if(act==='viewBlg') openBloggerProfile(+el.getAttribute('data-b'));
   else if(act==='advTab'){ const t=el.getAttribute('data-t');
     [...document.querySelectorAll('#advTab span')].forEach(s=>s.classList.toggle('sel', s.getAttribute('data-t')===t));
     document.getElementById('advManage').classList.toggle('hide', t!=='manage');
