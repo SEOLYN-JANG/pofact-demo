@@ -544,8 +544,17 @@
                   <span>인스타 인플루언서</span><span>영상제작자</span><span>마케터</span><span>사진작가</span>
                   <span>포토샵능력자</span><span>능숙한 편집</span>
                 </div>
-                <label>게시 단가 (블로그 건당 · 원) — <b>블로거 마켓에 이 단가로 노출됩니다</b></label>
-                <input type="number" id="bFee" value="30000" step="5000">
+                <label>제안 받는 방식 — <b>블로거 마켓·캠페인에 이렇게 노출됩니다</b></label>
+                <div class="chips" id="bOffer" data-single="1">
+                  <span class="sel">고료 받고 진행</span><span>제공 서비스만 받고 무료 진행</span><span>둘 다 가능</span>
+                </div>
+                <div id="feeRow">
+                  <label>시작 원고료 (블로그 건당 · 원)</label>
+                  <input type="number" id="bFee" value="30000" step="5000">
+                </div>
+                <div id="freeNote" class="hide" style="font-size:12px;color:var(--teal-d);background:var(--teal-bg);border-radius:9px;padding:9px 12px;margin-top:6px">
+                  제공되는 서비스(협찬·체험·제품)에 따라 <b>원고료 없이도 진행</b>합니다. 매력적인 제공이 있는 캠페인에 우선 노출돼요.
+                </div>
                 <button class="btn gray" data-act="regNext" data-s="1">← 이전</button>
                 <button class="btn" data-act="regNext" data-s="3">다음 →</button>
               </div>
@@ -819,12 +828,14 @@ function seed(){
       {campId:14, blgId:3, st:'applied'}, {campId:16, blgId:11, st:'applied'},
       {campId:18, blgId:6, st:'applied'}, {campId:20, blgId:14, st:'applied'},
       {campId:6, blgId:9, st:'applied'}, {campId:17, blgId:14, st:'applied', price:32000} ],
-    me:1, nextC:22, nextB:16
+    me:null, nextC:22, nextB:16
   };
 }
-function load(){ try{ S=JSON.parse(localStorage.getItem(KEY)); }catch(e){} if(!S||!S.campaigns) S=seed(); }
+const SEED_OFFER={1:'고료',2:'둘다',3:'고료',4:'고료',5:'무료',6:'둘다',7:'무료',8:'무료',9:'고료',10:'둘다',11:'무료',12:'고료',13:'무료',14:'둘다',15:'고료'};
+function normalizeBloggers(){ S.bloggers.forEach(b=>{ if(!b.offer) b.offer=SEED_OFFER[b.id]||'고료'; }); }
+function load(){ try{ S=JSON.parse(localStorage.getItem(KEY)); }catch(e){} if(!S||!S.campaigns) S=seed(); normalizeBloggers(); }
 function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
-function resetDemo(){ try{ localStorage.removeItem(KEY); }catch(e){} S=seed(); curGenCamp=null; curGenCh=null;
+function resetDemo(){ try{ localStorage.removeItem(KEY); }catch(e){} S=seed(); normalizeBloggers(); curGenCamp=null; curGenCh=null;
   regAccounts=[]; attachedFiles=[]; renderSns(); renderFiles();
   document.getElementById('genCard').classList.add('hide'); regStep(1); renderAll(); nav('home'); }
 
@@ -1095,10 +1106,16 @@ function bcard(b){
     <div class="st">${b.acc.map(a=>'<b>'+a.fol+'</b> '+a.ch).join(' · ')}</div>
     <div class="pr">${b.pr}</div>
     <div style="display:flex;justify-content:space-between;align-items:center;margin-top:9px;padding-top:9px;border-top:1px solid var(--line)">
-      <span style="font-size:12.5px;color:var(--sub)">게시 단가 <b style="color:var(--teal-d);font-size:13.5px">건당 ${(b.hopeFee||0).toLocaleString()}원~</b></span>
+      <span style="font-size:12.5px;color:var(--sub)">${offerLine(b)}</span>
       <span class="star" style="font-size:12px">${b.rating?('★'+b.rating+' ('+b.done+'건)'):'신규'}</span></div>
     <button class="btn sm" style="width:100%;margin-top:9px" data-act="propose" data-b="${b.id}">제안 보내기</button>
   </div>`;
+}
+function offerLine(b){
+  const fee='건당 <b style="color:var(--teal-d);font-size:13.5px">'+(b.hopeFee||0).toLocaleString()+'원~</b>';
+  if(b.offer==='무료') return '<b style="color:#0f9d8f;font-size:13px">무료 진행 가능</b> <span style="font-size:11px">(제공 서비스만)</span>';
+  if(b.offer==='둘다') return fee+' <span style="color:#0f9d8f;font-size:11px">· 무료도 가능</span>';
+  return '게시 단가 '+fee;
 }
 function rkRow(b, i){
   return `<div class="rk"><div class="no">${i+1}</div><div class="av">${b.name.charAt(0)}</div>
@@ -1249,12 +1266,14 @@ function renderCamp(){
   document.getElementById('campList').innerHTML=list.map(campCard).join('')||'<div class="empty">조건에 맞는 캠페인이 없습니다. 필터를 바꿔보세요.</div>';
 }
 /* ── 블로거 마켓 (공급자 주도 카탈로그) ── */
-let marketF={region:'',cat:'',ch:''};
+let marketF={region:'',cat:'',ch:'',offer:''};
 function marketBloggers(){
   let list=[...S.bloggers];
   if(marketF.region) list=list.filter(b=>(b.region||'').split(' ')[0]===marketF.region);
   if(marketF.cat) list=list.filter(b=>b.cat===marketF.cat);
   if(marketF.ch) list=list.filter(b=>b.acc.some(a=>a.ch===marketF.ch));
+  if(marketF.offer==='무료 가능') list=list.filter(b=>b.offer==='무료'||b.offer==='둘다');
+  if(marketF.offer==='고료') list=list.filter(b=>b.offer==='고료'||b.offer==='둘다');
   return list.sort((a,b)=>(a.hopeFee||0)-(b.hopeFee||0));
 }
 function renderMarket(){
@@ -1265,7 +1284,8 @@ function renderMarket(){
   document.getElementById('marketFilter').innerHTML=
     `<select data-mf="region">${opt(regions,marketF.region,'지역')}</select>`+
     `<select data-mf="cat">${opt(cats,marketF.cat,'카테고리')}</select>`+
-    `<select data-mf="ch">${opt(chs,marketF.ch,'채널')}</select>`;
+    `<select data-mf="ch">${opt(chs,marketF.ch,'채널')}</select>`+
+    `<select data-mf="offer">${opt(['무료 가능','고료'],marketF.offer,'제안 방식')}</select>`;
   const list=marketBloggers();
   document.getElementById('marketCount').textContent='총 '+list.length+'명 · 단가순';
   document.getElementById('marketList').innerHTML=list.map(bcard).join('')||'<div class="empty">조건에 맞는 블로거가 없습니다.</div>';
@@ -1418,17 +1438,23 @@ function regBlogger(){
   if(attachedFiles.length) pf+=' · 첨부 '+attachedFiles.length+'건('+attachedFiles.map(f=>f.name).join(', ')+')';
   const blogAcc=regAccounts.find(a=>a.grade);
   const ints=chipVals('bInt');
+  const offerRaw=chipVals('bOffer')[0]||'고료 받고 진행';
+  const offer=offerRaw.includes('둘 다')?'둘다':(offerRaw.includes('무료')?'무료':'고료');
+  const fee=(offer==='무료')?0:(+document.getElementById('bFee').value||0);
   S.bloggers.push({id:S.nextB, name:n, demo:'', cat:ints[0]||'-', fav:0,
     region:document.getElementById('bSido').value+' '+(document.getElementById('bGu').value.trim()||''),
     acc:regAccounts.slice(),
     interests:ints, skills:chipVals('bSkill'), styles:chipVals('bStyle'),
     plays:chipVals('bPlay'), persona:chipVals('bPersona'),
-    hopeFee:+document.getElementById('bFee').value||0,
+    hopeFee:fee, offer:offer,
     pf:pf, pr:document.getElementById('bPr').value.trim()||'-',
     grade:blogAcc?blogAcc.grade:'일반', rating:0, done:0});
   S.me=S.nextB; S.nextB++;
+  /* 데모: 등록 즉시 매칭된 캠페인 하나 제공 → 원고 생성기 바로 체험 */
+  S.apps.push({campId:1, blgId:S.me, st:'contacted'});
   regAccounts=[]; attachedFiles=[]; renderSns(); renderFiles();
-  save(); regStep(1); renderAll(); toast('등록 완료 — 등급이 판정되었습니다');
+  save(); regStep(1); renderAll(); nav('me');
+  toast('등록 완료! 매칭된 캠페인이 도착했어요 — 원고 생성기를 확인하세요');
 }
 function applyCamp(campId, price){
   if(!me()){ alert('먼저 [내 프로필]에서 인플루언서 등록을 완료해 주세요.'); return; }
@@ -1686,6 +1712,11 @@ document.addEventListener('click', function(ev){
     if(g.getAttribute('data-single')){
       [...g.children].forEach(s=>s.classList.remove('sel'));
       chip.classList.add('sel');
+      if(g.id==='bOffer'){
+        const v=chip.textContent.trim();
+        document.getElementById('feeRow').classList.toggle('hide', v==='제공 서비스만 받고 무료 진행');
+        document.getElementById('freeNote').classList.toggle('hide', v==='고료 받고 진행');
+      }
       if(g.id==='cType'){
         const rev=chip.textContent.includes('역제안');
         document.getElementById('feeWrap').style.visibility=rev?'hidden':'visible';
