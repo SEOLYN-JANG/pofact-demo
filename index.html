@@ -45,6 +45,22 @@
   .crumb b{color:var(--teal-d); cursor:pointer;}
   .defband{background:var(--teal-bg); border-left:3px solid var(--teal); border-radius:0 10px 10px 0;
     padding:12px 16px; font-size:13.5px; margin:10px 0 14px; color:var(--teal-d);}
+  /* 상품 랜딩 히어로 (개별 홈페이지 느낌) */
+  .svchero{background:var(--grad); border-radius:22px; padding:38px 34px 34px; color:#fff; margin:8px 0 22px;
+    box-shadow:var(--sh-lg); position:relative; overflow:hidden;}
+  .svchero::after{content:''; position:absolute; right:-60px; top:-60px; width:220px; height:220px;
+    border-radius:50%; background:rgba(255,255,255,.12);}
+  .svchero::before{content:''; position:absolute; right:60px; bottom:-90px; width:180px; height:180px;
+    border-radius:50%; background:rgba(255,255,255,.08);}
+  .svchero .sbadge{display:inline-block; background:rgba(255,255,255,.22); color:#fff; font-size:11.5px;
+    font-weight:700; padding:5px 12px; border-radius:999px; margin-bottom:14px; letter-spacing:.2px;}
+  .svchero h1{font-size:29px; font-weight:800; letter-spacing:-.7px; margin:0 0 10px; line-height:1.25; position:relative;}
+  .svchero p{font-size:14.5px; color:rgba(255,255,255,.92); max-width:640px; line-height:1.65; margin:0 0 18px; position:relative;}
+  .svchero .hprice{display:inline-block; background:#fff; color:var(--teal-d); font-weight:800; font-size:14px;
+    padding:9px 16px; border-radius:12px; margin-right:9px; box-shadow:var(--sh-sm); position:relative;}
+  .svchero .hcta{background:rgba(0,0,0,.18); color:#fff; border:1px solid rgba(255,255,255,.4); font-weight:700;
+    font-size:13.5px; padding:9px 18px; border-radius:12px; cursor:pointer; font-family:inherit; position:relative;}
+  .chintro{font-size:14px; color:var(--sub); line-height:1.7; margin:2px 0 18px; max-width:720px;}
   .side .guide{margin-top:18px; background:var(--teal-bg); border:1px solid var(--teal-line);
     border-radius:11px; padding:11px 13px; font-size:12px; color:var(--teal-d);}
   .side .reset{border:0; background:none; color:var(--sub); font-size:11.5px; cursor:pointer;
@@ -394,7 +410,10 @@
       <div class="mi sub" data-act="svcNav" data-id="5">AEO·GEO·SEO 패키지</div>
       <div class="mi sub" data-act="svcNav" data-id="6">홈페이지 개발</div>
       <div class="mi sub" data-act="svcNav" data-id="7">뉴스레터 대행</div>
-      <div class="mi sub" data-act="svcNav" data-id="8">멀티채널 운영</div>
+      <div class="mi sub" data-act="chNav" data-ch="youtube">유튜브</div>
+      <div class="mi sub" data-act="chNav" data-ch="insta">인스타그램</div>
+      <div class="mi sub" data-act="chNav" data-ch="tiktok">틱톡</div>
+      <div class="mi sub" data-act="chNav" data-ch="threads">스레드</div>
     </div>
     <div class="mi" data-act="toggle" data-g="tool" id="miTool"><svg viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L4 17v3h3l5.3-5.3a4 4 0 0 0 5.4-5.4l-2.4 2.4-2.4-2.4z"/></svg>마케팅툴<svg class="chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>
     <div class="subwrap closed" id="gTool">
@@ -548,6 +567,9 @@
       <div class="sechead"><h2>포팩트서비스</h2></div>
       <div class="sechint">손이 많이 가는 일은 포팩트가 직접 해드립니다 — 상품을 선택하면 상세 페이지로 이동합니다. (가격은 임시 가격)</div>
       <div class="bgrid" id="svcGrid"></div>
+      <div class="sechead"><h2>멀티채널 운영</h2></div>
+      <div class="sechint">텍스트 원고를 넘어 영상·숏폼까지. 채널을 선택하면 채널별 상품 페이지로 이동합니다.</div>
+      <div class="bgrid" id="chanGrid"></div>
     </div>
 
     <!-- ═══ 포팩트서비스 상품 상세 ═══ -->
@@ -980,7 +1002,7 @@ function resetDemo(){ try{ localStorage.removeItem(KEY); }catch(e){} S=seed(); n
   document.getElementById('genCard').classList.add('hide'); regStep(1); renderAll(); nav('home'); }
 
 /* ── 내비게이션 ── */
-let curSvcId=0, curToolId=0, curBoard={b:'',i:-1};
+let curSvcId=0, curToolId=0, curBoard={b:'',i:-1}, curChannel='';
 const VIEWS=['home','market','camp','sim','svc','svcp','tool','toolp','mkt','blgm','board','adv','me'];
 /* 그룹(아코디언) ↔ 뷰 매핑 */
 const GROUP_OF={svc:'svc', svcp:'svc', tool:'tool', toolp:'tool', mkt:'mkt', blgm:'blgm'};
@@ -1004,6 +1026,8 @@ function nav(v){
       mi.classList.toggle('on', GROUP_OF[v]===mi.getAttribute('data-g'));
     }else if(act==='svcNav'){
       mi.classList.toggle('on', v==='svcp' && +mi.getAttribute('data-id')===curSvcId);
+    }else if(act==='chNav'){
+      mi.classList.toggle('on', v==='svcp' && mi.getAttribute('data-ch')===curChannel);
     }else if(act==='toolNav'){
       mi.classList.toggle('on', v==='toolp' && +mi.getAttribute('data-id')===curToolId);
     }else if(act==='boardNav'){
@@ -1061,13 +1085,94 @@ const SVC=[
   why:['검색·AI 노출로 온 손님을 구독자로 전환해 반복 방문을 만듭니다','뉴스레터 콘텐츠는 블로그 글로 재활용되어 AEO 자산이 됩니다','알고리즘에 좌우되지 않는 직접 채널을 확보합니다'],
   steps:['구독자·톤 설계','콘텐츠 기획','발행·성과 리포트'],
   faq:[['플랫폼은 뭘 쓰나요?','메일리 또는 스티비 중 브랜드에 맞는 쪽을 추천합니다.'],['소재가 없어도 되나요?','블로그·캠페인 콘텐츠를 재구성해 소재를 만듭니다.'],['효과 측정은요?','오픈율·클릭률 리포트를 제공합니다.']]},
- {id:8, name:'멀티채널 운영', tag:'준비중', price:'준비 중 — 오픈 예정',
-  def:'텍스트 원고를 넘어 유튜브·틱톡·인스타·스레드까지, 브랜드의 온라인 채널 전체를 하나로 운영하는 서비스입니다. 현재 준비 중이며 순차적으로 오픈합니다.',
-  rows:[['유튜브 운영','준비 중'],['틱톡 운영','준비 중'],['인스타 운영','준비 중'],['스레드 운영','준비 중']],
-  why:['브랜드가 여러 채널에서 같은 메시지로 노출될 때 AI가 하나의 개체로 신뢰합니다','영상·숏폼은 블로그와 다른 검색·추천 알고리즘을 탑니다','채널을 나눠 맡기지 않고 한 곳에서 통합 운영하면 일관성이 유지됩니다'],
-  steps:['채널 진단','채널별 콘텐츠 기획','제작·발행','통합 성과 리포트'],
-  faq:[['언제 오픈하나요?','블로그 매칭이 안정화된 뒤 순차 오픈 예정입니다.'],['미리 신청할 수 있나요?','상담 문의를 남기시면 오픈 시 우선 안내드립니다.']]}
 ];
+/* ── 멀티채널 상품: 채널별 개별 카테고리 (채널 1개 = 랜딩 1개, 상품 여러 개 = AEO 다면 노출) ── */
+const CHANNELS={
+ youtube:{key:'youtube', name:'유튜브', tag:'YouTube',
+  intro:'유튜브는 검색·추천 알고리즘이 블로그와 완전히 다릅니다. 포팩트는 유튜버 섭외부터 채널 운영대행, 쇼츠 제작까지 목적에 맞는 상품을 따로 제공합니다.',
+  products:[
+   {id:'yt_cast', name:'유튜버 섭외', tag:'섭외', price:'채널당 30만원~ (구독자·단가별 상이)',
+    def:'브랜드에 맞는 유튜버를 데이터로 찾아 섭외하고 브랜디드 콘텐츠·PPL을 진행합니다. 구독자 수보다 시청자층·참여율을 기준으로 매칭해 광고 거부감 없이 전환을 만듭니다.',
+    rows:[['나노 (1만 미만)','채널당 30만원~'],['마이크로 (1만~10만)','채널당 60만원~'],['미드 (10만~50만)','채널당 200만원~'],['대형 채널','별도 견적 (협의)']],
+    why:['영상은 블로그와 다른 추천 알고리즘을 타서 별도 접근이 필요합니다','구독자 규모보다 시청자층·참여율이 실제 성과를 좌우합니다','네이티브 콘텐츠가 광고 거부감을 낮춰 전환율이 높습니다'],
+    steps:['브랜드·타깃 정의','채널 후보 선정·제안','단가 협의·계약','콘텐츠 기획·검수','업로드·성과 리포트'],
+    faq:[['구독자 수로만 고르나요?','아니요. 시청자 연령·성별·참여율까지 데이터로 봅니다.'],['기획·대본도 해주나요?','핵심 메시지만 주시면 크리에이터 스타일로 기획합니다.'],['성과는 어떻게 확인하나요?','조회·클릭·전환을 리포트로 제공합니다.']]},
+   {id:'yt_manage', name:'유튜브 채널 운영대행', tag:'운영대행', price:'월 200만원~ (편수별)',
+    def:'브랜드 공식 유튜브 채널을 기획·촬영·편집·업로드까지 통째로 운영합니다. 꾸준한 발행으로 채널을 검색·추천 유입이 쌓이는 브랜드 자산으로 키웁니다.',
+    rows:[['월 2편','월 200만원~'],['월 4편','월 350만원~'],['쇼츠 포함 패키지','별도 협의']],
+    why:['채널은 꾸준함이 생명 — 전담 운영이 있어야 성과가 쌓입니다','영상 자산이 쌓이면 검색·추천 유입이 복리로 늘어납니다','기획·촬영·편집을 한 팀이 맡아야 톤이 일관됩니다'],
+    steps:['채널 진단·전략','콘텐츠 캘린더','촬영·편집','업로드·최적화','월간 리포트'],
+    faq:[['촬영도 해주나요?','스튜디오·현장 촬영 모두 가능합니다.'],['우리 직원이 출연해도 되나요?','네, 출연자 코칭까지 지원합니다.'],['최소 계약 기간은?','성과가 쌓이는 3개월을 권장합니다.']]},
+   {id:'yt_shorts', name:'유튜브 쇼츠 제작', tag:'제작', price:'1편 15만원~ · 묶음 할인',
+    def:'짧고 강한 쇼츠를 대량 제작해 신규 유입과 인지도를 빠르게 올립니다. 트렌드 포맷에 브랜드 메시지를 얹어 구독자 없이도 추천 노출을 노립니다.',
+    rows:[['쇼츠 1편','15만원~'],['10편 묶음','130만원~'],['월 정기 제작','별도 협의']],
+    why:['쇼츠는 구독자 없이도 추천으로 대량 노출됩니다','저비용으로 여러 훅을 빠르게 실험할 수 있습니다','롱폼 채널·타 채널의 유입 깔때기가 됩니다'],
+    steps:['훅·포맷 기획','촬영·편집','자막·썸네일','업로드·A/B 테스트'],
+    faq:[['소재가 없어도 되나요?','제품·매장 촬영부터 도와드립니다.'],['몇 편부터 효과가 있나요?','주 2~3편 이상 꾸준히 권장합니다.'],['릴스로도 쓸 수 있나요?','릴스·틱톡용으로 리포맷 가능합니다.']]}
+  ]},
+ insta:{key:'insta', name:'인스타그램', tag:'Instagram',
+  intro:'인스타그램은 발견 탭·릴스·해시태그로 신규 고객을 만나는 채널입니다. 인플루언서 섭외, 계정 운영대행, 릴스 제작을 상품별로 제공합니다.',
+  products:[
+   {id:'ig_cast', name:'인스타 인플루언서 섭외', tag:'섭외', price:'건당 15만원~ (팔로워·유형별)',
+    def:'뷰티·맛집·패션 등 브랜드 결에 맞는 인스타 인플루언서를 섭외해 피드·릴스·스토리 협찬을 진행합니다. 팔로워 수보다 저장·공유·도달을 기준으로 매칭합니다.',
+    rows:[['나노 (1만 미만)','건당 15만원~'],['마이크로 (1만~10만)','건당 40만원~'],['미드·메가','별도 견적'],['스토리 전용','건당 8만원~']],
+    why:['인스타는 저장·공유가 매출로 이어지는 발견형 채널입니다','팔로워 수보다 도달·저장률이 실제 성과와 직결됩니다','피드·릴스·스토리를 조합해야 캠페인 효율이 납니다'],
+    steps:['타깃·콘셉트 정의','인플루언서 후보 제안','협찬·단가 협의','콘텐츠 검수','게시·성과 리포트'],
+    faq:[['협찬 표기도 관리하나요?','네, 표시광고 가이드에 맞춰 협찬 표기를 챙깁니다.'],['제품 협찬만도 되나요?','제품 제공형·고료형 모두 가능합니다.'],['성과 측정은요?','도달·저장·프로필 방문을 리포트로 제공합니다.']]},
+   {id:'ig_manage', name:'인스타 계정 운영대행', tag:'운영대행', price:'월 120만원~ (콘텐츠 편수별)',
+    def:'브랜드 공식 인스타 계정을 콘셉트 설계부터 콘텐츠 제작·발행·소통까지 운영대행합니다. 일관된 피드로 브랜드 신뢰와 팔로워를 함께 쌓습니다.',
+    rows:[['월 8피드','월 120만원~'],['월 12피드 + 스토리','월 180만원~'],['릴스 포함','별도 협의']],
+    why:['피드 톤이 일관돼야 브랜드로 인식됩니다','꾸준한 발행이 발견 탭·해시태그 노출을 만듭니다','DM·댓글 응대까지 해야 전환이 완성됩니다'],
+    steps:['계정 진단·콘셉트','콘텐츠 캘린더','디자인·촬영','발행·소통','월간 리포트'],
+    faq:[['디자인 톤도 잡아주나요?','피드 그리드·컬러·폰트 가이드를 설계합니다.'],['광고 집행도 하나요?','원하시면 스폰서 광고까지 연동합니다.'],['최소 기간은?','3개월을 권장합니다.']]},
+   {id:'ig_reels', name:'릴스 제작', tag:'제작', price:'1편 12만원~ · 묶음 할인',
+    def:'발견 탭 노출을 노린 릴스를 기획·촬영·편집합니다. 트렌드 사운드·포맷에 브랜드 메시지를 얹어 짧은 시간에 도달을 극대화합니다.',
+    rows:[['릴스 1편','12만원~'],['10편 묶음','100만원~'],['월 정기','별도 협의']],
+    why:['릴스는 팔로워 없이도 발견 탭으로 대량 도달됩니다','짧은 포맷으로 여러 메시지를 빠르게 실험합니다','유튜브 쇼츠·틱톡으로 재활용할 수 있습니다'],
+    steps:['훅·포맷 기획','촬영·편집','자막·사운드','업로드·성과 확인'],
+    faq:[['출연자가 없어도 되나요?','제품컷·모션 그래픽형으로도 제작합니다.'],['몇 편이 적당한가요?','주 2~3편 이상을 권장합니다.'],['타 채널에도 쓰나요?','쇼츠·틱톡용으로 리포맷 가능합니다.']]}
+  ]},
+ tiktok:{key:'tiktok', name:'틱톡', tag:'TikTok',
+  intro:'틱톡은 챌린지와 숏폼으로 순식간에 화제를 만드는 채널입니다. 크리에이터 섭외, 챌린지 기획, 숏폼 제작을 상품별로 제공합니다.',
+  products:[
+   {id:'tt_cast', name:'틱톡커 섭외', tag:'섭외', price:'건당 20만원~ (팔로워·유형별)',
+    def:'브랜드 결에 맞는 틱톡 크리에이터를 섭외해 네이티브 숏폼을 진행합니다. 조회수 폭발력이 큰 채널 특성에 맞춰 바이럴 확산을 노립니다.',
+    rows:[['나노·마이크로','건당 20만원~'],['미드','건당 60만원~'],['메가','별도 견적']],
+    why:['틱톡은 팔로워와 무관하게 조회수가 터지는 구조입니다','네이티브 포맷이라야 광고 티가 나지 않고 확산됩니다','트렌드 사운드·포맷을 아는 크리에이터가 성과를 냅니다'],
+    steps:['콘셉트·타깃 정의','크리에이터 제안','단가 협의','콘텐츠 검수','게시·성과 리포트'],
+    faq:[['조회수 보장되나요?','보장은 어렵지만 확산 가능성이 높은 크리에이터를 선별합니다.'],['제품 협찬형도 되나요?','제공형·고료형 모두 가능합니다.'],['성과 측정은요?','조회·좋아요·공유를 리포트로 제공합니다.']]},
+   {id:'tt_challenge', name:'틱톡 챌린지 기획', tag:'기획', price:'캠페인당 300만원~',
+    def:'브랜드 해시태그 챌린지를 기획하고 시드 크리에이터를 붙여 참여형 바이럴을 설계합니다. 사용자 참여가 곧 광고가 되는 구조를 만듭니다.',
+    rows:[['챌린지 기획·시드 3인','300만원~'],['시드 5인 + 확산','500만원~'],['대형 캠페인','별도 협의']],
+    why:['챌린지는 사용자 참여가 스스로 확산되는 광고입니다','시드 크리에이터 설계가 초기 확산의 핵심입니다','해시태그·사운드 기획이 참여율을 좌우합니다'],
+    steps:['챌린지 콘셉트·사운드','시드 크리에이터 섭외','론칭·확산','UGC 모니터링','성과 리포트'],
+    faq:[['참여자가 없으면요?','시드·소액 광고로 초기 참여를 확보합니다.'],['음원 제작도 하나요?','오리지널 사운드 제작을 지원합니다.'],['기간은요?','기획 2주 + 확산 2~4주가 기본입니다.']]},
+   {id:'tt_short', name:'틱톡 숏폼 제작', tag:'제작', price:'1편 12만원~ · 묶음 할인',
+    def:'브랜드 계정용 틱톡 숏폼을 트렌드 포맷으로 제작합니다. 빠른 제작·업로드로 트렌드에 올라타 도달을 만듭니다.',
+    rows:[['숏폼 1편','12만원~'],['10편 묶음','100만원~'],['월 정기','별도 협의']],
+    why:['틱톡은 발행 빈도가 높을수록 노출이 늘어납니다','트렌드에 빠르게 올라타는 제작 속도가 관건입니다','릴스·쇼츠로 재활용해 효율을 높입니다'],
+    steps:['트렌드·훅 기획','촬영·편집','사운드·자막','업로드·성과 확인'],
+    faq:[['계정이 없어도 되나요?','계정 개설·세팅부터 도와드립니다.'],['몇 편이 적당한가요?','주 3편 이상을 권장합니다.'],['타 채널 재활용되나요?','릴스·쇼츠용으로 리포맷합니다.']]}
+  ]},
+ threads:{key:'threads', name:'스레드', tag:'Threads',
+  intro:'스레드는 텍스트 기반으로 대화와 바이럴이 빠른 신흥 채널입니다. 계정 운영대행과 바이럴 확산을 상품별로 제공합니다.',
+  products:[
+   {id:'th_manage', name:'스레드 계정 운영대행', tag:'운영대행', price:'월 80만원~ (발행량별)',
+    def:'브랜드 스레드 계정을 담당자 톤으로 운영합니다. 대화형 텍스트 콘텐츠로 친근한 브랜드 이미지와 팔로워를 쌓습니다.',
+    rows:[['주 5회 발행','월 80만원~'],['주 10회 + 소통','월 130만원~'],['캠페인 연동','별도 협의']],
+    why:['스레드는 텍스트라 진입장벽이 낮고 확산이 빠릅니다','대화형 톤이 브랜드 친밀도를 높입니다','초기 선점이 팔로워 확보에 유리한 신흥 채널입니다'],
+    steps:['계정 톤·페르소나','콘텐츠 방향 설계','발행·리플 소통','반응 모니터링','월간 리포트'],
+    faq:[['담당자 톤을 지정할 수 있나요?','브랜드 페르소나를 함께 설계합니다.'],['다른 채널과 연동되나요?','인스타·블로그 콘텐츠와 연계합니다.'],['최소 기간은?','2개월을 권장합니다.']]},
+   {id:'th_viral', name:'스레드 바이럴', tag:'바이럴', price:'캠페인당 150만원~',
+    def:'스레드에서 화제가 될 만한 텍스트 콘텐츠를 기획하고 시드 계정으로 확산시킵니다. 리포스트·인용이 빠른 채널 특성을 활용합니다.',
+    rows:[['시드 3계정 확산','150만원~'],['시드 5계정 + 기획','280만원~'],['대형 캠페인','별도 협의']],
+    why:['스레드는 인용·리포스트로 확산 속도가 빠릅니다','텍스트 훅 하나로 큰 도달이 가능합니다','신흥 채널이라 경쟁이 적어 노출 효율이 높습니다'],
+    steps:['바이럴 훅 기획','시드 계정 준비','론칭·확산','반응 모니터링','성과 리포트'],
+    faq:[['어떤 글이 확산되나요?','공감·논쟁·정보형 훅을 데이터로 설계합니다.'],['광고 티가 나지 않나요?','네이티브 톤으로 자연스럽게 노출합니다.'],['성과 측정은요?','조회·리포스트·유입을 리포트로 제공합니다.']]}
+  ]}
+};
+const CH_ORDER=['youtube','insta','tiktok','threads'];
+function findChProduct(pid){ for(const k of CH_ORDER){ const p=CHANNELS[k].products.find(x=>x.id===pid); if(p) return {ch:CHANNELS[k], p}; } return null; }
 /* ── 마케팅툴 (준비중) ── */
 const TOOLS=[
  {id:1, name:'홈페이지 AEO·GEO·SEO 체크기',
@@ -1248,28 +1353,82 @@ function renderSvcGrid(){
       <div class="bf"><span class="price" style="font-size:12.5px; font-weight:700; color:var(--teal-d)">${s.price}</span>
       <span style="color:var(--teal-d); font-weight:700; font-size:12px">자세히 ›</span></div>
     </div>`).join('');
+  const chEl=document.getElementById('chanGrid');
+  if(chEl) chEl.innerHTML=CH_ORDER.map(k=>{ const c=CHANNELS[k];
+    return `<div class="bcard" data-act="chNav" data-ch="${k}" style="cursor:pointer">
+      <div class="nm"><span class="tag t">${c.tag}</span> ${c.name}</div>
+      <div class="pr" style="margin-top:6px">${c.intro}</div>
+      <div class="bf"><span class="price" style="font-size:12px; color:var(--sub)">상품 ${c.products.length}종 · ${c.products.map(p=>p.name.replace(c.name,'').replace(/^\s+/,'')||p.name).slice(0,3).join(' · ')}</span>
+      <span style="color:var(--teal-d); font-weight:700; font-size:12px">자세히 ›</span></div>
+    </div>`; }).join('');
 }
-function openSvcPage(id){
-  const s=SVC.find(x=>x.id===+id); if(!s) return;
-  curSvcId=s.id;
-  document.getElementById('vSvcp').innerHTML=`
-    <div class="crumb"><b data-act="nav" data-v="svc">포팩트서비스</b> › ${s.name}</div>
-    <div class="sechead"><h2><span class="tag t">${s.tag}</span> ${s.name}</h2></div>
-    <div class="defband">${s.def}</div>
+/* 상품 랜딩 본문 (히어로 + 섹션) — 개별 홈페이지 느낌으로 재사용 */
+function svcHero(item, badge){
+  return `<div class="svchero">
+    <span class="sbadge">${badge||item.tag}</span>
+    <h1>${item.name}</h1>
+    <p>${item.def}</p>
+    ${item.price?`<span class="hprice">${item.price}</span>`:''}<button class="hcta" data-act="pkgAsk">상담 문의</button>
+  </div>`;
+}
+function svcSections(item){
+  return `
     <div class="card"><h2>가격</h2>
-      ${s.rows.map(r=>`<div class="mrow" style="font-size:13.5px; margin:6px 0"><span class="mk" style="width:220px">${r[0]}</span><span class="mv"><b>${r[1]}</b></span></div>`).join('')}
+      ${item.rows.map(r=>`<div class="mrow" style="font-size:13.5px; margin:6px 0"><span class="mk" style="width:220px">${r[0]}</span><span class="mv"><b>${r[1]}</b></span></div>`).join('')}
       <p class="note">가격은 임시 가격이며, 경쟁사 리서치·수익성 분석 후 확정합니다. (데모)</p>
     </div>
     <div class="card"><h2>왜 필요한가</h2>
-      <ul>${s.why.map(w=>'<li>'+w+'</li>').join('')}</ul>
+      <ul>${item.why.map(w=>'<li>'+w+'</li>').join('')}</ul>
     </div>
     <div class="card"><h2>진행 절차</h2>
-      <div class="chips">${s.steps.map((st,i)=>'<span class="sel">'+(i+1)+'. '+st+'</span>').join('')}</div>
+      <div class="chips">${item.steps.map((st,i)=>'<span class="sel">'+(i+1)+'. '+st+'</span>').join('')}</div>
     </div>
     <div class="card"><h2>자주 묻는 질문 (FAQ)</h2>
-      ${s.faq.map(f=>`<div class="item"><div class="t" style="font-size:13.5px">Q. ${f[0]}</div><div class="m" style="font-size:12.5px">A. ${f[1]}</div></div>`).join('')}
+      ${item.faq.map(f=>`<div class="item"><div class="t" style="font-size:13.5px">Q. ${f[0]}</div><div class="m" style="font-size:12.5px">A. ${f[1]}</div></div>`).join('')}
+    </div>`;
+}
+function openSvcPage(id){
+  const s=SVC.find(x=>x.id===+id); if(!s) return;
+  curSvcId=s.id; curChannel='';
+  document.getElementById('vSvcp').innerHTML=`
+    <div class="crumb"><b data-act="nav" data-v="svc">포팩트서비스</b> › ${s.name}</div>
+    ${svcHero(s)}
+    ${svcSections(s)}
+    <button class="btn gray" data-act="nav" data-v="svc">← 서비스 목록</button>`;
+  nav('svcp');
+}
+/* 채널 랜딩(개별 홈페이지) — 채널 소개 + 상품 카드 */
+function openChannel(chKey){
+  const c=CHANNELS[chKey]; if(!c) return;
+  curChannel=chKey; curSvcId=0;
+  document.getElementById('vSvcp').innerHTML=`
+    <div class="crumb"><b data-act="nav" data-v="svc">포팩트서비스</b> › ${c.name}</div>
+    <div class="svchero">
+      <span class="sbadge">멀티채널 · ${c.tag}</span>
+      <h1>${c.name} 마케팅</h1>
+      <p>${c.intro}</p>
+      <button class="hcta" data-act="pkgAsk">상담 문의</button>
     </div>
-    <button class="btn" data-act="pkgAsk">상담 문의 (데모)</button>
+    <div class="sechead"><h2>${c.name} 상품 <b>${c.products.length}종</b></h2></div>
+    <div class="bgrid">${c.products.map(p=>
+      `<div class="bcard" data-act="chProd" data-p="${p.id}" style="cursor:pointer">
+        <div class="nm"><span class="tag t">${p.tag}</span> ${p.name}</div>
+        <div class="pr" style="margin-top:6px">${p.def}</div>
+        <div class="bf"><span class="price" style="font-size:12.5px; font-weight:700; color:var(--teal-d)">${p.price}</span>
+        <span style="color:var(--teal-d); font-weight:700; font-size:12px">자세히 ›</span></div>
+      </div>`).join('')}</div>
+    <button class="btn gray" style="margin-top:16px" data-act="nav" data-v="svc">← 서비스 목록</button>`;
+  nav('svcp');
+}
+/* 채널 상품 랜딩(개별 홈페이지) */
+function openChProduct(pid){
+  const f=findChProduct(pid); if(!f) return; const {ch,p}=f;
+  curChannel=ch.key; curSvcId=0;
+  document.getElementById('vSvcp').innerHTML=`
+    <div class="crumb"><b data-act="nav" data-v="svc">포팩트서비스</b> › <b data-act="chNav" data-ch="${ch.key}">${ch.name}</b> › ${p.name}</div>
+    ${svcHero(p, ch.tag+' · '+p.tag)}
+    ${svcSections(p)}
+    <button class="btn gray" data-act="chNav" data-ch="${ch.key}">← ${ch.name} 상품</button>
     <button class="btn gray" data-act="nav" data-v="svc">← 서비스 목록</button>`;
   nav('svcp');
 }
@@ -2156,6 +2315,8 @@ document.addEventListener('click', function(ev){
   if(act==='nav') nav(el.getAttribute('data-v'));
   else if(act==='toggle') openGroup(el.getAttribute('data-g'));
   else if(act==='svcNav') openSvcPage(el.getAttribute('data-id'));
+  else if(act==='chNav') openChannel(el.getAttribute('data-ch'));
+  else if(act==='chProd') openChProduct(el.getAttribute('data-p'));
   else if(act==='toolNav') openToolPage(el.getAttribute('data-id'));
   else if(act==='boardNav') openBoard(el.getAttribute('data-b'), el.getAttribute('data-i'));
   else if(act==='article') openArticle(el.getAttribute('data-b'), el.getAttribute('data-i'), el.getAttribute('data-j'));
