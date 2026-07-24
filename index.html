@@ -1320,9 +1320,9 @@ function sortedByFav(){ return [...S.bloggers].sort((a,b)=>(b.fav||0)-(a.fav||0)
 
 /* ── 홈 렌더 + AI 매칭 검색 ── */
 function renderHome(){
-  /* 홈 프리뷰: 등급 높은 순 4명 */
-  const preview=[...S.bloggers].sort((a,b)=>(b.rating||0)-(a.rating||0)).slice(0,4);
-  document.getElementById('homeBloggers').innerHTML=preview.map(bcard).join('');
+  /* 홈 프리뷰: 등급 높은 순 6명 (체크박스 없음) */
+  const preview=[...S.bloggers].sort((a,b)=>(b.rating||0)-(a.rating||0)).slice(0,6);
+  document.getElementById('homeBloggers').innerHTML=preview.map(b=>bcard(b)).join('');
   /* 유형별로 하나씩 보여주기 */
   const picks=['방문형','배송형','기자단','구매형'].map(k=>S.campaigns.find(c=>c.kind===k)).filter(Boolean);
   document.getElementById('homeCamps').innerHTML=picks.map(campCard).join('');
