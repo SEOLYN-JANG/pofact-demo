@@ -319,9 +319,9 @@
       <div class="mi sub" data-act="boardNav" data-b="blgm" data-i="2">어필리에이트</div>
     </div>
     <div class="sec">WORKSPACE</div>
-    <div class="mi" data-act="nav" data-v="adv"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 9h16M9 9v11"/></svg>마케터 워크스페이스</div>
+    <div class="mi" data-act="nav" data-v="adv"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 9h16M9 9v11"/></svg>광고주 워크스페이스</div>
     <div class="mi" data-act="nav" data-v="me"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-6 8-6s8 2 8 6"/></svg>내 프로필 (블로거)</div>
-    <div class="guide"><b>인하우스 마케터를 위한 플랫폼</b><br>블로거를 찾고, 캠페인을 굴리고, 원고·발행·리포트까지 한 곳에서 관리하세요.</div>
+    <div class="guide"><b>POFACT는 이렇게 씁니다</b><br>블로거를 찾고, 캠페인을 올리고, 원고·발행·리포트까지 한 곳에서 관리하세요.</div>
     <button class="reset" data-act="reset">데모 초기화</button>
   </div>
 
@@ -331,7 +331,7 @@
     <!-- ═══ 홈 ═══ -->
     <div class="view" id="vHome">
       <div class="hero">
-        <span class="ey">인하우스 마케터를 위한 콘텐츠 집행 플랫폼</span>
+        <span class="ey">블로거 매칭 · AEO 원고 집행 플랫폼</span>
         <h1>블로거가 직접 단가를 올려두는 곳,<br><b>검증된 채널에 골라서 집행하세요.</b></h1>
         <p>네이버 블로그 · 티스토리 · 워드프레스 · 블로그스팟 — 단가·등급을 비교해 고르고, AEO 원고·발행·리포트까지 한 번에.</p>
         <div class="srow">
@@ -439,7 +439,7 @@
     <!-- ═══ 인사이트 ═══ -->
     <div class="view hide" id="vMkt">
       <div class="sechead"><h2>인사이트</h2></div>
-      <div class="sechint">인하우스 마케터를 위한 AEO·SEO·채널 연구 콘텐츠 — 카테고리를 클릭하면 게시판으로 이동합니다. (데모)</div>
+      <div class="sechint">AEO·SEO·채널 운영 연구 콘텐츠 — 카테고리를 클릭하면 게시판으로 이동합니다. (데모)</div>
       <div id="mktIndex"></div>
     </div>
 
@@ -832,7 +832,7 @@ function seed(){
   };
 }
 const SEED_OFFER={1:'고료',2:'둘다',3:'고료',4:'고료',5:'무료',6:'둘다',7:'무료',8:'무료',9:'고료',10:'둘다',11:'무료',12:'고료',13:'무료',14:'둘다',15:'고료'};
-function normalizeBloggers(){ S.bloggers.forEach(b=>{ if(!b.offer) b.offer=SEED_OFFER[b.id]||'고료'; }); }
+function normalizeBloggers(){ if(!S.invites) S.invites=[]; S.bloggers.forEach(b=>{ if(!b.offer) b.offer=SEED_OFFER[b.id]||'고료'; }); }
 function load(){ try{ S=JSON.parse(localStorage.getItem(KEY)); }catch(e){} if(!S||!S.campaigns) S=seed(); normalizeBloggers(); }
 function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
 function resetDemo(){ try{ localStorage.removeItem(KEY); }catch(e){} S=seed(); normalizeBloggers(); curGenCamp=null; curGenCh=null;
@@ -1108,7 +1108,7 @@ function bcard(b){
     <div style="display:flex;justify-content:space-between;align-items:center;margin-top:9px;padding-top:9px;border-top:1px solid var(--line)">
       <span style="font-size:12.5px;color:var(--sub)">${offerLine(b)}</span>
       <span class="star" style="font-size:12px">${b.rating?('★'+b.rating+' ('+b.done+'건)'):'신규'}</span></div>
-    <button class="btn sm" style="width:100%;margin-top:9px" data-act="propose" data-b="${b.id}">제안 보내기</button>
+    <button class="btn sm ${invited(b.id)?'o':''}" style="width:100%;margin-top:9px" data-act="propose" data-b="${b.id}">${invited(b.id)?'제안함 ✓ · 다시 제안':'제안 보내기'}</button>
   </div>`;
 }
 function offerLine(b){
@@ -1116,6 +1116,73 @@ function offerLine(b){
   if(b.offer==='무료') return '<b style="color:#0f9d8f;font-size:13px">무료 진행 가능</b> <span style="font-size:11px">(제공 서비스만)</span>';
   if(b.offer==='둘다') return fee+' <span style="color:#0f9d8f;font-size:11px">· 무료도 가능</span>';
   return '게시 단가 '+fee;
+}
+function offerLabel(b){ return b.offer==='무료'?'무료 진행 가능':(b.offer==='둘다'?'고료·무료 모두 가능':'고료 진행'); }
+function invited(blgId){ return (S.invites||[]).some(i=>i.blgId===blgId); }
+
+/* ── 블로거에게 제안하기 (광고주 → 블로거) ── */
+function openPropose(blgId){
+  const b=S.bloggers.find(x=>x.id===blgId); if(!b) return;
+  const offer=b.offer||'고료';
+  const feeDefault=b.hopeFee||30000;
+  const camps=S.campaigns;
+  const already=(S.invites||[]).filter(i=>i.blgId===blgId);
+  const methodChooser = offer==='둘다'
+    ? `<label>진행 방식 — 이 블로거는 <b>둘 다 가능</b>합니다</label>
+       <div class="chips" id="ppMethod" data-single="1"><span class="sel">고료 지급</span><span>무료 (제공 서비스만)</span></div>`
+    : `<label>진행 방식</label><div style="margin-top:2px"><span class="tag ${offer==='무료'?'':'t'}" style="font-size:12px">${offer==='무료'?'무료 진행 (제공 서비스만)':'고료 지급'}</span></div>`;
+  document.getElementById('detailModal').innerHTML=`
+    <span class="mx" data-act="closeDetail" title="닫기">✕</span>
+    <div class="inner">
+      <h3>${b.name}님에게 제안하기</h3>
+      <div class="m" style="color:var(--sub);font-size:12.5px;margin-bottom:2px">
+        ${b.grade?'<span class="gr">'+b.grade+'</span> ':''}${b.acc.map(a=>a.ch).join(' · ')} · ${offerLabel(b)}</div>
+      ${already.length?`<div style="font-size:12px;color:#0f9d8f;margin-top:4px">이미 ${already.length}건 제안함 — 다른 공고로 추가 제안할 수 있어요</div>`:''}
+
+      <label>어느 공고로 제안할까요? <b>(필수)</b></label>
+      <select id="ppCamp"><option value="">내가 올린 공고를 선택하세요</option>
+        ${camps.map(c=>`<option value="${c.id}" data-spon="${(c.spon||'').replace(/"/g,'')}">[${c.kind}] ${c.brand} — ${c.kw.split(',')[0]}</option>`).join('')}</select>
+      <div class="note" style="margin-top:4px">아직 공고가 없다면 <b data-act="nav" data-v="adv" style="color:var(--teal-d);cursor:pointer">광고주 워크스페이스</b>에서 먼저 올려주세요.</div>
+
+      ${methodChooser}
+
+      <div id="ppFeeRow" class="${offer==='무료'?'hide':''}">
+        <label>제안 원고료 (건당 · 원) <span class="note" style="display:inline">· 블로거 게시 단가 ${feeDefault.toLocaleString()}원</span></label>
+        <input type="number" id="ppFee" value="${feeDefault}" step="5000">
+      </div>
+      <div id="ppFreeNote" class="${offer==='무료'?'':'hide'}" style="font-size:12px;color:var(--teal-d);background:var(--teal-bg);border-radius:9px;padding:9px 12px;margin-top:6px">
+        원고료 없이 <b>제공 서비스(협찬·체험·제품)만</b>으로 진행합니다. 선택한 공고의 제공 내역이 블로거에게 전달됩니다.</div>
+
+      <label>발행 채널 (블로거 보유 채널)</label>
+      <div class="chips" id="ppCh" data-single="1">${b.acc.map((a,i)=>`<span class="${i===0?'sel':''}">${a.ch}</span>`).join('')}</div>
+
+      <label>메시지 (선택)</label>
+      <textarea id="ppMsg" rows="3" placeholder="예) 신제품 협찬 리뷰 원합니다. 발행일 협의 가능할까요?"></textarea>
+
+      <div class="mfoot">
+        <button class="btn" data-act="sendPropose" data-b="${b.id}">제안 보내기</button>
+        <button class="btn o" data-act="closeDetail" style="flex:0 0 auto">닫기</button>
+      </div>
+    </div>`;
+  document.getElementById('detailBg').classList.remove('hide');
+}
+function sendPropose(blgId){
+  const b=S.bloggers.find(x=>x.id===blgId); if(!b) return;
+  const campId=+document.getElementById('ppCamp').value;
+  if(!campId){ alert('제안할 공고를 선택해 주세요.'); return; }
+  const c=S.campaigns.find(x=>x.id===campId);
+  const offer=b.offer||'고료';
+  let method;
+  if(offer==='둘다') method=(chipVals('ppMethod')[0]||'고료 지급').includes('무료')?'무료':'고료';
+  else method=(offer==='무료')?'무료':'고료';
+  let fee=0;
+  if(method==='고료'){ fee=+document.getElementById('ppFee').value||0; if(fee<=0){ alert('제안 원고료를 입력해 주세요.'); return; } }
+  const ch=chipVals('ppCh')[0]||b.acc[0].ch;
+  S.invites=S.invites||[];
+  S.invites.push({blgId:blgId, campId:campId, method:method, fee:fee, ch:ch, msg:(document.getElementById('ppMsg').value||'').trim()});
+  save(); renderMarket();
+  toast(`${b.name}님에게 [${c.brand}] 제안 완료 (${method==='무료'?'무료 진행':fee.toLocaleString()+'원'} · ${ch})`);
+  setTimeout(closeDetail, 900);
 }
 function rkRow(b, i){
   return `<div class="rk"><div class="no">${i+1}</div><div class="av">${b.name.charAt(0)}</div>
@@ -1717,6 +1784,11 @@ document.addEventListener('click', function(ev){
         document.getElementById('feeRow').classList.toggle('hide', v==='제공 서비스만 받고 무료 진행');
         document.getElementById('freeNote').classList.toggle('hide', v==='고료 받고 진행');
       }
+      if(g.id==='ppMethod'){
+        const free=chip.textContent.includes('무료');
+        document.getElementById('ppFeeRow').classList.toggle('hide', free);
+        document.getElementById('ppFreeNote').classList.toggle('hide', !free);
+      }
       if(g.id==='cType'){
         const rev=chip.textContent.includes('역제안');
         document.getElementById('feeWrap').style.visibility=rev?'hidden':'visible';
@@ -1744,8 +1816,8 @@ document.addEventListener('click', function(ev){
   else if(act==='toolNav') openToolPage(el.getAttribute('data-id'));
   else if(act==='boardNav') openBoard(el.getAttribute('data-b'), el.getAttribute('data-i'));
   else if(act==='campKind'){ campKind=el.getAttribute('data-k'); renderCamp(); }
-  else if(act==='propose'){ const b=S.bloggers.find(x=>x.id===+el.getAttribute('data-b'));
-    toast((b?b.name+'님에게 ':'')+'제안을 보냈습니다 (데모)'); }
+  else if(act==='propose') openPropose(+el.getAttribute('data-b'));
+  else if(act==='sendPropose') sendPropose(+el.getAttribute('data-b'));
   else if(act==='reset') resetDemo();
   else if(act==='homeSearch') homeSearch();
   else if(act==='simCalc') simCalc();
