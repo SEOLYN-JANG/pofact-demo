@@ -128,6 +128,38 @@
   .bnr.g{background:linear-gradient(135deg,#eef0ff,#f4f0ff); color:var(--teal-d);}
   .bnr.b{background:linear-gradient(135deg,#e9f2ff,#eef4ff); color:#2245b8;}
   @media(max-width:760px){.banners{flex-direction:column;}}
+  /* ── 통계 스트립 ── */
+  .stats{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:14px;}
+  .stat{background:#fff; border:1px solid var(--line); border-radius:16px; padding:16px 14px; text-align:center; box-shadow:var(--sh-sm);}
+  .stat .sv{display:block; font-size:24px; font-weight:800; letter-spacing:-.5px;
+    background:var(--grad); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; font-variant-numeric:tabular-nums;}
+  .stat .sl{display:block; font-size:11.5px; color:var(--sub); margin-top:3px; font-weight:600;}
+  @media(max-width:640px){.stats{grid-template-columns:repeat(2,1fr);}}
+  /* ── 슬라이드 캐러셀 ── */
+  .carousel{position:relative; border-radius:22px; overflow:hidden; margin-bottom:8px; box-shadow:var(--sh);}
+  .ctrack{display:flex; transition:transform .55s cubic-bezier(.4,.05,.15,1);}
+  .slide{flex:0 0 100%; min-height:200px; display:flex; align-items:center; justify-content:space-between;
+    gap:20px; padding:34px 38px; position:relative; overflow:hidden;}
+  .slide.s1{background:linear-gradient(120deg,#5a63f0 0%,#7c6ff2 55%,#9a6ef0 100%);}
+  .slide.s2{background:linear-gradient(120deg,#3b82f6 0%,#5a63f0 60%,#7c6ff2 100%);}
+  .slide.s3{background:linear-gradient(120deg,#0f9d8f 0%,#3aa8c9 55%,#5a63f0 100%);}
+  .stx{position:relative; z-index:2; max-width:60%;}
+  .sbadge{display:inline-block; background:rgba(255,255,255,.22); color:#fff; font-size:11.5px; font-weight:800;
+    letter-spacing:.3px; border-radius:999px; padding:4px 12px; margin-bottom:10px; backdrop-filter:blur(4px);}
+  .slide h3{color:#fff; font-size:23px; line-height:1.32; letter-spacing:-.5px; font-weight:800; margin-bottom:8px; text-wrap:balance;}
+  .slide p{color:rgba(255,255,255,.9); font-size:13px; line-height:1.55; margin-bottom:16px;}
+  .slide .btn{background:#fff; color:var(--teal-d); box-shadow:0 6px 18px rgba(0,0,0,.14);}
+  .slide .btn:hover{background:#fff; transform:translateY(-1px);}
+  .sart{position:absolute; right:-10px; top:0; bottom:0; width:44%; z-index:1; opacity:.9;}
+  .cdots{position:absolute; bottom:14px; left:38px; display:flex; gap:7px; z-index:3;}
+  .cdots span{width:8px; height:8px; border-radius:999px; background:rgba(255,255,255,.45); cursor:pointer; transition:width .3s, background .3s;}
+  .cdots span.on{width:22px; background:#fff;}
+  .carr{position:absolute; top:50%; transform:translateY(-50%); width:34px; height:34px; border-radius:50%;
+    background:rgba(255,255,255,.25); color:#fff; border:0; font-size:20px; font-weight:700; cursor:pointer;
+    z-index:3; display:grid; place-items:center; backdrop-filter:blur(4px); transition:background .15s;}
+  .carr:hover{background:rgba(255,255,255,.42);}
+  .carr.prev{left:12px;} .carr.next{right:12px;}
+  @media(max-width:640px){ .stx{max-width:100%;} .sart{display:none;} .slide h3{font-size:19px;} .slide{padding:26px 24px;} .carr{display:none;} }
   /* ── 블로거 카드 ── */
   .bgrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr)); gap:13px;}
   .bcard{background:#fff; border:1px solid var(--line); border-radius:16px; padding:17px 18px;
@@ -146,6 +178,19 @@
   .bcard .bf{display:flex; justify-content:space-between; align-items:center; margin-top:9px;}
   .avail{display:inline-block; background:var(--teal-bg); color:var(--teal-d); border:1px solid var(--teal-line);
     border-radius:999px; padding:1px 10px; font-size:11px; font-weight:700;}
+  /* ── 마켓 대량선택 ── */
+  .mkttop{display:flex; align-items:center; gap:10px; margin-bottom:10px; flex-wrap:wrap;}
+  .selall{display:inline-flex; align-items:center; gap:6px; font-size:12.5px; font-weight:600; color:#4a4f66; cursor:pointer; user-select:none;}
+  .selall input{width:16px; height:16px; accent-color:var(--teal); cursor:pointer;}
+  .bcard{position:relative;}
+  .bcard .pick{position:absolute; top:12px; right:12px; width:20px; height:20px; accent-color:var(--teal); cursor:pointer; z-index:2;}
+  .bcard.picked{border-color:var(--teal); box-shadow:0 0 0 2px var(--teal-line);}
+  .bulkbar{position:sticky; bottom:14px; z-index:20; display:flex; align-items:center; gap:12px;
+    background:var(--ink); color:#fff; border-radius:14px; padding:12px 18px; margin-top:14px;
+    box-shadow:0 14px 34px rgba(24,28,60,.32);}
+  .bulkbar b{color:#fff;} .bulkbar .sp{flex:1;}
+  .bulkbar .btn{margin-top:0; background:#fff; color:var(--teal-d); box-shadow:none;}
+  .bulkbar .lk{color:rgba(255,255,255,.7); font-size:12.5px; cursor:pointer; text-decoration:underline;}
   /* ── TOP 랭킹 ── */
   .rk{display:flex; align-items:center; gap:13px; background:#fff; border:1px solid var(--line);
     border-radius:14px; padding:12px 16px; margin:9px 0; box-shadow:var(--sh-sm);
@@ -341,9 +386,42 @@
         <div id="srchOut"></div>
       </div>
 
-      <div class="banners">
-        <div class="bnr g"><small>원고 생성기</small>원고 걱정은 그만 — AI가 AEO 구조로 초안을 잡고, 블로거가 완성합니다.</div>
-        <div class="bnr b"><small>성과 리포트</small>발행하고 끝이 아니에요. 구글·네이버 노출과 AI 인용을 리포트로 확인!</div>
+      <!-- 통계 스트립 -->
+      <div class="stats">
+        <div class="stat"><span class="sv" data-count="1240">0</span><span class="sl">등록 블로거</span></div>
+        <div class="stat"><span class="sv" data-count="4">0</span><span class="sl">발행 채널</span></div>
+        <div class="stat"><span class="sv" data-count="86" data-suffix="%">0</span><span class="sl">평균 재의뢰율</span></div>
+        <div class="stat"><span class="sv" data-count="3">0</span><span class="sl">AEO·GEO·SEO 통합</span></div>
+      </div>
+
+      <!-- 슬라이드 캐러셀 -->
+      <div class="carousel" id="carousel">
+        <div class="ctrack" id="ctrack">
+          <div class="slide s1">
+            <div class="stx"><span class="sbadge">원고 생성기</span>
+              <h3>원고 걱정은 그만.<br>AI가 잡고, 블로거가 완성합니다.</h3>
+              <p>질문형 제목·자기완결 답변·FAQ까지 AEO 구조로 자동 초안 → 블로거가 경험만 얹으면 끝.</p>
+              <button class="btn" data-act="nav" data-v="market">블로거 찾기 ›</button></div>
+            <div class="sart" id="art1"></div>
+          </div>
+          <div class="slide s2">
+            <div class="stx"><span class="sbadge">성과 리포트</span>
+              <h3>발행하고 끝이 아니에요.<br>노출·AI 인용까지 추적합니다.</h3>
+              <p>구글·네이버 색인, 챗GPT·퍼플렉시티 인용 여부를 리포트로 — 대표님께 보여줄 지표가 됩니다.</p>
+              <button class="btn" data-act="nav" data-v="tool">마케팅툴 보기 ›</button></div>
+            <div class="sart" id="art2"></div>
+          </div>
+          <div class="slide s3">
+            <div class="stx"><span class="sbadge">대량 집행</span>
+              <h3>50명도 한 번에.<br>조건만 넣으면 일괄 제안.</h3>
+              <p>예산·채널·등급을 넣으면 맞는 블로거를 자동으로 담고, 한 번에 제안을 보냅니다.</p>
+              <button class="btn" data-act="nav" data-v="sim">견적 시뮬레이터 ›</button></div>
+            <div class="sart" id="art3"></div>
+          </div>
+        </div>
+        <div class="cdots" id="cdots"></div>
+        <button class="carr prev" data-act="cprev">‹</button>
+        <button class="carr next" data-act="cnext">›</button>
       </div>
 
       <div class="sechead"><h2>블로거 마켓 <b>NEW</b></h2><span class="more" data-act="nav" data-v="market">전체보기 ›</span></div>
@@ -371,9 +449,14 @@
     <!-- ═══ 블로거 마켓 ═══ -->
     <div class="view hide" id="vMarket">
       <div class="sechead"><h2>블로거 찾기</h2><span class="more" id="marketCount"></span></div>
-      <div class="sechint">블로거가 직접 올린 <b>채널·게시 단가</b>를 비교하고 바로 제안하세요. (숨고처럼 블로거가 먼저 등록해 둡니다)</div>
+      <div class="sechint">블로거가 직접 올린 <b>채널·게시 단가</b>를 비교하고 제안하세요. 소량은 카드에서 개별 제안, <b>대량은 체크해서 일괄 제안</b>합니다.</div>
       <div class="filterbar" id="marketFilter"></div>
+      <div class="mkttop">
+        <label class="selall"><input type="checkbox" id="mAll" data-act="mSelAll">전체 선택</label>
+        <span class="note" style="margin:0">여러 명 선택하면 아래에 일괄 제안 바가 나타납니다.</span>
+      </div>
       <div class="bgrid" id="marketList"></div>
+      <div id="bulkWrap"></div>
     </div>
 
     <!-- ═══ 캠페인 찾기 ═══ -->
@@ -1097,9 +1180,12 @@ function appCount(cid){ return S.apps.filter(a=>a.campId===cid).length; }
 function accLine(b){ return b.acc.map(a=>a.ch+' '+a.fol+(a.grade?' <span class="gr">'+a.grade+'</span>':'')).join(' · '); }
 function tierOf(b){ const g=b.grade||''; if(g.indexOf('최적')===0) return '최적'; if(g.indexOf('준최')===0) return '준최적'; return '일반'; }
 
-/* ── 블로거 카드/랭킹 ── */
-function bcard(b){
-  return `<div class="bcard">
+/* ── 블로거 카드 ── */
+let mSel=new Set();
+function bcard(b, pick){
+  const picked=pick&&mSel.has(b.id);
+  return `<div class="bcard ${picked?'picked':''}">
+    ${pick?`<input type="checkbox" class="pick" data-act="mPick" data-b="${b.id}" ${picked?'checked':''}>`:''}
     <div class="bh"><div class="av">${b.name.charAt(0)}</div>
       <div><div class="nm">${b.name} ${b.grade?'<span class="gr">'+b.grade+'</span>':''}</div>
       <div class="meta">${b.demo||''} / ${b.cat||'-'} / ${b.region||'-'}</div></div></div>
@@ -1183,6 +1269,54 @@ function sendPropose(blgId){
   save(); renderMarket();
   toast(`${b.name}님에게 [${c.brand}] 제안 완료 (${method==='무료'?'무료 진행':fee.toLocaleString()+'원'} · ${ch})`);
   setTimeout(closeDetail, 900);
+}
+/* ── 일괄 제안 (대량) ── */
+function effectiveMethod(b, chosen){ return b.offer==='무료'?'무료':(b.offer==='고료'?'고료':chosen); }
+function openBulkPropose(){
+  if(mSel.size===0){ alert('먼저 블로거를 선택해 주세요.'); return; }
+  const bl=[...mSel].map(id=>S.bloggers.find(b=>b.id===id)).filter(Boolean);
+  const paidCnt=bl.filter(b=>b.offer==='고료').length, freeCnt=bl.filter(b=>b.offer==='무료').length, bothCnt=bl.filter(b=>b.offer==='둘다').length;
+  const avgFee=Math.round(bl.reduce((s,b)=>s+(b.hopeFee||0),0)/bl.length/1000)*1000||30000;
+  document.getElementById('detailModal').innerHTML=`
+    <span class="mx" data-act="closeDetail" title="닫기">✕</span>
+    <div class="inner">
+      <h3>${bl.length}명에게 일괄 제안</h3>
+      <div class="m" style="color:var(--sub);font-size:12.5px">고료 전용 ${paidCnt}명 · 무료 전용 ${freeCnt}명 · 둘 다 가능 ${bothCnt}명</div>
+      <label>어느 공고로 제안할까요? <b>(필수)</b></label>
+      <select id="bkCamp"><option value="">내가 올린 공고를 선택하세요</option>
+        ${S.campaigns.map(c=>`<option value="${c.id}">[${c.kind}] ${c.brand} — ${c.kw.split(',')[0]}</option>`).join('')}</select>
+      <label>기본 진행 방식 <span class="note" style="display:inline">· 둘 다 가능한 블로거에 적용</span></label>
+      <div class="chips" id="bkMethod" data-single="1"><span class="sel">고료 지급</span><span>무료 (제공 서비스만)</span></div>
+      <div style="font-size:12px;color:var(--teal-d);background:var(--teal-bg);border-radius:9px;padding:9px 12px;margin-top:6px">
+        무료 전용 블로거는 자동으로 무료, 고료 전용 블로거는 자동으로 고료로 처리됩니다.</div>
+      <label>고료 대상 제안 원고료 (건당 · 원)</label>
+      <input type="number" id="bkFee" value="${avgFee}" step="5000">
+      <label>메시지 (선택)</label>
+      <textarea id="bkMsg" rows="3" placeholder="예) 신제품 협찬 캠페인 함께 진행하실 분 찾습니다."></textarea>
+      <div class="mfoot">
+        <button class="btn" data-act="sendBulk">${bl.length}명에게 제안 보내기</button>
+        <button class="btn o" data-act="closeDetail" style="flex:0 0 auto">닫기</button>
+      </div>
+    </div>`;
+  document.getElementById('detailBg').classList.remove('hide');
+}
+function sendBulk(){
+  const campId=+document.getElementById('bkCamp').value;
+  if(!campId){ alert('제안할 공고를 선택해 주세요.'); return; }
+  const c=S.campaigns.find(x=>x.id===campId);
+  const chosen=(chipVals('bkMethod')[0]||'고료 지급').includes('무료')?'무료':'고료';
+  const fee=+document.getElementById('bkFee').value||0;
+  const bl=[...mSel].map(id=>S.bloggers.find(b=>b.id===id)).filter(Boolean);
+  const anyPaid=bl.some(b=>effectiveMethod(b,chosen)==='고료');
+  if(anyPaid && fee<=0){ alert('고료 대상이 있어 제안 원고료를 입력해야 합니다.'); return; }
+  const msg=(document.getElementById('bkMsg').value||'').trim();
+  S.invites=S.invites||[]; let paid=0, free=0;
+  bl.forEach(b=>{ const m=effectiveMethod(b,chosen);
+    if(m==='고료') paid++; else free++;
+    S.invites.push({blgId:b.id, campId:campId, method:m, fee:m==='고료'?fee:0, ch:b.acc[0].ch, msg:msg}); });
+  mSel.clear(); save(); renderMarket();
+  toast(`${paid+free}명에게 [${c.brand}] 일괄 제안 완료 (고료 ${paid} · 무료 ${free})`);
+  setTimeout(closeDetail, 1000);
 }
 function rkRow(b, i){
   return `<div class="rk"><div class="no">${i+1}</div><div class="av">${b.name.charAt(0)}</div>
@@ -1355,7 +1489,25 @@ function renderMarket(){
     `<select data-mf="offer">${opt(['무료 가능','고료'],marketF.offer,'제안 방식')}</select>`;
   const list=marketBloggers();
   document.getElementById('marketCount').textContent='총 '+list.length+'명 · 단가순';
-  document.getElementById('marketList').innerHTML=list.map(bcard).join('')||'<div class="empty">조건에 맞는 블로거가 없습니다.</div>';
+  document.getElementById('marketList').innerHTML=list.map(b=>bcard(b,true)).join('')||'<div class="empty">조건에 맞는 블로거가 없습니다.</div>';
+  const visIds=list.map(b=>b.id);
+  const allChk=document.getElementById('mAll');
+  if(allChk) allChk.checked = visIds.length>0 && visIds.every(id=>mSel.has(id));
+  renderBulkBar();
+}
+function renderBulkBar(){
+  const wrap=document.getElementById('bulkWrap'); if(!wrap) return;
+  if(mSel.size===0){ wrap.innerHTML=''; return; }
+  wrap.innerHTML=`<div class="bulkbar">
+    <b>${mSel.size}명 선택됨</b>
+    <span class="sp"></span>
+    <span class="lk" data-act="mClear">선택 해제</span>
+    <button class="btn" data-act="bulkPropose">${mSel.size}명에게 일괄 제안 →</button>
+  </div>`;
+}
+function toggleAll(on){
+  marketBloggers().forEach(b=>{ if(on) mSel.add(b.id); else mSel.delete(b.id); });
+  renderMarket();
 }
 
 /* ── 견적 시뮬레이터 ── */
@@ -1383,12 +1535,22 @@ function simCalc(){
     });
   }
   const total=rows.reduce((s,r)=>s+r.n,0);
+  lastSim=rows;
   document.getElementById('simOut').innerHTML=`<div class="simres">
     ${rows.map(r=>`<div class="row"><span>${r.t} 블로거 <b>${r.n}명</b> × ${TIER_PRICE[r.t].toLocaleString()}원 <span class="note" style="margin:0">(보유 ${ (avail[r.t]||0) }명)</span></span><span>${(r.n*TIER_PRICE[r.t]).toLocaleString()}원</span></div>`).join('')}
     <div class="row tot"><span>총 ${total}건 발행</span><span>사용 ${used.toLocaleString()}원 / 잔여 ${(budget-used).toLocaleString()}원</span></div>
     <div class="note">모든 원고는 AEO 구조 + 협찬 표기 자동 + 발행 검수가 포함됩니다. (데모 단가 기준)</div>
   </div>
-  <button class="btn" data-act="simToAdv">이 조건으로 공고 올리기 →</button>`;
+  <button class="btn" data-act="simToBulk">추천 ${total}명에게 일괄 제안 →</button>
+  <button class="btn gray" data-act="simToAdv" style="margin-left:8px">공고로 올리기 →</button>`;
+}
+let lastSim=[];
+function simToBulk(){
+  mSel.clear();
+  const byTier={}; S.bloggers.forEach(b=>{ const t=tierOf(b); (byTier[t]=byTier[t]||[]).push(b); });
+  lastSim.forEach(r=>{ (byTier[r.t]||[]).slice(0,r.n).forEach(b=>mSel.add(b.id)); });
+  if(mSel.size===0){ alert('추천된 블로거가 없습니다.'); return; }
+  nav('market'); renderMarket(); openBulkPropose();
 }
 
 /* ── 광고주 ── */
@@ -1816,6 +1978,21 @@ document.addEventListener('click', function(ev){
   else if(act==='toolNav') openToolPage(el.getAttribute('data-id'));
   else if(act==='boardNav') openBoard(el.getAttribute('data-b'), el.getAttribute('data-i'));
   else if(act==='campKind'){ campKind=el.getAttribute('data-k'); renderCamp(); }
+  else if(act==='cprev') goSlide(cIdx-1);
+  else if(act==='cnext') goSlide(cIdx+1);
+  else if(act==='cdot') goSlide(+el.getAttribute('data-i'));
+  else if(act==='mPick'){ const id=+el.getAttribute('data-b');
+    if(mSel.has(id)) mSel.delete(id); else mSel.add(id);
+    const card=el.closest('.bcard'); if(card) card.classList.toggle('picked', mSel.has(id));
+    const vis=marketBloggers().map(b=>b.id), all=document.getElementById('mAll');
+    if(all) all.checked = vis.length>0 && vis.every(x=>mSel.has(x));
+    renderBulkBar();
+  }
+  else if(act==='mSelAll'){ toggleAll(el.checked); }
+  else if(act==='mClear'){ mSel.clear(); renderMarket(); }
+  else if(act==='bulkPropose') openBulkPropose();
+  else if(act==='sendBulk') sendBulk();
+  else if(act==='simToBulk') simToBulk();
   else if(act==='propose') openPropose(+el.getAttribute('data-b'));
   else if(act==='sendPropose') sendPropose(+el.getAttribute('data-b'));
   else if(act==='reset') resetDemo();
@@ -1881,7 +2058,39 @@ function renderAll(){ renderHome(); renderMarket(); renderCamp(); renderAdv(); r
   document.getElementById('mktIndex').innerHTML=renderBoardIndex('mkt');
   document.getElementById('blgmIndex').innerHTML=renderBoardIndex('blgm');
 }
-load(); renderAll();
+/* ── 홈 캐러셀 + 통계 카운터 ── */
+let cIdx=0, cTimer=null;
+const SLIDE_ART={
+ art1:`<svg viewBox="0 0 200 200" fill="none"><rect x="52" y="34" width="96" height="132" rx="10" fill="rgba(255,255,255,.16)"/><path d="M70 66h60M70 84h60M70 102h44M70 120h50" stroke="rgba(255,255,255,.5)" stroke-width="4" stroke-linecap="round"/><circle cx="150" cy="150" r="26" fill="rgba(255,255,255,.22)"/><path d="M140 150l7 7 14-14" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+ art2:`<svg viewBox="0 0 200 200" fill="none"><rect x="40" y="40" width="120" height="120" rx="14" fill="rgba(255,255,255,.14)"/><path d="M62 130l24-28 22 16 30-40" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="138" cy="78" r="6" fill="#fff"/><path d="M62 148h76" stroke="rgba(255,255,255,.4)" stroke-width="4" stroke-linecap="round"/></svg>`,
+ art3:`<svg viewBox="0 0 200 200" fill="none"><rect x="46" y="52" width="108" height="26" rx="7" fill="rgba(255,255,255,.28)"/><rect x="46" y="88" width="108" height="26" rx="7" fill="rgba(255,255,255,.19)"/><rect x="46" y="124" width="108" height="26" rx="7" fill="rgba(255,255,255,.12)"/></svg>`
+};
+function applySlide(){
+  const t=document.getElementById('ctrack'); if(!t) return;
+  t.style.transform='translateX(-'+(cIdx*100)+'%)';
+  [...document.querySelectorAll('#cdots span')].forEach((d,i)=>d.classList.toggle('on',i===cIdx));
+}
+function goSlide(i){ cIdx=(i+3)%3; applySlide(); restartAuto(); }
+function restartAuto(){ clearInterval(cTimer); cTimer=setInterval(()=>{ cIdx=(cIdx+1)%3; applySlide(); }, 4800); }
+function initCarousel(){
+  const dots=document.getElementById('cdots'); if(!dots) return;
+  dots.innerHTML=[0,1,2].map(i=>`<span class="${i===0?'on':''}" data-act="cdot" data-i="${i}"></span>`).join('');
+  for(const id in SLIDE_ART){ const el=document.getElementById(id); if(el) el.innerHTML=SLIDE_ART[id]; }
+  cIdx=0; applySlide(); restartAuto();
+}
+function animateStats(){
+  document.querySelectorAll('.stat .sv').forEach(el=>{
+    const target=+el.getAttribute('data-count'), suffix=el.getAttribute('data-suffix')||'';
+    const start=performance.now(), dur=1000;
+    function step(t){ const p=Math.min((t-start)/dur,1); const v=Math.round(target*(1-Math.pow(1-p,3)));
+      el.textContent=(v>=1000?v.toLocaleString():v)+suffix; if(p<1) requestAnimationFrame(step); }
+    requestAnimationFrame(step);
+  });
+}
+const _navBase=nav;
+nav=function(v){ _navBase(v); if(v==='home'){ try{ animateStats(); }catch(e){} } };
+
+load(); renderAll(); initCarousel(); animateStats();
 </script>
 </body>
 </html>
