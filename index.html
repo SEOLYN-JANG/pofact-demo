@@ -382,6 +382,7 @@
       <div class="mi sub" data-act="boardNav" data-b="mkt" data-i="1">검색 노출(SEO)</div>
       <div class="mi sub" data-act="boardNav" data-b="mkt" data-i="2">채널 운영</div>
       <div class="mi sub" data-act="boardNav" data-b="mkt" data-i="3">캠페인 노하우</div>
+      <div class="mi sub" data-act="promoNav" data-b="mkt">파트너 게시판</div>
     </div>
     <div class="mi" data-act="toggle" data-g="blgm" id="miBlgm"><svg viewBox="0 0 24 24"><path d="M4 6h16v12H4zM8 10h8M8 14h5"/><path d="M16 3v3M8 3v3"/></svg>마켓보드<svg class="chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>
     <div class="subwrap closed" id="gBlgm">
@@ -390,6 +391,7 @@
       <div class="mi sub" data-act="boardNav" data-b="blgm" data-i="1">상위노출·지수</div>
       <div class="mi sub" data-act="boardNav" data-b="blgm" data-i="2">체험단·협찬 활용</div>
       <div class="mi sub" data-act="boardNav" data-b="blgm" data-i="3">어필리에이트</div>
+      <div class="mi sub" data-act="promoNav" data-b="blgm">체험단·구인 게시판</div>
     </div>
     <div class="sec">WORKSPACE</div>
     <div class="mi" data-act="nav" data-v="adv"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 9h16M9 9v11"/></svg>광고주 워크스페이스</div>
@@ -1095,6 +1097,43 @@ const COLUMNS={
  ]}
 };
 const BOARD_TITLE={mkt:'인사이트', blgm:'마켓보드'};
+/* 누구나 올리는 홍보/모집 게시판 (칼럼과 별개) */
+const PROMO={
+ mkt:{name:'파트너 게시판', hint:'대행사·프리랜서가 직접 올리는 홍보/구인 게시판 — 단가·조건을 자유롭게 등록하세요.', writeLabel:'홍보글 등록',
+  ads:[
+   {tit:'블로그 배포 1건 1,000원부터 — 실계정 300곳 보유', who:'제이드마케팅', tag:'홍보', meta:'네이버·티스토리 배포 / 당일 발행', price:'1건 1,000원~', hit:842},
+   {tit:'카페 바이럴 하실 분 구합니다 (맘카페 위주)', who:'브릿지컴퍼니', tag:'구인', meta:'월 30건 / 지역 카페 계정 보유자', price:'건당 협의', hit:517},
+   {tit:'워드프레스 SEO 세팅 대행 — 구글 색인까지', who:'코드앤그로스', tag:'홍보', meta:'사이트맵·스키마·서치콘솔 등록 포함', price:'건당 15만원', hit:436},
+   {tit:'상세페이지·배너 디자인 외주 받습니다', who:'프리랜서 김디자인', tag:'홍보', meta:'포트폴리오 링크 첨부 / 3일 내 초안', price:'장당 5만원~', hit:388},
+   {tit:'플레이스 상위노출 팀 — 파트너사 모집', who:'로컬플러스', tag:'제휴', meta:'지역 대행사 제휴 / 수익 배분', price:'제휴 조건 협의', hit:721}
+  ]},
+ blgm:{name:'체험단·구인 게시판', hint:'체험단 업체·광고주가 직접 올리는 모집 알림판 — 진행 중인 체험단을 자유롭게 등록하세요.', writeLabel:'체험단 등록',
+  ads:[
+   {tit:'[강남/신사] 피부과 리프팅 체험단 모집 (5명)', who:'뷰티체험단', tag:'모집중', meta:'방문형 / 네이버 블로그 / 준최적 이상', price:'30만원 상당 시술', hit:1204},
+   {tit:'[전국] 강아지 사료 배송형 체험단 20명', who:'펫리뷰', tag:'모집중', meta:'배송형 / 인스타·블로그 동시', price:'제품 제공 + 1만원', hit:962},
+   {tit:'[성수] 신규 브런치 카페 오픈 체험단', who:'로컬체험단', tag:'마감임박', meta:'방문형 / 2인 식사권', price:'5만원 상당', hit:718},
+   {tit:'[온라인] 다이어트 보조제 구매형 체험단', who:'헬스마켓', tag:'모집중', meta:'구매형 / 페이백 / 영수증 리뷰', price:'구매가 100% 페이백', hit:530},
+   {tit:'[부산] 헤어살롱 펌·염색 체험단 3명', who:'뷰티체험단', tag:'모집중', meta:'방문형 / 사진 15장 이상', price:'20만원 상당', hit:445}
+  ]}
+};
+function adRow(a){
+  const cls=a.tag==='마감임박'?'tag r':(a.tag==='구인'?'tag rev':'tag t');
+  return `<div class="item" data-act="promoWrite" style="cursor:pointer">
+    <div class="r1"><span class="t" style="font-size:13.5px"><span class="${cls}">${a.tag}</span> ${a.tit}</span>
+      <span class="propfee" style="font-size:12.5px">${a.price}</span></div>
+    <div class="m">${a.who} · ${a.meta} · 조회 ${a.hit.toLocaleString()}</div></div>`;
+}
+function openPromo(b){
+  const p=PROMO[b]; if(!p) return; curBoard={b:b,i:'promo'};
+  document.getElementById('vBoard').innerHTML=`
+    <div class="crumb"><b data-act="nav" data-v="${b}">${BOARD_TITLE[b]}</b> › ${p.name}</div>
+    <div class="sechead"><h2>${p.name} <span class="tag rev" style="vertical-align:3px;font-size:10.5px">누구나 등록</span></h2>
+      <button class="btn sm" data-act="promoWrite">${p.writeLabel} +</button></div>
+    <div class="sechint">${p.hint}</div>
+    <div class="card">${p.ads.map(adRow).join('')}</div>
+    <button class="btn gray" data-act="nav" data-v="${b}">← ${BOARD_TITLE[b]}</button>`;
+  nav('board');
+}
 const CAT_GRAD=['linear-gradient(135deg,#6d6ff5,#9a6ef0)','linear-gradient(135deg,#3b82f6,#6d6ff5)','linear-gradient(135deg,#0f9d8f,#3aa8c9)','linear-gradient(135deg,#f59e0b,#f472b6)'];
 function artCard(b,i,j){
   const a=COLUMNS[b].cats[i].arts[j], cat=COLUMNS[b].cats[i].name;
@@ -1106,9 +1145,16 @@ function artCard(b,i,j){
   </div>`;
 }
 function renderBoardIndex(b){
-  return COLUMNS[b].cats.map((cat,i)=>`
+  const cols=COLUMNS[b].cats.map((cat,i)=>`
     <div class="sechead"><h2>${cat.name}</h2><span class="more" data-act="boardNav" data-b="${b}" data-i="${i}">전체보기 ›</span></div>
     <div class="artgrid">${cat.arts.slice(0,3).map((a,j)=>artCard(b,i,j)).join('')}</div>`).join('');
+  const p=PROMO[b];
+  const board=`
+    <div class="sechead"><h2>${p.name} <span class="tag rev" style="vertical-align:3px;font-size:10.5px">누구나 등록</span></h2><span class="more" data-act="promoNav" data-b="${b}">전체보기 ›</span></div>
+    <div class="sechint">${p.hint}</div>
+    <div class="card">${p.ads.slice(0,3).map(adRow).join('')}
+      <button class="btn o sm" style="margin-top:6px" data-act="promoNav" data-b="${b}">게시판 전체 보기 →</button></div>`;
+  return cols+board;
 }
 function openBoard(b,i){
   const cat=COLUMNS[b].cats[+i]; if(!cat) return; curBoard={b:b,i:+i};
@@ -2018,6 +2064,7 @@ document.addEventListener('click', function(ev){
   else if(act==='toolNav') openToolPage(el.getAttribute('data-id'));
   else if(act==='boardNav') openBoard(el.getAttribute('data-b'), el.getAttribute('data-i'));
   else if(act==='article') openArticle(el.getAttribute('data-b'), el.getAttribute('data-i'), el.getAttribute('data-j'));
+  else if(act==='promoNav') openPromo(el.getAttribute('data-b'));
   else if(act==='campKind'){ campKind=el.getAttribute('data-k'); renderCamp(); }
   else if(act==='cprev') goSlide(cIdx-1);
   else if(act==='cnext') goSlide(cIdx+1);
