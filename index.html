@@ -178,6 +178,29 @@
   .bcard .bf{display:flex; justify-content:space-between; align-items:center; margin-top:9px;}
   .avail{display:inline-block; background:var(--teal-bg); color:var(--teal-d); border:1px solid var(--teal-line);
     border-radius:999px; padding:1px 10px; font-size:11px; font-weight:700;}
+  /* ── 광고주 공고·신청자 관리 ── */
+  .advcamp{background:#fff; border:1px solid var(--line); border-radius:16px; box-shadow:var(--sh-sm); margin-bottom:16px; overflow:hidden;}
+  .advcamp .head{display:flex; gap:14px; align-items:center; padding:16px 18px; border-bottom:1px solid var(--line);}
+  .advcamp .head img{width:62px; height:62px; border-radius:12px; object-fit:cover; flex:0 0 auto;}
+  .advcamp .head .h-info{flex:1; min-width:0;}
+  .advcamp .head .h-tt{font-weight:800; font-size:15px; letter-spacing:-.3px; margin:3px 0 1px;}
+  .advcamp .head .h-rw{color:var(--teal-d); font-weight:700; font-size:12.5px;}
+  .advcamp .head .h-meta{font-size:11.5px; color:var(--sub); margin-top:2px;}
+  .advcamp .head .h-cnt{text-align:center; flex:0 0 auto; padding-left:6px;}
+  .advcamp .head .h-cnt b{display:block; font-size:19px; color:var(--teal-d); font-weight:800; font-variant-numeric:tabular-nums;}
+  .advcamp .head .h-cnt span{font-size:10.5px; color:var(--sub);}
+  .applist{padding:4px 10px 10px;}
+  .appl{display:flex; gap:12px; align-items:center; padding:12px 8px;}
+  .appl + .appl{border-top:1px solid var(--line);}
+  .appl .av{width:40px; height:40px; border-radius:12px; background:var(--grad); color:#fff; display:grid; place-items:center; font-weight:800; font-size:15px; flex:0 0 auto;}
+  .appl .a-body{flex:1; min-width:0;}
+  .appl .a-nm{font-weight:700; font-size:14px;}
+  .appl .a-sub{font-size:11.8px; color:var(--sub); margin-top:2px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+  .appl .a-right{flex:0 0 auto;}
+  /* ── 워크스페이스 탭 ── */
+  .wstab{display:inline-flex; gap:4px; background:var(--chip); border-radius:12px; padding:4px; margin-bottom:14px;}
+  .wstab span{padding:8px 18px; border-radius:9px; font-size:13.5px; font-weight:700; color:var(--sub); cursor:pointer; user-select:none; transition:background .12s, color .12s;}
+  .wstab span.sel{background:#fff; color:var(--teal-d); box-shadow:var(--sh-sm);}
   /* ── 마켓 대량선택 ── */
   .mkttop{display:flex; align-items:center; gap:10px; margin-bottom:10px; flex-wrap:wrap;}
   .selall{display:inline-flex; align-items:center; gap:6px; font-size:12.5px; font-weight:600; color:#4a4f66; cursor:pointer; user-select:none;}
@@ -555,51 +578,54 @@
       <div id="blgmIndex"></div>
     </div>
 
-    <!-- ═══ 광고주 센터 ═══ -->
+    <!-- ═══ 광고주 워크스페이스 ═══ -->
     <div class="view hide" id="vAdv">
-      <div class="cols">
-        <div class="col">
-          <div class="card">
-            <h2><span class="n">1</span>공고 올리기</h2>
-            <label>캠페인 유형</label>
-            <div class="chips" id="cKind" data-single="1">
-              <span class="sel">방문형</span><span>배송형</span><span>기자단</span><span>구매형</span>
-            </div>
-            <label>공고 유형</label>
-            <div class="chips" id="cType" data-single="1">
-              <span class="sel">일반 공고 (원고료 확정)</span><span>역제안 공고 (블로거가 금액 제안)</span>
-            </div>
-            <label>브랜드/가게 이름</label>
-            <input type="text" id="cBrand" placeholder="예) 다비치안경 장안점">
-            <div class="cols" style="gap:10px">
-              <div class="col" id="locWrap"><label id="locLabel">방문 지역</label><input type="text" id="cLoc" placeholder="예) 서울/동대문구"></div>
-              <div class="col"><label>업종</label>
-                <select id="cInd"><option>뷰티</option><option>맛집/카페</option><option>병원</option><option>학원</option><option>패션/잡화</option><option>기타</option></select></div>
-            </div>
-            <div class="cols" style="gap:10px">
-              <div class="col"><label>모집 인원</label><input type="number" id="cCnt" value="5" min="1"></div>
-              <div class="col" id="feeWrap"><label>건당 원고료(원) — 사장님이 정함</label><input type="number" id="cFee" value="30000" step="5000"></div>
-            </div>
-            <label>발행 채널 (복수 선택)</label>
-            <div class="chips" id="cCh">
-              <span class="sel">네이버 블로그</span><span class="sel">티스토리</span><span>워드프레스</span><span>블로그스팟</span>
-              <span>인스타</span><span>유튜브</span><span>틱톡</span>
-            </div>
-            <label>핵심 키워드 (쉼표로 구분)</label>
-            <input type="text" id="cKw" placeholder="예) 장안동 안경, 동대문 렌즈">
-            <label id="sponLabel">협찬/제공 내역</label>
-            <input type="text" id="cSpon" placeholder="예) 12만원 상당의 안경, 선글라스">
-            <label>가이드라인 (블로거에게 미션 가이드로 제공 — 쉼표나 줄바꿈으로 구분)</label>
-            <textarea id="cDesc" rows="3" placeholder="예) 10년차 검안사 상주 강조, 검안 과정·매장 전경 사진 포함, 타 브랜드 비교 언급 금지"></textarea>
-            <button class="btn" data-act="addCampaign">모집 시작</button>
+      <div class="sechead"><h2>광고주 워크스페이스</h2></div>
+      <div class="wstab" id="advTab">
+        <span class="sel" data-act="advTab" data-t="manage">내 공고 · 신청자</span>
+        <span data-act="advTab" data-t="new">+ 새 공고 올리기</span>
+      </div>
+
+      <!-- 내 공고 관리 -->
+      <div id="advManage">
+        <div class="sechint">올린 공고와 신청한 블로거를 관리합니다. 신청자의 등급·능력·제안가를 보고 [컨택]하세요.</div>
+        <div id="advList"></div>
+      </div>
+
+      <!-- 새 공고 올리기 -->
+      <div id="advNew" class="hide">
+        <div class="card">
+          <label>캠페인 유형</label>
+          <div class="chips" id="cKind" data-single="1">
+            <span class="sel">방문형</span><span>배송형</span><span>기자단</span><span>구매형</span>
           </div>
-        </div>
-        <div class="col">
-          <div class="card">
-            <h2><span class="n">2</span>내 공고 · 신청자 선택</h2>
-            <div id="advList"></div>
-            <p class="note">신청자의 <b>SNS 연동·등급·능력·희망 금액</b>을 보고 [컨택]을 누르면 매칭 완료.</p>
+          <label>지급 방식</label>
+          <div class="chips" id="cType" data-single="1">
+            <span class="sel">금액 확정형 (내가 단가 지정)</span><span>제안가 협의형 (블로거가 단가 제안)</span>
           </div>
+          <label>브랜드/가게 이름</label>
+          <input type="text" id="cBrand" placeholder="예) 다비치안경 장안점">
+          <div class="cols" style="gap:10px">
+            <div class="col" id="locWrap"><label id="locLabel">방문 지역</label><input type="text" id="cLoc" placeholder="예) 서울/동대문구"></div>
+            <div class="col"><label>업종</label>
+              <select id="cInd"><option>뷰티</option><option>맛집/카페</option><option>병원</option><option>학원</option><option>패션/잡화</option><option>기타</option></select></div>
+          </div>
+          <div class="cols" style="gap:10px">
+            <div class="col"><label>모집 인원</label><input type="number" id="cCnt" value="5" min="1"></div>
+            <div class="col" id="feeWrap"><label>1건당 지급 금액 (원)</label><input type="number" id="cFee" value="30000" step="5000"></div>
+          </div>
+          <label>발행 채널 (복수 선택)</label>
+          <div class="chips" id="cCh">
+            <span class="sel">네이버 블로그</span><span class="sel">티스토리</span><span>워드프레스</span><span>블로그스팟</span>
+            <span>인스타</span><span>유튜브</span><span>틱톡</span>
+          </div>
+          <label>핵심 키워드 (쉼표로 구분)</label>
+          <input type="text" id="cKw" placeholder="예) 장안동 안경, 동대문 렌즈">
+          <label id="sponLabel">협찬/제공 내역</label>
+          <input type="text" id="cSpon" placeholder="예) 12만원 상당의 안경, 선글라스">
+          <label>가이드라인 (블로거에게 미션 가이드로 제공 — 쉼표나 줄바꿈으로 구분)</label>
+          <textarea id="cDesc" rows="3" placeholder="예) 10년차 검안사 상주 강조, 검안 과정·매장 전경 사진 포함, 타 브랜드 비교 언급 금지"></textarea>
+          <button class="btn" data-act="addCampaign">공고 등록</button>
         </div>
       </div>
     </div>
@@ -654,7 +680,7 @@
                   <span class="sel">고료 받고 진행</span><span>제공 서비스만 받고 무료 진행</span><span>둘 다 가능</span>
                 </div>
                 <div id="feeRow">
-                  <label>시작 원고료 (블로그 건당 · 원)</label>
+                  <label>시작 단가 (블로그 1건당 · 원)</label>
                   <input type="number" id="bFee" value="30000" step="5000">
                 </div>
                 <div id="freeNote" class="hide" style="font-size:12px;color:var(--teal-d);background:var(--teal-bg);border-radius:9px;padding:9px 12px;margin-top:6px">
@@ -1257,9 +1283,9 @@ function kindTag(c){
   const col=KIND_COLOR[k]||'#64748b';
   return `<span class="tag" style="background:${col}1f;color:${col};font-weight:700">${k}</span>`;
 }
-function typeTag(c){ return isRev(c)?'<span class="tag rev">역제안</span>':''; }
+function typeTag(c){ return isRev(c)?'<span class="tag rev">제안가 협의</span>':''; }
 function rewardLine(c){
-  if(isRev(c)) return '<span class="propfee">금액 역제안형 — 신청 시 원고료 제안</span>'+(c.spon?' + '+c.spon:'');
+  if(isRev(c)) return '<span class="propfee">제안가 협의형 — 블로거가 단가 제안</span>'+(c.spon?' + '+c.spon:'');
   return (c.fee>0?('건당 '+c.fee.toLocaleString()+'원'):'')+(c.fee>0&&c.spon?' + ':'')+(c.spon||'');
 }
 function appCount(cid){ return S.apps.filter(a=>a.campId===cid).length; }
@@ -1319,7 +1345,7 @@ function openPropose(blgId){
       ${methodChooser}
 
       <div id="ppFeeRow" class="${offer==='무료'?'hide':''}">
-        <label>제안 원고료 (건당 · 원) <span class="note" style="display:inline">· 블로거 게시 단가 ${feeDefault.toLocaleString()}원</span></label>
+        <label>제안 단가 (건당 · 원) <span class="note" style="display:inline">· 블로거 게시 단가 ${feeDefault.toLocaleString()}원</span></label>
         <input type="number" id="ppFee" value="${feeDefault}" step="5000">
       </div>
       <div id="ppFreeNote" class="${offer==='무료'?'':'hide'}" style="font-size:12px;color:var(--teal-d);background:var(--teal-bg);border-radius:9px;padding:9px 12px;margin-top:6px">
@@ -1348,7 +1374,7 @@ function sendPropose(blgId){
   if(offer==='둘다') method=(chipVals('ppMethod')[0]||'고료 지급').includes('무료')?'무료':'고료';
   else method=(offer==='무료')?'무료':'고료';
   let fee=0;
-  if(method==='고료'){ fee=+document.getElementById('ppFee').value||0; if(fee<=0){ alert('제안 원고료를 입력해 주세요.'); return; } }
+  if(method==='고료'){ fee=+document.getElementById('ppFee').value||0; if(fee<=0){ alert('제안 단가를 입력해 주세요.'); return; } }
   const ch=chipVals('ppCh')[0]||b.acc[0].ch;
   S.invites=S.invites||[];
   S.invites.push({blgId:blgId, campId:campId, method:method, fee:fee, ch:ch, msg:(document.getElementById('ppMsg').value||'').trim()});
@@ -1375,7 +1401,7 @@ function openBulkPropose(){
       <div class="chips" id="bkMethod" data-single="1"><span class="sel">고료 지급</span><span>무료 (제공 서비스만)</span></div>
       <div style="font-size:12px;color:var(--teal-d);background:var(--teal-bg);border-radius:9px;padding:9px 12px;margin-top:6px">
         무료 전용 블로거는 자동으로 무료, 고료 전용 블로거는 자동으로 고료로 처리됩니다.</div>
-      <label>고료 대상 제안 원고료 (건당 · 원)</label>
+      <label>고료 대상 제안 단가 (건당 · 원)</label>
       <input type="number" id="bkFee" value="${avgFee}" step="5000">
       <label>메시지 (선택)</label>
       <textarea id="bkMsg" rows="3" placeholder="예) 신제품 협찬 캠페인 함께 진행하실 분 찾습니다."></textarea>
@@ -1394,7 +1420,7 @@ function sendBulk(){
   const fee=+document.getElementById('bkFee').value||0;
   const bl=[...mSel].map(id=>S.bloggers.find(b=>b.id===id)).filter(Boolean);
   const anyPaid=bl.some(b=>effectiveMethod(b,chosen)==='고료');
-  if(anyPaid && fee<=0){ alert('고료 대상이 있어 제안 원고료를 입력해야 합니다.'); return; }
+  if(anyPaid && fee<=0){ alert('고료 대상이 있어 제안 단가를 입력해야 합니다.'); return; }
   const msg=(document.getElementById('bkMsg').value||'').trim();
   S.invites=S.invites||[]; let paid=0, free=0;
   bl.forEach(b=>{ const m=effectiveMethod(b,chosen);
@@ -1523,7 +1549,7 @@ function renderCampFilters(){
     region:{label:'지역', opts:uniq(base.map(c=>(c.loc||'').split('/')[0]))},
     ind:{label:'업종', opts:uniq(base.map(c=>c.ind))},
     ch:{label:'채널', opts:uniq([].concat.apply([], base.map(c=>c.ch)))},
-    type:{label:'공고 유형', opts:['일반 공고','역제안 공고']}
+    type:{label:'지급 방식', opts:['금액 확정형','제안가 협의형']}
   };
   /* 이 유형에서 안 쓰는 필터는 값도 비운다 */
   Object.keys(campF).forEach(k=>{ if(use.indexOf(k)<0) campF[k]=''; });
@@ -1548,7 +1574,7 @@ function renderCamp(){
   if(campF.region) list=list.filter(c=>(c.loc||'').split('/')[0]===campF.region);
   if(campF.ind) list=list.filter(c=>c.ind===campF.ind);
   if(campF.ch) list=list.filter(c=>c.ch.indexOf(campF.ch)>=0);
-  if(campF.type) list=list.filter(c=>campF.type==='역제안 공고'?isRev(c):!isRev(c));
+  if(campF.type) list=list.filter(c=>campF.type==='제안가 협의형'?isRev(c):!isRev(c));
   document.getElementById('campCount').textContent='총 '+list.length+'개';
   document.getElementById('campList').innerHTML=list.map(campCard).join('')||'<div class="empty">조건에 맞는 캠페인이 없습니다. 필터를 바꿔보세요.</div>';
 }
@@ -1646,7 +1672,7 @@ function addCampaign(){
   const ch=chipVals('cCh');
   if(!b||!kw){ alert('브랜드 이름과 키워드를 입력해 주세요.'); return; }
   if(!ch.length){ alert('발행 채널을 1개 이상 선택해 주세요.'); return; }
-  const rev=(chipVals('cType')[0]||'').includes('역제안');
+  const rev=(chipVals('cType')[0]||'').includes('협의');
   const kind=chipVals('cKind')[0]||'방문형';
   const locVal=document.getElementById('cLoc').value.trim() || (kind==='방문형'?'우리동네':'전국');
   S.campaigns.push({id:S.nextC++, kind:kind, brand:b, loc:locVal,
@@ -1656,6 +1682,10 @@ function addCampaign(){
     desc:document.getElementById('cDesc').value.trim()});
   save(); renderAll(); toast(kind+' 공고가 등록되었습니다');
   ['cBrand','cLoc','cKw','cSpon','cDesc'].forEach(i=>document.getElementById(i).value='');
+  [...document.querySelectorAll('#advTab span')].forEach(s=>s.classList.toggle('sel', s.getAttribute('data-t')==='manage'));
+  document.getElementById('advManage').classList.remove('hide');
+  document.getElementById('advNew').classList.add('hide');
+  window.scrollTo({top:0});
 }
 function contact(campId, blgId){
   const a=S.apps.find(x=>x.campId===campId&&x.blgId===blgId);
@@ -1663,30 +1693,37 @@ function contact(campId, blgId){
 }
 function renderAdv(){
   const el=document.getElementById('advList');
-  if(!S.campaigns.length){ el.innerHTML='<div class="empty">아직 공고가 없습니다.</div>'; return; }
+  if(!S.campaigns.length){ el.innerHTML='<div class="empty">아직 올린 공고가 없습니다. 위 [+ 새 공고 올리기]에서 시작하세요.</div>'; return; }
   el.innerHTML=S.campaigns.map(c=>{
     const apps=S.apps.filter(a=>a.campId===c.id);
+    const contacted=apps.filter(a=>a.st==='contacted').length;
     const rows=apps.map(a=>{
       const b=S.bloggers.find(x=>x.id===a.blgId); if(!b) return '';
-      const btn=a.st==='contacted'
-        ?'<span class="tag t">컨택 완료</span>'
-        :`<button class="btn sm" data-act="contact" data-c="${c.id}" data-b="${b.id}">컨택</button>`;
-      return `<div class="item ${a.st==='contacted'?'hl':''}">
-        <div class="r1"><span class="t">${b.name}</span>
-        <span class="star">${b.rating?('★'+b.rating+' ('+b.done+'건)'):'신규'}</span></div>
-        <div class="m">${accLine(b)}</div>
-        <div class="m">능력: ${(b.skills||[]).join('·')||'-'} · 관심사: ${(b.interests||[]).join('·')||'-'}</div>
-        <div class="m">희망 ${(b.hopeFee||0).toLocaleString()}원 · ${b.pr}</div>
-        ${a.price?('<div class="m propfee">이 공고 제안가: '+a.price.toLocaleString()+'원</div>'):''}
-        <div class="r1" style="margin-top:6px"><span class="m">포폴: ${b.pf}</span>${btn}</div></div>`;
-    }).join('')||'<div class="empty">아직 신청자가 없습니다. (캠페인 찾기에서 신청해 보세요)</div>';
-    return `<div class="camp"><div class="info">
-      <div>${kindTag(c)}${typeTag(c)}${chTags(c)}<span class="tag r">모집중</span></div>
-      <div class="tt">[${c.loc}] ${c.brand}</div>
-      <div class="rw">${rewardLine(c)}</div>
-      <div class="ap">신청 <b>${apps.length}</b>/${c.cnt}명 · 키워드: ${c.kw}</div>
-      ${rows}</div>
-      <img src="${thumb(c)}" alt="썸네일"></div>`;
+      const done=a.st==='contacted';
+      const money=a.price?('<b class="propfee">제안가 '+a.price.toLocaleString()+'원</b>'):('희망 '+(b.hopeFee||0).toLocaleString()+'원');
+      return `<div class="appl">
+        <div class="av">${b.name.charAt(0)}</div>
+        <div class="a-body">
+          <div class="a-nm">${b.name} ${b.grade?'<span class="gr">'+b.grade+'</span>':''} <span class="star" style="font-size:11.5px">★${b.rating||'-'}</span></div>
+          <div class="a-sub">${b.acc.map(x=>x.ch).join('·')} · ${(b.skills||[]).slice(0,2).join('·')||'-'}</div>
+          <div class="a-sub">${money} · ${b.region||''} · 완료 ${b.done||0}건</div>
+        </div>
+        <div class="a-right">${done?'<span class="tag t">컨택 완료</span>':`<button class="btn sm" data-act="contact" data-c="${c.id}" data-b="${b.id}">컨택하기</button>`}</div>
+      </div>`;
+    }).join('')||'<div class="empty" style="padding:16px 10px">아직 신청자가 없습니다. 시간이 지나면 블로거가 지원합니다.</div>';
+    return `<div class="advcamp">
+      <div class="head">
+        <img src="${thumb(c)}" alt="">
+        <div class="h-info">
+          <div>${kindTag(c)}${typeTag(c)}<span class="tag r">모집중</span></div>
+          <div class="h-tt">[${c.loc}] ${c.brand}</div>
+          <div class="h-rw">${rewardLine(c)}</div>
+          <div class="h-meta">키워드 ${c.kw} · ${c.ch.join('·')}</div>
+        </div>
+        <div class="h-cnt"><b>${apps.length}/${c.cnt}</b><span>신청 · 컨택 ${contacted}</span></div>
+      </div>
+      <div class="applist">${rows}</div>
+    </div>`;
   }).join('');
 }
 
@@ -1812,7 +1849,7 @@ function openDetail(campId){
   const applyBtn=a
     ? `<button class="btn gray" disabled>${a.st==='contacted'?'컨택 완료된 캠페인':'이미 신청함'+(a.price?(' (제안 '+a.price.toLocaleString()+'원)'):'')}</button>`
     : (isRev(c)
-      ? `<div style="flex:1"><input type="number" id="propFee" step="5000" value="${(me()&&me().hopeFee)||30000}" placeholder="제안 원고료(원)" style="margin-bottom:8px"><button class="btn" data-act="applyModal" data-c="${c.id}" data-rev="1" style="width:100%; background:#7c3aed">이 금액으로 제안하고 지원하기</button></div>`
+      ? `<div style="flex:1"><input type="number" id="propFee" step="5000" value="${(me()&&me().hopeFee)||30000}" placeholder="희망 단가(원)" style="margin-bottom:8px"><button class="btn" data-act="applyModal" data-c="${c.id}" data-rev="1" style="width:100%; background:#7c3aed">이 금액으로 제안하고 지원하기</button></div>`
       : `<button class="btn" data-act="applyModal" data-c="${c.id}">지원하기</button>`);
   document.getElementById('detailModal').innerHTML=`
     <span class="mx" data-act="closeDetail" title="닫기">✕</span>
@@ -1824,7 +1861,7 @@ function openDetail(campId){
       <div class="msec">
         <div class="mh">캠페인 정보</div>
         <div class="mrow"><span class="mk">협찬 상품</span><span class="mv">${c.spon||'-'}</span></div>
-        <div class="mrow"><span class="mk">원고료</span><span class="mv">${isRev(c)?'<b class="propfee">역제안형 — 신청할 때 희망 원고료를 제안하세요</b>':(c.fee>0?('건당 '+c.fee.toLocaleString()+'원'):'없음 (협찬 제공형)')}</span></div>
+        <div class="mrow"><span class="mk">지급 단가</span><span class="mv">${isRev(c)?'<b class="propfee">제안가 협의형 — 신청할 때 희망 단가를 제안하세요</b>':(c.fee>0?('1건당 '+c.fee.toLocaleString()+'원'):'없음 (협찬 제공형)')}</span></div>
         <div class="mrow"><span class="mk">모집·선정 기간</span><span class="mv">${fmtD(today)} ~ ${fmtD(end)} (상시 선정)</span></div>
         <div class="mrow"><span class="mk">리뷰 마감</span><span class="mv">${fmtD(rv)}</span></div>
         <div class="mrow"><span class="mk">발행 채널</span><span class="mv">${c.ch.join(', ')}</span></div>
@@ -2038,7 +2075,7 @@ document.addEventListener('click', function(ev){
         document.getElementById('ppFreeNote').classList.toggle('hide', !free);
       }
       if(g.id==='cType'){
-        const rev=chip.textContent.includes('역제안');
+        const rev=chip.textContent.includes('협의');
         document.getElementById('feeWrap').style.visibility=rev?'hidden':'visible';
       }
       if(g.id==='cKind'){
@@ -2065,6 +2102,11 @@ document.addEventListener('click', function(ev){
   else if(act==='boardNav') openBoard(el.getAttribute('data-b'), el.getAttribute('data-i'));
   else if(act==='article') openArticle(el.getAttribute('data-b'), el.getAttribute('data-i'), el.getAttribute('data-j'));
   else if(act==='promoNav') openPromo(el.getAttribute('data-b'));
+  else if(act==='advTab'){ const t=el.getAttribute('data-t');
+    [...document.querySelectorAll('#advTab span')].forEach(s=>s.classList.toggle('sel', s.getAttribute('data-t')===t));
+    document.getElementById('advManage').classList.toggle('hide', t!=='manage');
+    document.getElementById('advNew').classList.toggle('hide', t!=='new');
+  }
   else if(act==='campKind'){ campKind=el.getAttribute('data-k'); renderCamp(); }
   else if(act==='cprev') goSlide(cIdx-1);
   else if(act==='cnext') goSlide(cIdx+1);
@@ -2107,7 +2149,7 @@ document.addEventListener('click', function(ev){
     let price=0;
     if(el.getAttribute('data-rev')){
       price=+(document.getElementById('propFee')||{}).value||0;
-      if(price<=0){ alert('제안할 원고료를 입력해 주세요.'); return; }
+      if(price<=0){ alert('희망 단가를 입력해 주세요.'); return; }
     }
     applyCamp(+el.getAttribute('data-c'), price);
     toast(price>0?('지원이 완료되었습니다 (제안 '+price.toLocaleString()+'원)'):'지원이 완료되었습니다');
