@@ -472,17 +472,24 @@
   @keyframes tlpulse{0%,100%{box-shadow:0 0 0 3px #fff, 0 0 0 4px var(--teal-line);}50%{box-shadow:0 0 0 3px #fff, 0 0 0 8px rgba(90,99,240,.2);}}
   .tlrow b{font-size:14px;} .tlrow span{display:block; font-size:12px; color:var(--sub); margin-top:2px;}
   /* ── 구독 플랜 ── */
-  .plans{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; align-items:start;}
-  .plan{background:#fff; border:1px solid var(--line); border-radius:18px; padding:24px 22px; position:relative; box-shadow:var(--sh-sm);}
-  .plan.best{border:2px solid var(--teal); box-shadow:var(--sh); padding-top:26px;}
-  .plan .pbadge{position:absolute; top:-11px; left:50%; transform:translateX(-50%); background:var(--teal); color:#fff; font-size:11px; font-weight:700; padding:4px 13px; border-radius:999px;}
-  .plan .pt{font-size:14px; font-weight:800; color:var(--sub);}
-  .plan .pp{font-size:15px; margin:6px 0 15px;} .plan .pp b{font-size:25px; color:var(--ink); letter-spacing:-.5px;}
-  .plan ul{list-style:none; margin:0;}
-  .plan li{font-size:13px; color:#333852; padding:8px 0 8px 20px; position:relative; border-top:1px solid var(--line);}
-  .plan li:first-child{border-top:0;}
-  .plan li::before{content:''; position:absolute; left:2px; top:13px; width:8px; height:8px; border-radius:2px; background:var(--teal);}
-  @media(max-width:720px){ .plans{grid-template-columns:1fr;} }
+  .plans{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; align-items:stretch;}
+  .plan{background:#fff; border:1px solid var(--line); border-radius:22px; padding:28px 26px; position:relative; box-shadow:var(--sh-sm); display:flex; flex-direction:column; transition:transform .18s, box-shadow .18s;}
+  .plan:not(.best):hover{transform:translateY(-4px); box-shadow:var(--sh);}
+  .plan .pt{font-size:12.5px; font-weight:800; color:var(--sub); letter-spacing:.4px; text-transform:uppercase;}
+  .plan .pvol{font-size:14px; color:var(--sub); margin:12px 0 3px;}
+  .plan .pvol b{font-size:29px; color:var(--ink); letter-spacing:-.8px; margin-right:4px; font-weight:800;}
+  .plan .ptag{font-size:12.5px; color:var(--teal-d); font-weight:700; margin-bottom:18px;}
+  .plan ul{list-style:none; margin:0; flex:1; display:flex; flex-direction:column; gap:11px;}
+  .plan li{font-size:13px; color:#333852; padding-left:25px; position:relative; line-height:1.5;}
+  .plan li svg{position:absolute; left:0; top:1px; width:16px; height:16px; color:var(--teal);}
+  .plan.best{background:linear-gradient(165deg,#5a63f0 0%,#7c5cf2 100%); color:#fff; border:0;
+    box-shadow:0 24px 50px rgba(90,99,240,.34); transform:translateY(-8px);}
+  .plan.best .pt{color:rgba(255,255,255,.82);}
+  .plan.best .pvol{color:rgba(255,255,255,.85);} .plan.best .pvol b{color:#fff;}
+  .plan.best .ptag{color:#fff;} .plan.best li{color:rgba(255,255,255,.96);} .plan.best li svg{color:#fff;}
+  .plan .pbadge{position:absolute; top:-13px; left:50%; transform:translateX(-50%); background:var(--ink); color:#fff;
+    font-size:11px; font-weight:700; padding:6px 15px; border-radius:999px; white-space:nowrap; box-shadow:var(--sh-sm);}
+  @media(max-width:720px){ .plans{grid-template-columns:1fr;} .plan.best{transform:none;} }
   /* ── 최종 CTA ── */
   .finalcta{background:var(--grad); color:#fff; border-radius:24px; padding:46px 30px; text-align:center; margin-top:34px; box-shadow:var(--sh-lg);}
   .finalcta h2{font-size:27px; font-weight:800; letter-spacing:-.6px; margin-bottom:9px;}
@@ -667,11 +674,37 @@ Allow: /
       <div class="sechead"><h2>매달 자동으로 채웁니다</h2><span class="tag t" style="align-self:center">정기 구독</span></div>
       <div class="sechint">진단 → 부족분 자동 발행 → 추적을 매달 반복합니다. 한 번 맡기면 알아서 굴러갑니다.</div>
       <div class="plans">
-        <div class="plan"><div class="pt">베이직</div><div class="pp">월 <b>19만원</b></div><ul><li>월 4건 자동 발행</li><li>4채널 동시 배포</li><li>월간 색인·인용 추적 리포트</li></ul></div>
-        <div class="plan best"><div class="pbadge">추천</div><div class="pt">스탠다드</div><div class="pp">월 <b>39만원</b></div><ul><li>월 10건 자동 발행</li><li>4채널 + 홈페이지 AEO 세팅</li><li>경쟁사 비교 진단</li><li>AI 인용 알림</li></ul></div>
-        <div class="plan"><div class="pt">프로</div><div class="pp">월 <b>89만원</b></div><ul><li>월 30건 자동 발행</li><li>업종 질문 기반 콘텐츠 기획</li><li>전담 매니저 배정</li></ul></div>
+        <div class="plan">
+          <div class="pt">베이직</div>
+          <div class="pvol"><b>월 4건</b> 자동 발행</div>
+          <div class="ptag">소규모로 시작</div>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 13l4 4L19 7"/></svg>4채널 동시 배포</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 13l4 4L19 7"/></svg>월간 색인·인용 추적 리포트</li>
+          </ul>
+        </div>
+        <div class="plan best">
+          <div class="pbadge">가장 많이 선택</div>
+          <div class="pt">스탠다드</div>
+          <div class="pvol"><b>월 10건</b> 자동 발행</div>
+          <div class="ptag">대부분 여기서 시작합니다</div>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 13l4 4L19 7"/></svg>4채널 + 홈페이지 AEO 세팅</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 13l4 4L19 7"/></svg>경쟁사 비교 진단</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 13l4 4L19 7"/></svg>AI 인용 가시성 알림</li>
+          </ul>
+        </div>
+        <div class="plan">
+          <div class="pt">프로</div>
+          <div class="pvol"><b>월 30건</b> 자동 발행</div>
+          <div class="ptag">공격적으로 확장</div>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 13l4 4L19 7"/></svg>업종 질문 기반 콘텐츠 기획</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 13l4 4L19 7"/></svg>전담 매니저 배정</li>
+          </ul>
+        </div>
       </div>
-      <p class="note" style="text-align:center; margin-top:12px">※ 예시 가격입니다. 정식 오픈 시 확정됩니다.</p>
+      <p class="note" style="text-align:center; margin-top:16px">가격은 발행 규모·업종에 맞춰 상담 후 책정합니다.</p>
 
       <div class="finalcta">
         <h2>내 브랜드는 AI에 보이고 있을까요?</h2>
