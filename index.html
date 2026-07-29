@@ -94,7 +94,8 @@
   .card h2 .n{display:inline-grid; place-items:center; width:22px; height:22px; border-radius:50%;
     background:var(--teal); color:#fff; font-size:12.5px; margin-right:7px; vertical-align:-3px;}
   .sechead{display:flex; justify-content:space-between; align-items:baseline; margin:30px 0 4px;}
-  .sechead h2{font-size:18.5px; color:var(--ink); font-weight:800; letter-spacing:-.4px;}
+  .sechead h2{font-size:18.5px; color:var(--ink); font-weight:800; letter-spacing:-.4px; position:relative; padding-left:13px;}
+  .sechead h2::before{content:''; position:absolute; left:0; top:3px; bottom:3px; width:5px; border-radius:3px; background:var(--grad);}
   .sechead h2 b{color:var(--teal-d);}
   .sechead .more{font-size:12.5px; color:var(--teal-d); font-weight:700; cursor:pointer;}
   .sechint{font-size:12.5px; color:var(--sub); margin-bottom:12px;}
@@ -387,8 +388,12 @@
   /* ── 브랜드 체크 (메인) ── */
   .bchero{background:var(--grad); border-radius:24px; padding:52px 44px 46px; color:#fff; margin:4px 0 26px;
     box-shadow:var(--sh-lg); position:relative; overflow:hidden;}
-  .bchero::after{content:''; position:absolute; right:-70px; top:-70px; width:260px; height:260px; border-radius:50%; background:rgba(255,255,255,.1);}
-  .bchero::before{content:''; position:absolute; right:90px; bottom:-110px; width:200px; height:200px; border-radius:50%; background:rgba(255,255,255,.07);}
+  .bchero::after{content:''; position:absolute; right:-70px; top:-70px; width:260px; height:260px; border-radius:50%; background:rgba(255,255,255,.1); animation:bfloatA 9s ease-in-out infinite;}
+  .bchero::before{content:''; position:absolute; right:90px; bottom:-110px; width:200px; height:200px; border-radius:50%; background:rgba(255,255,255,.07); animation:bfloatB 11s ease-in-out infinite;}
+  @keyframes bfloatA{50%{transform:translate(-18px,20px) scale(1.06);}}
+  @keyframes bfloatB{50%{transform:translate(16px,-16px) scale(1.09);}}
+  @keyframes fadeUp{from{opacity:0; transform:translateY(18px);} to{opacity:1; transform:none;}}
+  #vHome .bchero, #vHome .bcard, #vHome .autopanel, #vHome .flowstep, #bcReport .dcard{animation:fadeUp .5s cubic-bezier(.2,.7,.2,1);}
   .bchero .ey{display:inline-block; background:rgba(255,255,255,.2); color:#fff; font-size:12px; font-weight:700;
     padding:6px 13px; border-radius:999px; letter-spacing:.3px; position:relative;}
   .bchero h1{font-size:34px; font-weight:800; letter-spacing:-.8px; line-height:1.28; margin:16px 0 12px; position:relative;}
@@ -422,6 +427,24 @@
   .bcnext{background:var(--teal-bg); border:1px solid var(--teal-line);}
   .bcnext h3{font-size:15px; font-weight:800; margin-bottom:10px; color:var(--teal-d);}
   .bcnext ol{margin:0 0 14px 18px;} .bcnext li{font-size:13.5px; color:#333852; margin-bottom:6px;}
+  .autohook{background:linear-gradient(135deg,#eef0ff,#f3f0ff); border:1px solid var(--teal-line); border-radius:14px;
+    padding:15px 18px; margin-top:14px; font-size:13.5px; color:#33385a; display:flex; align-items:center; gap:12px; flex-wrap:wrap;}
+  .autohook b{color:var(--teal-d);}
+  /* ── 자동 발행 시스템 ── */
+  .autopanel{background:#fff; border:1px solid var(--line); border-radius:20px; padding:26px 28px; box-shadow:var(--sh-sm); margin-top:12px;}
+  .flow{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:22px;}
+  .flowstep{background:var(--chip); border:1px solid var(--line); border-radius:14px; padding:16px 12px; text-align:center;}
+  .flowstep .fn{width:27px; height:27px; border-radius:50%; background:var(--grad); color:#fff; display:grid; place-items:center; font-weight:800; font-size:12.5px; margin:0 auto 9px;}
+  .flowstep b{font-size:13px;} .flowstep span{display:block; font-size:11px; color:var(--sub); margin-top:3px; line-height:1.4;}
+  .plat{display:flex; align-items:center; gap:13px; padding:13px 15px; border:1px solid var(--line); border-radius:14px; margin-bottom:9px; background:#fff; transition:.25s;}
+  .plat .pmark{width:38px; height:38px; border-radius:11px; display:grid; place-items:center; color:#fff; font-weight:800; font-size:14px; flex:none;}
+  .plat .pnm{font-weight:700; font-size:14px; flex:1;}
+  .plat .pstat{font-size:11.5px; font-weight:700; padding:5px 12px; border-radius:999px; background:var(--chip); color:var(--sub); min-width:82px; text-align:center;}
+  .plat.run{border-color:#f0d9a8;} .plat.run .pstat{background:#fff5e5; color:#c98a12;}
+  .plat.done{border-color:var(--teal-line); background:var(--teal-bg);} .plat.done .pstat{background:#e7f7ee; color:#1a9d5a;}
+  .autobar{height:7px; background:var(--line); border-radius:999px; overflow:hidden; margin-top:16px;}
+  .autobar > i{display:block; height:100%; width:0; background:var(--grad); transition:width .5s ease;}
+  @media(max-width:640px){ .flow{grid-template-columns:repeat(2,1fr);} }
   /* ── 모달·토스트 ── */
   .mbg{position:fixed; inset:0; background:rgba(15,25,35,.45); z-index:50;
     display:flex; align-items:center; justify-content:center; padding:20px;}
@@ -535,6 +558,28 @@
         <div class="bcard"><div class="nm"><span class="dico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5h16v11H8l-4 4z"/><path d="M8 9h8M8 12h5"/></svg></span> AI 인용</div><div class="pr" style="margin-top:6px">챗GPT·퍼플렉시티가 내 브랜드를 답변에 인용하는지, 무엇을 근거로 삼는지 확인합니다.</div></div>
         <div class="bcard"><div class="nm"><span class="dico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 9v11"/></svg></span> 홈페이지 AEO 구조</div><div class="pr" style="margin-top:6px">질문형 제목·자기완결 문단·FAQ·llms.txt 등 AI가 읽기 좋은 구조를 갖췄는지 봅니다.</div></div>
         <div class="bcard"><div class="nm"><span class="dico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h4l3 7 4-14 3 7h4"/></svg></span> 블로그·채널 상태</div><div class="pr" style="margin-top:6px">운영 중인 블로그·SNS의 지수와 활동성, 검색 노출력을 함께 진단합니다.</div></div>
+      </div>
+
+      <div class="sechead" id="autopub"><h2>데이터가 부족하면, 자동으로 채웁니다</h2><span class="tag t" style="align-self:center">자동화 시스템</span></div>
+      <div class="sechint">진단 결과 AI가 인용할 콘텐츠가 부족하면 — 사장님이 네이버 블로그·티스토리·워드프레스·구글 블로그스팟을 하나하나 쓸 필요 없이, POFACT가 AEO 구조 원고를 <b>4개 플랫폼에 자동 생성·발행</b>합니다.</div>
+      <div class="autopanel">
+        <div class="flow">
+          <div class="flowstep"><div class="fn">1</div><b>브랜드 진단</b><span>부족한 데이터 파악</span></div>
+          <div class="flowstep"><div class="fn">2</div><b>AI 원고 생성</b><span>AEO 구조 자동 작성</span></div>
+          <div class="flowstep"><div class="fn">3</div><b>4채널 동시 발행</b><span>네이버·티스토리·WP·블로그스팟</span></div>
+          <div class="flowstep"><div class="fn">4</div><b>색인·AI 인용 추적</b><span>노출·인용 모니터링</span></div>
+        </div>
+        <div id="platList">
+          <div class="plat" data-plat="0"><span class="pmark" style="background:#03c75a">N</span><span class="pnm">네이버 블로그</span><span class="pstat">대기</span></div>
+          <div class="plat" data-plat="1"><span class="pmark" style="background:#ff5a3c">T</span><span class="pnm">티스토리</span><span class="pstat">대기</span></div>
+          <div class="plat" data-plat="2"><span class="pmark" style="background:#21759b">W</span><span class="pnm">워드프레스</span><span class="pstat">대기</span></div>
+          <div class="plat" data-plat="3"><span class="pmark" style="background:#f57d00">B</span><span class="pnm">구글 블로그스팟</span><span class="pstat">대기</span></div>
+        </div>
+        <div class="autobar"><i id="autoFill"></i></div>
+        <div style="display:flex; gap:10px; align-items:center; margin-top:15px; flex-wrap:wrap">
+          <button class="btn" data-act="autoPub">자동 발행 시작 (샘플)</button>
+          <span class="note" id="autoMsg" style="margin:0">한 번의 클릭으로 4개 플랫폼에 동시 발행되는 과정을 미리 보여드립니다.</span>
+        </div>
       </div>
 
       <div class="sechead"><h2>업종별 솔루션</h2><a class="more" href="solution/index.html">전체보기 ›</a></div>
@@ -1756,12 +1801,40 @@ function brandCheck(){
         </ol>
         <a class="btn" href="solution/index.html" style="text-decoration:none">업종별 솔루션 보기 →</a>
         <button class="btn o sm" data-act="pkgAsk" style="margin-left:8px">진단 상담 문의</button>
+        <div class="autohook">
+          <span><b>AI가 인용할 데이터가 부족합니다.</b> 직접 쓸 필요 없이, 4개 플랫폼에 자동 발행으로 채우세요.</span>
+          <button class="btn sm" data-act="autoScroll">자동 발행 시스템 보기 →</button>
+        </div>
       </div>
       <p class="note">※ 지금은 진단 항목을 보여주는 예시 리포트입니다. 실제 색인·AI 인용·블로그 지수 크롤링 연동은 정식 오픈 시 제공됩니다.</p>
     </div>`;
   const el=document.getElementById('bcReport');
   el.innerHTML=html;
   el.scrollIntoView({behavior:'smooth', block:'start'});
+}
+function autoScroll(){ const el=document.getElementById('autopub'); if(el) el.scrollIntoView({behavior:'smooth', block:'start'}); }
+/* 4개 플랫폼 자동 발행 시뮬레이션 */
+let autoRunning=false;
+function autoPub(){
+  if(autoRunning) return; autoRunning=true;
+  const plats=[...document.querySelectorAll('#platList .plat')];
+  const fill=document.getElementById('autoFill'), msg=document.getElementById('autoMsg');
+  plats.forEach(p=>{ p.className='plat'; p.querySelector('.pstat').textContent='대기'; });
+  fill.style.width='0'; msg.textContent='AI가 AEO 구조로 원고를 생성하고 있습니다…';
+  let done=0;
+  plats.forEach((p,idx)=>{
+    const stat=p.querySelector('.pstat'); const base=400+idx*700;
+    setTimeout(()=>{ p.classList.add('run'); stat.textContent='원고 생성 중'; }, base);
+    setTimeout(()=>{ stat.textContent='발행 중'; }, base+500);
+    setTimeout(()=>{
+      p.classList.remove('run'); p.classList.add('done'); stat.textContent='발행 완료';
+      done++; fill.style.width=(done/plats.length*100)+'%';
+      if(done===plats.length){
+        msg.innerHTML='<b style="color:var(--teal-d)">4개 채널 동시 발행 완료</b> · 예상 색인 2~4주 · AI 인용 여부는 자동 추적됩니다.';
+        autoRunning=false;
+      }
+    }, base+1000);
+  });
 }
 /* 지역 사전 — 검색어에서 지역을 먼저 뽑아낸다 */
 const REGIONS=['서울','경기','인천','부산','대구','대전','광주','울산','세종','강원','충북','충남','전북','전남','경북','경남','제주'];
@@ -2492,6 +2565,8 @@ document.addEventListener('click', function(ev){
   else if(act==='reset') resetDemo();
   else if(act==='homeSearch') homeSearch();
   else if(act==='brandCheck') brandCheck();
+  else if(act==='autoPub') autoPub();
+  else if(act==='autoScroll') autoScroll();
   else if(act==='simCalc') simCalc();
   else if(act==='simToAdv') nav('adv');
   else if(act==='pkgAsk') toast('상담 문의가 접수되었습니다 (데모)');
