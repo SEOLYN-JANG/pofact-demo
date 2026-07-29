@@ -18,7 +18,7 @@
     setTimeout(function () { els.forEach(function (e) { e.classList.add('in'); }); }, 2500);
   }
   function tilt() {
-    if (window.matchMedia('(hover:none)').matches || window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+    if (window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
     [].slice.call(d.querySelectorAll('.ccard, .feat')).forEach(function (c) {
       c.style.transition = 'transform .16s cubic-bezier(.2,.7,.2,1), box-shadow .2s';
       c.addEventListener('mousemove', function (e) {

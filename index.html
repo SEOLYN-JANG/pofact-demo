@@ -393,7 +393,7 @@
   @keyframes bfloatA{50%{transform:translate(-18px,20px) scale(1.06);}}
   @keyframes bfloatB{50%{transform:translate(16px,-16px) scale(1.09);}}
   @keyframes fadeUp{from{opacity:0; transform:translateY(18px);} to{opacity:1; transform:none;}}
-  #vHome .bchero, #vHome .bcard, #vHome .autopanel, #vHome .flowstep, #bcReport .dcard{animation:fadeUp .5s cubic-bezier(.2,.7,.2,1);}
+  #vHome .bcard, #vHome .autopanel, #vHome .flowstep, #bcReport .dcard{animation:fadeUp .5s cubic-bezier(.2,.7,.2,1);}
   .bchero .ey{display:inline-block; background:rgba(255,255,255,.2); color:#fff; font-size:12px; font-weight:700;
     padding:6px 13px; border-radius:999px; letter-spacing:.3px; position:relative;}
   .bchero h1{font-size:34px; font-weight:800; letter-spacing:-.8px; line-height:1.28; margin:16px 0 12px; position:relative;}
@@ -510,7 +510,7 @@
   .bchero{background:
     radial-gradient(440px 320px at 84% 16%, rgba(255,255,255,.24), transparent 62%),
     linear-gradient(135deg,#6d6ff5 0%,#8a6ff0 52%,#a26cf0 100%);
-    background-size:180% 180%, 180% 180%; animation:heroShift 16s ease infinite;}
+    background-size:180% 180%, 180% 180%; animation:fadeUp .5s cubic-bezier(.2,.7,.2,1), heroShift 16s ease infinite;}
   @keyframes heroShift{0%,100%{background-position:0% 50%,0% 50%;} 50%{background-position:100% 50%,100% 50%;}}
   .bchero::after{filter:blur(10px);} .bchero::before{filter:blur(14px);}
   .bchero h1 b{background:linear-gradient(92deg,#ffffff,#e7e2ff 60%,#d6ccff); -webkit-background-clip:text; background-clip:text; color:transparent;}
@@ -1964,7 +1964,7 @@ function autoScroll(){ const el=document.getElementById('autopub'); if(el) el.sc
 function ctaTop(){ window.scrollTo({top:0, behavior:'smooth'}); const i=document.getElementById('bcQ'); if(i) setTimeout(()=>i.focus(), 400); }
 /* 마우스 추적 3D 틸트 (데스크톱 · 모션 허용 시) */
 function initTilt(){
-  if(window.matchMedia('(hover:none)').matches || window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  if(window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
   document.querySelectorAll('#vHome .bcard, #vHome .flowstep, .plan, #bcReport .dcard').forEach(function(c){
     if(c.__tilt) return; c.__tilt=true;
     c.addEventListener('mousemove', function(e){
