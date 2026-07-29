@@ -374,6 +374,44 @@
   .filterbar select:focus{outline:none; border-color:var(--teal);}
   @media(max-width:640px){ .filterbar{flex-wrap:wrap;} .filterbar select{flex:1 1 45%;}
     .kindnav .ki .lb{font-size:11.5px;} }
+  /* ── 브랜드 체크 (메인) ── */
+  .bchero{background:var(--grad); border-radius:24px; padding:52px 44px 46px; color:#fff; margin:4px 0 26px;
+    box-shadow:var(--sh-lg); position:relative; overflow:hidden;}
+  .bchero::after{content:''; position:absolute; right:-70px; top:-70px; width:260px; height:260px; border-radius:50%; background:rgba(255,255,255,.1);}
+  .bchero::before{content:''; position:absolute; right:90px; bottom:-110px; width:200px; height:200px; border-radius:50%; background:rgba(255,255,255,.07);}
+  .bchero .ey{display:inline-block; background:rgba(255,255,255,.2); color:#fff; font-size:12px; font-weight:700;
+    padding:6px 13px; border-radius:999px; letter-spacing:.3px; position:relative;}
+  .bchero h1{font-size:34px; font-weight:800; letter-spacing:-.8px; line-height:1.28; margin:16px 0 12px; position:relative;}
+  .bchero p{font-size:15.5px; color:rgba(255,255,255,.93); max-width:620px; line-height:1.6; margin-bottom:22px; position:relative;}
+  .bcrow{display:flex; gap:9px; max-width:620px; position:relative;}
+  .bcrow input{flex:1; min-width:0; border:0; border-radius:13px; padding:15px 18px; font-size:14.5px; font-family:inherit;
+    background:#fff; color:var(--ink); box-shadow:var(--sh);}
+  .bcrow input:focus{outline:2px solid rgba(255,255,255,.6);}
+  .bcrow .btn{background:#1c1f36; color:#fff; border:0; border-radius:13px; padding:0 24px; font-size:14.5px; font-weight:700;
+    cursor:pointer; font-family:inherit; white-space:nowrap; box-shadow:var(--sh);}
+  .bcrow .btn:hover{background:#000;}
+  .bchint{font-size:12.5px; color:rgba(255,255,255,.82); margin-top:12px; position:relative;}
+  .dico{display:inline-grid; place-items:center; width:26px; height:26px; border-radius:8px; background:var(--teal-bg);
+    color:var(--teal-d); vertical-align:-7px; margin-right:5px;}
+  .dico svg{width:16px; height:16px;}
+  /* 진단 리포트 */
+  .bcresult{margin:6px 0 10px;}
+  .bcscore{display:flex; align-items:center; gap:20px; background:#fff; border:1px solid var(--line); border-radius:18px;
+    padding:22px 24px; box-shadow:var(--sh-sm); margin-bottom:16px;}
+  .ring{flex:none; width:92px; height:92px; border-radius:50%; display:grid; place-items:center; color:#fff; font-weight:800;
+    font-size:27px; background:conic-gradient(var(--teal) 0 230deg, #e7e9f5 230deg 360deg); position:relative;}
+  .ring span{position:absolute; inset:9px; background:var(--teal-d); border-radius:50%; display:grid; place-items:center;}
+  .bcscore .sc-tx h3{font-size:17.5px; font-weight:800; letter-spacing:-.3px; margin-bottom:5px;}
+  .bcscore .sc-tx p{font-size:13.5px; color:var(--sub); line-height:1.55;}
+  .dcard{background:#fff; border:1px solid var(--line); border-radius:16px; padding:17px 18px; box-shadow:var(--sh-sm);}
+  .dcard .dh{display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;}
+  .dcard .dh b{font-size:14.5px; letter-spacing:-.2px;}
+  .dcard .dtx{font-size:13px; color:#4a4f68; line-height:1.6;}
+  .stbadge{font-size:11px; font-weight:700; padding:3px 9px; border-radius:999px;}
+  .st-ok{background:#e7f7ee; color:#1a9d5a;} .st-warn{background:#fff5e5; color:#c98a12;} .st-bad{background:#fdecec; color:#d94a4a;}
+  .bcnext{background:var(--teal-bg); border:1px solid var(--teal-line);}
+  .bcnext h3{font-size:15px; font-weight:800; margin-bottom:10px; color:var(--teal-d);}
+  .bcnext ol{margin:0 0 14px 18px;} .bcnext li{font-size:13.5px; color:#333852; margin-bottom:6px;}
   /* ── 모달·토스트 ── */
   .mbg{position:fixed; inset:0; background:rgba(15,25,35,.45); z-index:50;
     display:flex; align-items:center; justify-content:center; padding:20px;}
@@ -414,10 +452,7 @@
   <div class="side">
     <div class="logo"><span class="mark">P</span><span class="wm">POFACT<small>AI 텍스트 원고 매칭</small></span></div>
     <div class="sec">CONTENTS</div>
-    <div class="mi on" data-act="nav" data-v="home"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/></svg>홈</div>
-    <div class="mi" data-act="nav" data-v="market"><svg viewBox="0 0 24 24"><circle cx="10" cy="7" r="3"/><path d="M3 20c0-3.5 3-6 7-6M15 13l2 2 4-4"/></svg>블로거 찾기</div>
-    <div class="mi" data-act="nav" data-v="camp"><svg viewBox="0 0 24 24"><path d="M4 6h16v12H4zM4 10h16"/></svg>캠페인 찾기</div>
-    <div class="mi" data-act="nav" data-v="sim"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 7h6M9 12h2M13 12h2M9 16h2M13 16h2"/></svg>광고 견적 시뮬레이터</div>
+    <div class="mi on" data-act="nav" data-v="home"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/></svg>홈 · 브랜드 체크</div>
     <div class="sec">SERVICE</div>
     <div class="mi" data-act="toggle" data-g="svc" id="miSvc"><svg viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg>포팩트서비스<svg class="chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>
     <div class="subwrap closed" id="gSvc">
@@ -441,6 +476,16 @@
       <div class="mi sub" data-act="toolNav" data-id="2">운영 중인 블로그 평가</div>
       <div class="mi sub" data-act="toolNav" data-id="3">브랜드 AI 가시성 체크</div>
     </div>
+    <div class="mi" data-act="toggle" data-g="sol" id="miSol"><svg viewBox="0 0 24 24"><path d="M4 4h16v6H4zM4 14h7v6H4zM14 14h6v6h-6z"/></svg>업종별 솔루션<svg class="chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>
+    <div class="subwrap closed" id="gSol">
+      <a class="mi sub" href="solution/index.html">전체 보기</a>
+      <a class="mi sub" href="solution/hospital.html">병원·의원</a>
+      <a class="mi sub" href="solution/academy.html">학원·교육</a>
+      <a class="mi sub" href="solution/lawyer.html">변호사·법률</a>
+      <a class="mi sub" href="solution/tax.html">세무사·회계</a>
+      <a class="mi sub" href="solution/franchise.html">프랜차이즈</a>
+      <a class="mi sub" href="solution/smb.html">소상공인·자영업</a>
+    </div>
     <div class="sec">COMMUNITY</div>
     <div class="mi" data-act="toggle" data-g="mkt" id="miMkt"><svg viewBox="0 0 24 24"><path d="M9 18l-2 3H4l2-3M15 18l2 3h3l-2-3M4 4h16v11H4z"/><path d="M8 8h8M8 11h5"/></svg>인사이트<svg class="chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>
     <div class="subwrap closed" id="gMkt">
@@ -458,9 +503,6 @@
       <div class="mi sub" data-act="promoNav" data-b="partner">파트너 게시판</div>
       <div class="mi sub" data-act="promoNav" data-b="lounge">블로거 라운지</div>
     </div>
-    <div class="sec">WORKSPACE</div>
-    <div class="mi" data-act="nav" data-v="adv"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 9h16M9 9v11"/></svg>광고주 워크스페이스</div>
-    <div class="mi" data-act="nav" data-v="me"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.5-6 8-6s8 2 8 6"/></svg>내 프로필 (블로거)</div>
     <div class="guide"><b>POFACT는 이렇게 씁니다</b><br>블로거를 찾고, 캠페인을 올리고, 원고·발행·리포트까지 한 곳에서 관리하세요.</div>
     <button class="reset" data-act="reset">데모 초기화</button>
   </div>
@@ -470,66 +512,46 @@
 
     <!-- ═══ 홈 ═══ -->
     <div class="view" id="vHome">
-      <div class="hero">
-        <span class="ey">블로거 매칭 · AEO 원고 집행 플랫폼</span>
-        <h1>블로거가 직접 단가를 올려두는 곳,<br><b>검증된 채널에 골라서 집행하세요.</b></h1>
-        <p>네이버 블로그 · 티스토리 · 워드프레스 · 블로그스팟 — 단가·등급을 비교해 고르고, AEO 원고·발행·리포트까지 한 번에.</p>
-        <div class="srow">
-          <input type="text" id="srchQ" placeholder="예) 강남 뷰티 블로거, 성수 카페, IT 리뷰">
-          <button class="btn" data-act="homeSearch">블로거 찾기</button>
+      <div class="bchero">
+        <span class="ey">AEO · GEO · SEO 브랜드 진단</span>
+        <h1>내 브랜드, AI 시대에<br><b>제대로 보이고 있을까요?</b></h1>
+        <p>홈페이지 주소나 브랜드명만 넣으면 — 검색 색인 · AI 인용 · 블로그/채널 상태를 한 번에 진단합니다.</p>
+        <div class="bcrow">
+          <input type="text" id="bcQ" placeholder="홈페이지 URL 또는 브랜드명 (예: pofact.co · 하오커뮤니케이션)">
+          <button class="btn" data-act="brandCheck">무료로 체크하기</button>
         </div>
-        <div id="srchOut"></div>
+        <div class="bchint">가입 없이 바로 확인 · 아래에서 진단 항목을 먼저 볼 수 있어요</div>
       </div>
 
-      <!-- 슬라이드 캐러셀 -->
-      <div class="carousel" id="carousel">
-        <div class="ctrack" id="ctrack">
-          <div class="slide s1">
-            <div class="stx"><span class="sbadge">원고 생성기</span>
-              <h3>원고 걱정은 그만.<br>AI가 잡고, 블로거가 완성합니다.</h3>
-              <p>질문형 제목·자기완결 답변·FAQ까지 AEO 구조로 자동 초안 → 블로거가 경험만 얹으면 끝.</p>
-              <button class="btn" data-act="nav" data-v="market">블로거 찾기 ›</button></div>
-            <div class="sart" id="art1"></div>
-          </div>
-          <div class="slide s2">
-            <div class="stx"><span class="sbadge">성과 리포트</span>
-              <h3>발행하고 끝이 아니에요.<br>노출·AI 인용까지 추적합니다.</h3>
-              <p>구글·네이버 색인, 챗GPT·퍼플렉시티 인용 여부를 리포트로 — 대표님께 보여줄 지표가 됩니다.</p>
-              <button class="btn" data-act="nav" data-v="tool">마케팅툴 보기 ›</button></div>
-            <div class="sart" id="art2"></div>
-          </div>
-          <div class="slide s3">
-            <div class="stx"><span class="sbadge">대량 집행</span>
-              <h3>50명도 한 번에.<br>조건만 넣으면 일괄 제안.</h3>
-              <p>예산·채널·등급을 넣으면 맞는 블로거를 자동으로 담고, 한 번에 제안을 보냅니다.</p>
-              <button class="btn" data-act="nav" data-v="sim">견적 시뮬레이터 ›</button></div>
-            <div class="sart" id="art3"></div>
-          </div>
-        </div>
-        <div class="cdots" id="cdots"></div>
-        <button class="carr prev" data-act="cprev">‹</button>
-        <button class="carr next" data-act="cnext">›</button>
+      <div id="bcReport"></div>
+
+      <div class="sechead"><h2>무엇을 진단하나요?</h2></div>
+      <div class="sechint">브랜드 체크 한 번으로 네 가지를 종합해서 봅니다.</div>
+      <div class="bgrid">
+        <div class="bcard"><div class="nm"><span class="dico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg></span> 검색 색인</div><div class="pr" style="margin-top:6px">구글·네이버에 잘 색인되는지, sitemap·구조화 데이터·크롤러 허용 상태를 점검합니다.</div></div>
+        <div class="bcard"><div class="nm"><span class="dico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5h16v11H8l-4 4z"/><path d="M8 9h8M8 12h5"/></svg></span> AI 인용</div><div class="pr" style="margin-top:6px">챗GPT·퍼플렉시티가 내 브랜드를 답변에 인용하는지, 무엇을 근거로 삼는지 확인합니다.</div></div>
+        <div class="bcard"><div class="nm"><span class="dico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 9v11"/></svg></span> 홈페이지 AEO 구조</div><div class="pr" style="margin-top:6px">질문형 제목·자기완결 문단·FAQ·llms.txt 등 AI가 읽기 좋은 구조를 갖췄는지 봅니다.</div></div>
+        <div class="bcard"><div class="nm"><span class="dico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h4l3 7 4-14 3 7h4"/></svg></span> 블로그·채널 상태</div><div class="pr" style="margin-top:6px">운영 중인 블로그·SNS의 지수와 활동성, 검색 노출력을 함께 진단합니다.</div></div>
       </div>
 
-      <div class="sechead"><h2>블로거 마켓 <b>NEW</b></h2><span class="more" data-act="nav" data-v="market">전체보기 ›</span></div>
-      <div class="sechint">블로거가 직접 올린 채널·단가를 비교해 바로 제안하세요. 등급은 블로그 평가툴이 판정합니다.</div>
-      <div class="bgrid" id="homeBloggers"></div>
+      <div class="sechead"><h2>업종별 솔루션</h2><a class="more" href="solution/index.html">전체보기 ›</a></div>
+      <div class="sechint">진단 결과에 맞춰, 업종 특성에 딱 맞게 해결합니다.</div>
+      <div class="bgrid">
+        <a class="bcard" href="solution/hospital.html"><div class="nm">병원·의원</div><div class="pr" style="margin-top:6px">의료광고 심의를 지키며 검색·AI에 노출되는 병원 마케팅.</div><div class="bf"><span style="color:var(--teal-d);font-weight:700;font-size:12px">솔루션 보기 ›</span></div></a>
+        <a class="bcard" href="solution/academy.html"><div class="nm">학원·교육</div><div class="pr" style="margin-top:6px">지역 학부모 검색을 잡는 학원 온라인 노출 전략.</div><div class="bf"><span style="color:var(--teal-d);font-weight:700;font-size:12px">솔루션 보기 ›</span></div></a>
+        <a class="bcard" href="solution/lawyer.html"><div class="nm">변호사·법률</div><div class="pr" style="margin-top:6px">변호사법을 준수하며 상담 문의로 이어지는 법률 마케팅.</div><div class="bf"><span style="color:var(--teal-d);font-weight:700;font-size:12px">솔루션 보기 ›</span></div></a>
+        <a class="bcard" href="solution/tax.html"><div class="nm">세무사·회계</div><div class="pr" style="margin-top:6px">기장·양도세 등 고의도 키워드를 잡는 세무 마케팅.</div><div class="bf"><span style="color:var(--teal-d);font-weight:700;font-size:12px">솔루션 보기 ›</span></div></a>
+        <a class="bcard" href="solution/franchise.html"><div class="nm">프랜차이즈</div><div class="pr" style="margin-top:6px">본사·가맹점 검색을 함께 살리는 프랜차이즈 노출.</div><div class="bf"><span style="color:var(--teal-d);font-weight:700;font-size:12px">솔루션 보기 ›</span></div></a>
+        <a class="bcard" href="solution/smb.html"><div class="nm">소상공인·자영업</div><div class="pr" style="margin-top:6px">플레이스·블로그·검색을 묶는 우리 가게 노출.</div><div class="bf"><span style="color:var(--teal-d);font-weight:700;font-size:12px">솔루션 보기 ›</span></div></a>
+      </div>
 
-      <div class="sechead"><h2>진행 중인 캠페인</h2><span class="more" data-act="nav" data-v="camp">전체보기 ›</span></div>
-      <div id="homeCamps"></div>
-
-      <div class="sechead"><h2>스페셜 포스트</h2></div>
-      <div class="sechint">포팩트서비스의 패키지 상품을 소개합니다.</div>
-      <div class="pkg">
-        <div class="ph"><h3><span class="tag t">포팩트서비스</span> AEO 스타터 번들 — 검증 블로그 10곳 동시 발행</h3>
-          <span class="price">1,000,000원 <small style="font-weight:600;color:var(--sub)">(예시가 · VAT 별도)</small></span></div>
-        <ul>
-          <li><b>구성</b> — AEO 구조 원고 10건(질문형 제목·자기완결 답변·FAQ) + 최적·준최적 등급 블로그 10곳 발행</li>
-          <li><b>자동 처리</b> — 협찬 표기 자동 삽입 · 가이드라인 반영 · 발행 검수</li>
-          <li><b>확인</b> — 구글·네이버 노출 확인 알림 제공</li>
-          <li><b>절차</b> — 블로거 선정 → 가이드 전달 → 원고 생성·검수 → 동시 발행</li>
-        </ul>
-        <button class="btn o sm" style="margin-top:10px" data-act="pkgAsk">상담 문의 (데모)</button>
+      <div class="sechead"><h2>인사이트</h2><a class="more" href="insight/index.html">전체보기 ›</a></div>
+      <div class="sechint">AEO·GEO·SEO 연구소 — 트렌드 리포트부터 실무 노하우까지.</div>
+      <div class="bgrid">
+        <a class="bcard" href="insight/trend.html"><div class="nm">트렌드 리포트</div><div class="pr" style="margin-top:6px">마케팅·플랫폼·AI 검색의 최신 흐름.</div></a>
+        <a class="bcard" href="insight/aeo-geo.html"><div class="nm">AEO·GEO 전략</div><div class="pr" style="margin-top:6px">AI가 우리 브랜드를 인용하게 만드는 법.</div></a>
+        <a class="bcard" href="insight/seo.html"><div class="nm">검색·채널 노출(SEO)</div><div class="pr" style="margin-top:6px">상위노출·색인·채널 선택 실무.</div></a>
+        <a class="bcard" href="insight/index.html"><div class="nm">전체 칼럼 보기</div><div class="pr" style="margin-top:6px">캠페인 실무·블로거 가이드·사장님 마케팅까지.</div></a>
       </div>
     </div>
 
@@ -1651,13 +1673,43 @@ function rkRow(b, i){
 function sortedByFav(){ return [...S.bloggers].sort((a,b)=>(b.fav||0)-(a.fav||0)); }
 
 /* ── 홈 렌더 + AI 매칭 검색 ── */
-function renderHome(){
-  /* 홈 프리뷰: 등급 높은 순 6명 (체크박스 없음) */
-  const preview=[...S.bloggers].sort((a,b)=>(b.rating||0)-(a.rating||0)).slice(0,6);
-  document.getElementById('homeBloggers').innerHTML=preview.map(b=>bcard(b)).join('');
-  /* 유형별로 하나씩 보여주기 */
-  const picks=['방문형','배송형','기자단','구매형'].map(k=>S.campaigns.find(c=>c.kind===k)).filter(Boolean);
-  document.getElementById('homeCamps').innerHTML=picks.map(campCard).join('');
+function renderHome(){ /* 브랜드 체크 홈은 정적 마크업 — 별도 렌더 없음 */ }
+/* ── 브랜드 체크 (샘플 진단 리포트) ── */
+function brandCheck(){
+  const raw=(document.getElementById('bcQ').value||'').trim();
+  const q=raw||'내 브랜드';
+  const items=[
+    {n:'검색 색인', st:'주의', cls:'st-warn', tx:'구글은 색인되지만 네이버는 일부 페이지가 누락됐습니다. sitemap 제출과 구조화 데이터(Schema) 보강이 필요합니다.'},
+    {n:'AI 인용', st:'미흡', cls:'st-bad', tx:'챗GPT·퍼플렉시티 답변에 브랜드가 거의 인용되지 않습니다. 브랜드를 설명하는 자기완결형 콘텐츠와 크롤러 허용(llms.txt)이 부족합니다.'},
+    {n:'홈페이지 AEO 구조', st:'주의', cls:'st-warn', tx:'질문형 제목·FAQ가 일부만 적용돼 있습니다. 정의문·구조화 데이터·AI 크롤러 허용을 추가하면 인용 확률이 올라갑니다.'},
+    {n:'블로그·채널 상태', st:'양호', cls:'st-ok', tx:'블로그를 운영 중이고 지수는 보통 수준입니다. 발행 주기는 일정하나, 검색 의도형 키워드가 부족합니다.'}
+  ];
+  const html=`
+    <div class="bcresult">
+      <div class="bcscore">
+        <div class="ring"><span>64</span></div>
+        <div class="sc-tx"><h3>‘${q}’ 브랜드 체크 결과</h3>
+          <p>AEO·GEO·SEO 종합 <b>64 / 100</b> — 검색 노출은 되지만 <b>AI 인용과 홈페이지 구조</b>에서 점수가 깎였습니다. 개선 여지가 큽니다.</p></div>
+      </div>
+      <div class="bgrid">
+        ${items.map(i=>`<div class="dcard"><div class="dh"><b>${i.n}</b><span class="stbadge ${i.cls}">${i.st}</span></div><div class="dtx">${i.tx}</div></div>`).join('')}
+      </div>
+      <div class="card bcnext">
+        <h3>개선 우선순위</h3>
+        <ol>
+          <li>홈페이지에 AI 크롤러 허용(llms.txt)과 구조화 데이터를 먼저 적용</li>
+          <li>브랜드를 설명하는 자기완결형·질문형 콘텐츠를 핵심 페이지에 배치</li>
+          <li>네이버 색인 누락 페이지 sitemap 재제출</li>
+          <li>업종에 맞는 검색 의도형 콘텐츠로 노출·AI 인용 동시 강화</li>
+        </ol>
+        <a class="btn" href="solution/index.html" style="text-decoration:none">업종별 솔루션 보기 →</a>
+        <button class="btn o sm" data-act="pkgAsk" style="margin-left:8px">진단 상담 문의</button>
+      </div>
+      <p class="note">※ 지금은 진단 항목을 보여주는 예시 리포트입니다. 실제 색인·AI 인용·블로그 지수 크롤링 연동은 정식 오픈 시 제공됩니다.</p>
+    </div>`;
+  const el=document.getElementById('bcReport');
+  el.innerHTML=html;
+  el.scrollIntoView({behavior:'smooth', block:'start'});
 }
 /* 지역 사전 — 검색어에서 지역을 먼저 뽑아낸다 */
 const REGIONS=['서울','경기','인천','부산','대구','대전','광주','울산','세종','강원','충북','충남','전북','전남','경북','경남','제주'];
@@ -2386,6 +2438,7 @@ document.addEventListener('click', function(ev){
   else if(act==='sendPropose') sendPropose(+el.getAttribute('data-b'));
   else if(act==='reset') resetDemo();
   else if(act==='homeSearch') homeSearch();
+  else if(act==='brandCheck') brandCheck();
   else if(act==='simCalc') simCalc();
   else if(act==='simToAdv') nav('adv');
   else if(act==='pkgAsk') toast('상담 문의가 접수되었습니다 (데모)');
