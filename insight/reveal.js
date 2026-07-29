@@ -17,6 +17,19 @@
     /* 안전장치: 2.5초 뒤 남은 요소 모두 표시 */
     setTimeout(function () { els.forEach(function (e) { e.classList.add('in'); }); }, 2500);
   }
-  if (d.readyState !== 'loading') reveal();
-  else d.addEventListener('DOMContentLoaded', reveal);
+  function tilt() {
+    if (window.matchMedia('(hover:none)').matches || window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+    [].slice.call(d.querySelectorAll('.ccard, .feat')).forEach(function (c) {
+      c.style.transition = 'transform .16s cubic-bezier(.2,.7,.2,1), box-shadow .2s';
+      c.addEventListener('mousemove', function (e) {
+        var r = c.getBoundingClientRect();
+        var px = (e.clientX - r.left) / r.width - 0.5, py = (e.clientY - r.top) / r.height - 0.5;
+        c.style.transform = 'perspective(800px) rotateX(' + (-py * 5).toFixed(2) + 'deg) rotateY(' + (px * 7).toFixed(2) + 'deg) translateY(-5px)';
+      });
+      c.addEventListener('mouseleave', function () { c.style.transform = ''; });
+    });
+  }
+  function start() { reveal(); tilt(); }
+  if (d.readyState !== 'loading') start();
+  else d.addEventListener('DOMContentLoaded', start);
 })();

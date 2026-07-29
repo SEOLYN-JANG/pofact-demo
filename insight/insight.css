@@ -106,6 +106,18 @@ main{max-width:1080px; margin:0 auto; padding:0 24px 90px;}
 /* ── 진입 애니메이션 (CSS 전용, fill-mode 없음 → 애니메이션이 안 돌면 항상 보임) ── */
 @keyframes fadeUp{from{opacity:0; transform:translateY(20px);} to{opacity:1; transform:none;}}
 .post, .feat, .cats .ccard{animation:fadeUp .5s cubic-bezier(.2,.7,.2,1);}
+/* ── 입체감 · 3D ── */
+.main{background:
+  radial-gradient(720px 400px at 94% -6%, rgba(124,92,242,.10), transparent 60%),
+  radial-gradient(620px 380px at -8% 8%, rgba(90,99,240,.09), transparent 55%),
+  var(--bg);}
+.ccard, .feat{transform-style:preserve-3d; will-change:transform;}
+.ccard:hover{box-shadow:0 30px 58px rgba(60,50,140,.18);}
+.feat:hover, .post:hover{box-shadow:0 26px 52px rgba(60,50,140,.15);}
+.nav .cta{background:linear-gradient(180deg,#2a2d46,#14162b); box-shadow:0 7px 18px rgba(20,22,43,.28);}
+.cover{box-shadow:0 30px 66px rgba(70,50,150,.24);}
+.cta a{box-shadow:0 6px 16px rgba(20,22,60,.14);}
+.keybox{box-shadow:0 8px 22px rgba(90,99,240,.07);}
 
 /* ── 푸터 ── */
 footer{border-top:1px solid var(--line); background:#fff;}

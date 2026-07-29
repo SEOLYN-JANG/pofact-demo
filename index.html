@@ -496,6 +496,43 @@
   .finalcta p{font-size:14.5px; color:rgba(255,255,255,.92); margin-bottom:20px;}
   .finalcta .btn{background:#fff; color:var(--teal-d); border:0; font-weight:800; padding:14px 28px; border-radius:14px; font-size:15px; cursor:pointer; font-family:inherit; box-shadow:var(--sh);}
   .finalcta .btn:hover{transform:translateY(-2px);}
+  /* ══ 입체감 · 3D · 액션 업그레이드 ══ */
+  .main{background:
+    radial-gradient(720px 400px at 94% -6%, rgba(124,92,242,.11), transparent 60%),
+    radial-gradient(640px 380px at -8% 10%, rgba(90,99,240,.10), transparent 55%),
+    radial-gradient(600px 460px at 55% 112%, rgba(58,168,201,.07), transparent 60%),
+    var(--bg);}
+  /* 버튼 입체 */
+  .btn{background:linear-gradient(180deg,#6d75f6,#5a63f0); box-shadow:0 6px 16px rgba(90,99,240,.36), inset 0 1px 0 rgba(255,255,255,.28);}
+  .btn:hover{transform:translateY(-2px); box-shadow:0 13px 28px rgba(90,99,240,.44), inset 0 1px 0 rgba(255,255,255,.3);}
+  .btn:active{transform:translateY(0); box-shadow:0 3px 10px rgba(90,99,240,.34), inset 0 1px 0 rgba(255,255,255,.2);}
+  /* 히어로 — 움직이는 그라데이션 + 블러 오브 + 그라데이션 텍스트 */
+  .bchero{background:
+    radial-gradient(440px 320px at 84% 16%, rgba(255,255,255,.24), transparent 62%),
+    linear-gradient(135deg,#6d6ff5 0%,#8a6ff0 52%,#a26cf0 100%);
+    background-size:180% 180%, 180% 180%; animation:heroShift 16s ease infinite;}
+  @keyframes heroShift{0%,100%{background-position:0% 50%,0% 50%;} 50%{background-position:100% 50%,100% 50%;}}
+  .bchero::after{filter:blur(10px);} .bchero::before{filter:blur(14px);}
+  .bchero h1 b{background:linear-gradient(92deg,#ffffff,#e7e2ff 60%,#d6ccff); -webkit-background-clip:text; background-clip:text; color:transparent;}
+  .bcrow input{box-shadow:0 12px 32px rgba(18,20,55,.2);}
+  .bcrow .btn{box-shadow:0 10px 24px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.16);}
+  /* 카드 3D 틸트 + 컬러 글로우 */
+  #vHome .bcard, #vHome .flowstep, .plan, #bcReport .dcard{transform-style:preserve-3d; will-change:transform;}
+  #vHome .bcard{transition:transform .16s cubic-bezier(.2,.7,.2,1), box-shadow .18s, border-color .18s;}
+  #vHome .bcard:hover{box-shadow:0 28px 54px rgba(60,50,140,.17); border-color:var(--teal-line);}
+  .flowstep{transition:transform .16s cubic-bezier(.2,.7,.2,1), box-shadow .18s;}
+  .flowstep:hover{box-shadow:0 20px 40px rgba(60,50,140,.15);}
+  #bcReport .dcard{transition:transform .16s cubic-bezier(.2,.7,.2,1), box-shadow .18s;}
+  #bcReport .dcard:hover{box-shadow:0 22px 46px rgba(60,50,140,.16);}
+  /* 깊이감 그림자 */
+  .autopanel, .cmpcard, .tlcard{box-shadow:0 16px 44px rgba(40,40,90,.09);}
+  .bcscore{box-shadow:0 16px 44px rgba(40,40,90,.09);}
+  /* best 플랜 글로우 */
+  .plan.best{box-shadow:0 32px 64px rgba(90,99,240,.42), inset 0 1px 0 rgba(255,255,255,.18); transition:transform .16s cubic-bezier(.2,.7,.2,1), box-shadow .2s;}
+  .plan.best::after{content:''; position:absolute; inset:0; border-radius:22px; background:radial-gradient(320px 180px at 82% 0%, rgba(255,255,255,.2), transparent 62%); pointer-events:none;}
+  /* 진행바·점 글로우 */
+  .ring{box-shadow:0 10px 26px rgba(90,99,240,.35);}
+  @media(prefers-reduced-motion:reduce){ .bchero{animation:none;} }
   /* ── 모달·토스트 ── */
   .mbg{position:fixed; inset:0; background:rgba(15,25,35,.45); z-index:50;
     display:flex; align-items:center; justify-content:center; padding:20px;}
@@ -1921,9 +1958,23 @@ function brandCheck(){
   const el=document.getElementById('bcReport');
   el.innerHTML=html;
   el.scrollIntoView({behavior:'smooth', block:'start'});
+  initTilt();
 }
 function autoScroll(){ const el=document.getElementById('autopub'); if(el) el.scrollIntoView({behavior:'smooth', block:'start'}); }
 function ctaTop(){ window.scrollTo({top:0, behavior:'smooth'}); const i=document.getElementById('bcQ'); if(i) setTimeout(()=>i.focus(), 400); }
+/* 마우스 추적 3D 틸트 (데스크톱 · 모션 허용 시) */
+function initTilt(){
+  if(window.matchMedia('(hover:none)').matches || window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  document.querySelectorAll('#vHome .bcard, #vHome .flowstep, .plan, #bcReport .dcard').forEach(function(c){
+    if(c.__tilt) return; c.__tilt=true;
+    c.addEventListener('mousemove', function(e){
+      const r=c.getBoundingClientRect();
+      const px=(e.clientX-r.left)/r.width-.5, py=(e.clientY-r.top)/r.height-.5;
+      c.style.transform='perspective(760px) rotateX('+(-py*5).toFixed(2)+'deg) rotateY('+(px*7).toFixed(2)+'deg) translateY(-5px)';
+    });
+    c.addEventListener('mouseleave', function(){ c.style.transform=''; });
+  });
+}
 /* 4개 플랫폼 자동 발행 시뮬레이션 */
 let autoRunning=false;
 function autoPub(){
@@ -2772,7 +2823,7 @@ function animateStats(){
 const _navBase=nav;
 nav=function(v){ _navBase(v); if(v==='home'){ try{ animateStats(); }catch(e){} } };
 
-load(); renderAll(); initCarousel(); animateStats();
+load(); renderAll(); initCarousel(); animateStats(); initTilt();
 </script>
 </body>
 </html>
