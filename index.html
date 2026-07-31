@@ -658,6 +658,71 @@
   .pfobs .wr{color:#e0a852; font-weight:800; flex:0 0 auto;}
   .pfobs b{color:var(--ink);}
   .pferr{background:#fff5f5; border:1px solid #f3c9c9; color:#b3403a; border-radius:14px; padding:16px 18px; font-size:13.5px; line-height:1.6;}
+
+  /* ═══ 매니페스토: 직접 할 필요 없다 ═══ */
+  .mf{margin:60px 0;}
+  .mf-hook{text-align:center;}
+  .mf-strikes{display:flex; flex-wrap:wrap; gap:9px; justify-content:center; margin-bottom:20px;}
+  .mf-strikes span{position:relative; font-size:15px; font-weight:700; color:#aeb2c6; padding:7px 16px; border:1px dashed #d6d9e8; border-radius:999px; background:#fff;}
+  .mf-strikes span::after{content:""; position:absolute; left:13px; right:13px; top:53%; height:2.5px; border-radius:2px; background:#e2604f; transform:scaleX(0); transform-origin:left; transition:transform .55s cubic-bezier(.2,.7,.2,1);}
+  .mf.in .mf-strikes span::after{transform:scaleX(1);}
+  .mf.in .mf-strikes span:nth-child(2)::after{transition-delay:.1s}
+  .mf.in .mf-strikes span:nth-child(3)::after{transition-delay:.2s}
+  .mf.in .mf-strikes span:nth-child(4)::after{transition-delay:.3s}
+  .mf-hook h2{font-size:clamp(29px,5.2vw,48px); font-weight:800; letter-spacing:-1.6px; line-height:1.16;}
+  .mf-hook h2 b{background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent;}
+  .mf-hook p{max-width:660px; margin:16px auto 0; color:#6b7086; font-size:15.5px; line-height:1.75;}
+  .mf-hook p b{color:var(--ink);}
+
+  /* 3-step 경로 */
+  .mf-steps{display:flex; align-items:stretch; gap:12px; margin:42px 0; flex-wrap:wrap;}
+  .mf-step{flex:1 1 210px; background:#fff; border:1px solid var(--line); border-radius:20px; padding:24px 22px; box-shadow:var(--sh); opacity:0; transform:translateY(16px); transition:opacity .5s, transform .5s;}
+  .mf.in .mf-step{opacity:1; transform:none;}
+  .mf.in .mf-step:nth-child(3){transition-delay:.08s}
+  .mf.in .mf-step:nth-child(5){transition-delay:.16s}
+  .mf-step .n{width:36px; height:36px; border-radius:12px; background:var(--grad); color:#fff; font-weight:800; font-size:16px; display:grid; place-items:center; box-shadow:0 7px 16px rgba(109,111,245,.36); margin-bottom:13px;}
+  .mf-step h4{font-size:16.5px; font-weight:800; letter-spacing:-.3px; margin-bottom:7px;}
+  .mf-step p{font-size:13px; color:var(--sub); line-height:1.62;}
+  .mf-step .st{display:inline-block; margin-top:12px; font-size:11px; font-weight:800; color:var(--teal-d); background:var(--teal-bg); padding:4px 10px; border-radius:999px;}
+  .mf-arrow{flex:0 0 auto; align-self:center; color:#cbcfe0;}
+  .mf-arrow svg{width:22px; height:22px; display:block;}
+  .mf-result{flex:1 1 170px; align-self:stretch; border-radius:20px; padding:24px 20px; text-align:center; display:flex; flex-direction:column; align-items:center; justify-content:center; background:linear-gradient(160deg,#eef0ff,#f7f4ff); border:1.5px dashed var(--teal-line); opacity:0; transform:translateY(16px); transition:opacity .5s .22s, transform .5s .22s;}
+  .mf.in .mf-result{opacity:1; transform:none;}
+  .mf-result .rc{width:44px; height:44px; border-radius:14px; background:#fff; display:grid; place-items:center; box-shadow:var(--sh); margin-bottom:11px;}
+  .mf-result .rc svg{width:24px; height:24px; stroke:#6d6ff5; fill:none; stroke-width:2;}
+  .mf-result b{font-size:16px; letter-spacing:-.4px; background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent;}
+  .mf-result small{display:block; margin-top:5px; font-size:11.5px; color:#8288a0; line-height:1.5;}
+
+  /* VS 대비 */
+  .mf-vs{display:grid; grid-template-columns:1fr 56px 1fr; margin:8px 0 0; border:1px solid var(--line); border-radius:24px; overflow:hidden; box-shadow:var(--sh-lg); background:#fff;}
+  .mf-col{padding:28px 28px;}
+  .mf-col.bad{background:#fbfbfd;}
+  .mf-col.good{background:linear-gradient(165deg,#f1f2ff 0%,#fff 60%);}
+  .mf-col h3{font-size:13.5px; font-weight:800; letter-spacing:.2px; margin-bottom:17px; display:flex; align-items:center; gap:8px;}
+  .mf-col h3 svg{width:19px; height:19px; fill:none; stroke-width:1.9;}
+  .mf-col.bad h3{color:#969bb0;} .mf-col.bad h3 svg{stroke:#b3b7c8;}
+  .mf-col.good h3{color:var(--teal-d);} .mf-col.good h3 svg{stroke:var(--teal);}
+  .mf-li{display:flex; gap:10px; align-items:flex-start; padding:9px 0; font-size:13.5px; line-height:1.55; border-top:1px solid rgba(0,0,0,.04);}
+  .mf-li:first-of-type{border-top:0;}
+  .mf-li svg{width:17px; height:17px; flex:0 0 auto; margin-top:2px; fill:none; stroke-width:2.4;}
+  .mf-col.bad .mf-li{color:#8b90a4;} .mf-col.bad .mf-li svg{stroke:#d1795f;}
+  .mf-col.good .mf-li{color:#2c3050; font-weight:600;} .mf-col.good .mf-li svg{stroke:#0f9d8f;}
+  .mf-mid{background:var(--ink); color:#fff; font-weight:800; font-size:12.5px; letter-spacing:1.5px; display:grid; place-items:center;}
+
+  /* 펀치라인 CTA */
+  .mf-cta{margin:16px 0 0; background:var(--ink); border-radius:26px; padding:44px 34px; text-align:center; position:relative; overflow:hidden;}
+  .mf-cta::before{content:""; position:absolute; inset:0; background:radial-gradient(680px 240px at 50% -30%, rgba(122,124,255,.55), transparent 70%);}
+  .mf-cta > *{position:relative;}
+  .mf-cta h2{color:#fff; font-size:clamp(23px,4.2vw,36px); font-weight:800; letter-spacing:-1.1px; line-height:1.32;}
+  .mf-cta h2 b{background:linear-gradient(135deg,#adaeff,#d9bcff); -webkit-background-clip:text; background-clip:text; color:transparent;}
+  .mf-cta p{color:#b7bbd6; margin:13px auto 24px; max-width:540px; font-size:14.5px; line-height:1.65;}
+  .mf-cta .btn{font-size:15px; padding:14px 30px;}
+  @media(max-width:760px){
+    .mf-arrow{display:none;}
+    .mf-step, .mf-result{flex:1 1 100%;}
+    .mf-vs{grid-template-columns:1fr;}
+    .mf-mid{padding:8px; letter-spacing:3px;}
+  }
 </style>
 </head>
 <body>
@@ -764,6 +829,67 @@
         <div class="prow"><span class="px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 4.3 2.4 18a2 2 0 0 0 1.7 3h15.8a2 2 0 0 0 1.7-3L13.7 4.3a2 2 0 0 0-3.4 0z"/></svg></span><p>열심히 써도 <b>챗GPT·퍼플렉시티는 우리 브랜드를 인용하지 않습니다.</b></p></div>
         <div class="prow"><span class="px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 4.3 2.4 18a2 2 0 0 0 1.7 3h15.8a2 2 0 0 0 1.7-3L13.7 4.3a2 2 0 0 0-3.4 0z"/></svg></span><p>경쟁사는 검색·AI 답변에 뜨는데, 우리만 보이지 않습니다.</p></div>
       </div>
+
+      <!-- ═══ 매니페스토: 직접 할 필요 없다 ═══ -->
+      <section class="mf" id="mfWhy">
+        <div class="mf-hook">
+          <div class="mf-strikes"><span>블로그</span><span>티스토리</span><span>언론홍보</span><span>워드프레스</span></div>
+          <h2>대표님이 직접 하실 필요,<br><b>없습니다.</b></h2>
+          <p>요즘은 광고회사도 AI 검색 앞에서 갈피를 못 잡습니다. 채널마다 대행을 붙여 하나하나 맡길 필요 없어요. <b>처음 한 번 진단받고, 부족한 부분만 채우면 됩니다.</b></p>
+        </div>
+
+        <div class="mf-steps">
+          <div class="mf-step">
+            <div class="n">1</div>
+            <h4>브랜드 진단</h4>
+            <p>지금 검색·AI 노출에서 뭐가 약한지 30초 만에 확인합니다.</p>
+            <span class="st">무료 · 회원가입 없음</span>
+          </div>
+          <div class="mf-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+          <div class="mf-step">
+            <div class="n">2</div>
+            <h4>초기 홈페이지 세팅</h4>
+            <p>AI가 읽는 구조(질문형·FAQ·구조화 데이터·llms.txt)로 우리가 직접 잡아드립니다.</p>
+            <span class="st">POFACT가 직접</span>
+          </div>
+          <div class="mf-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+          <div class="mf-step">
+            <div class="n">3</div>
+            <h4>부족한 부분만 자동화</h4>
+            <p>데이터가 약한 채널만 골라 포팩트 자동 발행 시스템이 채웁니다.</p>
+            <span class="st">필요한 만큼만</span>
+          </div>
+          <div class="mf-result">
+            <span class="rc"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8M21 7v5M21 7h-5"/></svg></span>
+            <b>AEO는 시간 문제</b>
+            <small>쌓일수록 AI가<br>우리 브랜드를 인용합니다</small>
+          </div>
+        </div>
+
+        <div class="mf-vs">
+          <div class="mf-col bad">
+            <h3><svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-5h6v5"/></svg> 광고회사에 하나하나 맡기면</h3>
+            <div class="mf-li"><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg> 블로그·언론·SNS 채널마다 따로 대행 견적</div>
+            <div class="mf-li"><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg> 매달 고정비가 나가도 AI 답변엔 안 뜸</div>
+            <div class="mf-li"><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg> AEO를 아는 곳이 드물어 방향이 제각각</div>
+            <div class="mf-li"><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg> 성과 확인도, 수정도 한참 걸립니다</div>
+          </div>
+          <div class="mf-mid">VS</div>
+          <div class="mf-col good">
+            <h3><svg viewBox="0 0 24 24"><path d="M12 2 4 6v6c0 5 3.4 8.5 8 10 4.6-1.5 8-5 8-10V6z"/></svg> 포팩트는</h3>
+            <div class="mf-li"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg> 한 번의 진단으로 약한 곳을 정확히 파악</div>
+            <div class="mf-li"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg> 초기 홈페이지 AEO 구조를 직접 세팅</div>
+            <div class="mf-li"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg> 부족한 채널만 자동 발행으로 채움</div>
+            <div class="mf-li"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg> 시간이 지날수록 AI 인용이 쌓입니다</div>
+          </div>
+        </div>
+
+        <div class="mf-cta">
+          <h2>처음 진단받고, <b>부족한 부분만</b> 채우면 — 끝.</h2>
+          <p>복잡한 대행 계약 없이, 내 브랜드가 AI 검색에 어떻게 보이는지부터 확인하세요.</p>
+          <button class="btn" data-act="ctaTop">무료로 진단하기 →</button>
+        </div>
+      </section>
 
       <div class="sechead"><h2>무엇을 진단하나요?</h2></div>
       <div class="sechint">브랜드 체크 한 번으로 네 가지를 종합해서 봅니다.</div>
@@ -3179,6 +3305,17 @@ load(); renderAll(); initCarousel(); animateStats(); initTilt();
   document.addEventListener('mouseout', function(e){ if(e.target.closest(SEL)) ring.classList.remove('is-hover'); });
   addEventListener('mousedown', function(){ dot.style.opacity='0.4'; });
   addEventListener('mouseup', function(){ dot.style.opacity='1'; });
+})();
+
+/* ── 매니페스토 스크롤 리빌 ── */
+(function(){
+  var mf=document.getElementById('mfWhy'); if(!mf) return;
+  if(!('IntersectionObserver' in window)){ mf.classList.add('in'); return; }
+  var io=new IntersectionObserver(function(ents){
+    ents.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  },{threshold:0.18});
+  io.observe(mf);
+  setTimeout(function(){ mf.classList.add('in'); }, 2600); /* 안전장치 */
 })();
 </script>
 </body>
