@@ -179,3 +179,29 @@ footer a{color:var(--indigo-d); font-weight:600;}
   .cover::after,.cover::before{animation:none;}
   .post,.feat,.cats .ccard{animation:none;}
 }
+
+/* ── 고정 세로 사이드바 (업종별 솔루션 카테고리 공통) ── */
+body.has-side{padding-left:236px;}
+body.has-side .nav{display:none;}
+.pf-side{position:fixed; top:0; left:0; width:236px; height:100vh; overflow-y:auto; background:#fff; border-right:1px solid var(--line); padding:22px 14px; z-index:40;}
+.pf-side .pf-logo{display:flex; align-items:center; gap:9px; padding:0 8px 16px; text-decoration:none;}
+.pf-side .pf-mk{width:34px; height:34px; border-radius:10px; background:var(--grad); color:#fff; display:grid; place-items:center; font-weight:800; font-size:17px; box-shadow:0 4px 12px rgba(109,111,245,.4);}
+.pf-side .pf-wm{font-weight:800; font-size:17px; color:var(--ink); line-height:1.1;}
+.pf-side .pf-wm small{display:block; font-size:10px; color:var(--sub); font-weight:600; margin-top:2px;}
+.pf-side .pf-sec{font-size:10.5px; letter-spacing:.6px; color:#a3a6b4; font-weight:700; margin:16px 10px 6px;}
+.pf-side .pf-mi{display:flex; align-items:center; gap:9px; padding:10px 12px; border-radius:10px; font-size:13.5px; font-weight:600; color:#2f3350; text-decoration:none;}
+.pf-side .pf-mi svg{width:18px; height:18px; stroke:#6b7085; fill:none; stroke-width:1.9;}
+.pf-side .pf-mi:hover{background:var(--chip);}
+.pf-side .pf-grp{padding:10px 12px 4px; font-size:13.5px; font-weight:700; color:#2f3350; display:flex; align-items:center; gap:9px;}
+.pf-side .pf-grp svg{width:18px; height:18px; stroke:#6b7085; fill:none; stroke-width:1.9;}
+.pf-side .pf-sub{display:block; padding:8px 12px 8px 39px; border-radius:9px; font-size:12.5px; color:#6b7085; text-decoration:none;}
+.pf-side .pf-sub:hover{background:var(--chip); color:var(--indigo-d);}
+.pf-side .pf-sub.on{background:var(--indigo-bg); color:var(--indigo-d); font-weight:700;}
+.pf-side .pf-only-m{display:none;}
+@media(max-width:960px){
+  body.has-side{padding-left:0;}
+  .pf-side{position:static; width:100%; height:auto; overflow:visible; border-right:0; border-bottom:1px solid var(--line); display:flex; flex-wrap:wrap; align-items:center; gap:3px; padding:10px 14px;}
+  .pf-side .pf-sec, .pf-side .pf-grp, .pf-side .pf-sub{display:none;}
+  .pf-side .pf-logo{padding:0 12px 0 2px;}
+  .pf-side .pf-only-m{display:flex;}
+}

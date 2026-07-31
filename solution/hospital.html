@@ -24,7 +24,7 @@
   /* ── 세로 사이드바 (메인 앱과 통일) ── */
   .site-header{display:none !important;}
   .pf-shell{display:flex; align-items:flex-start; min-height:100vh;}
-  .pf-side{width:236px; flex:0 0 auto; background:#fff; border-right:1px solid rgba(0,0,0,.08); padding:22px 14px; position:sticky; top:0; align-self:stretch; min-height:100vh; z-index:30;}
+  .pf-side{width:236px; background:#fff; border-right:1px solid rgba(0,0,0,.08); padding:22px 14px; position:fixed; top:0; left:0; height:100vh; overflow-y:auto; z-index:30;}
   .pf-logo{display:flex; align-items:center; gap:9px; padding:0 8px 16px; text-decoration:none;}
   .pf-mk{width:34px; height:34px; border-radius:10px; background:linear-gradient(135deg,#6d6ff5,#9a6ef0); color:#fff; display:grid; place-items:center; font-weight:800; font-size:17px; box-shadow:0 4px 12px rgba(109,111,245,.4);}
   .pf-wm{font-weight:800; font-size:17px; color:#14162b; line-height:1.1;}
@@ -40,11 +40,12 @@
   .pf-sub{display:block; padding:8px 12px 8px 39px; border-radius:9px; font-size:12.5px; color:#6b7085; text-decoration:none;}
   .pf-sub:hover{background:#f4f5fb; color:#414bd8;}
   .pf-sub.on{background:#eef0ff; color:#414bd8; font-weight:700;}
-  .pf-main{flex:1; min-width:0;}
+  .pf-main{flex:1; min-width:0; margin-left:236px;}
   .pf-only-m{display:none;}
   @media(max-width:960px){
     .pf-shell{flex-direction:column;}
-    .pf-side{width:100%; min-height:auto; position:static; border-right:0; border-bottom:1px solid rgba(0,0,0,.08); display:flex; flex-wrap:wrap; align-items:center; gap:3px; padding:10px 14px;}
+    .pf-side{width:100%; height:auto; overflow:visible; position:static; border-right:0; border-bottom:1px solid rgba(0,0,0,.08); display:flex; flex-wrap:wrap; align-items:center; gap:3px; padding:10px 14px;}
+    .pf-main{margin-left:0;}
     .pf-sec, .pf-grp, .pf-sub{display:none;}
     .pf-logo{padding:0 12px 0 2px;}
     .pf-only-m{display:flex;}
