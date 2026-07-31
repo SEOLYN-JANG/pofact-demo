@@ -119,6 +119,49 @@ main{max-width:1080px; margin:0 auto; padding:0 24px 90px;}
 .cta a{box-shadow:0 6px 16px rgba(20,22,60,.14);}
 .keybox{box-shadow:0 8px 22px rgba(90,99,240,.07);}
 
+/* ── 솔루션 리치 랜딩 섹션 ── */
+.lead-sub{font-size:15px; color:var(--sub); line-height:1.7; margin:2px 0 22px; max-width:720px;}
+.statstrip{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin:4px 0 30px;}
+.statstrip .st{background:#fff; border:1px solid var(--line); border-radius:16px; padding:24px 18px; text-align:center; box-shadow:0 10px 30px rgba(40,40,90,.06);}
+.statstrip .st b{display:block; font-size:27px; font-weight:800; letter-spacing:-.6px; background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent;}
+.statstrip .st span{font-size:12.5px; color:var(--sub); margin-top:6px; display:block; line-height:1.45;}
+@media(max-width:640px){ .statstrip{grid-template-columns:1fr;} }
+.chcompare{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;}
+.chcol{background:#fff; border:1px solid var(--line); border-radius:18px; padding:22px 22px; box-shadow:var(--sh-sm);}
+.chcol.ai{background:var(--grad); color:#fff; border:0; box-shadow:0 22px 46px rgba(90,99,240,.3);}
+.chcol h4{font-size:12.5px; font-weight:800; letter-spacing:.3px; text-transform:uppercase; margin-bottom:13px;}
+.chcol.plain h4{color:var(--sub);}
+.chcol ul{list-style:none; display:flex; flex-wrap:wrap; gap:8px;}
+.chcol li{font-size:12.5px; font-weight:600; padding:6px 12px; border-radius:999px; background:var(--chip); color:#4a4f68;}
+.chcol.ai li{background:rgba(255,255,255,.2); color:#fff;}
+@media(max-width:640px){ .chcompare{grid-template-columns:1fr;} }
+.whynot{display:grid; grid-template-columns:repeat(3,1fr); gap:14px;}
+.wcard{background:#fff; border:1px solid var(--line); border-radius:18px; padding:22px 20px; box-shadow:var(--sh-sm);}
+.wcard .no{font-size:13px; font-weight:800; color:var(--indigo-d); background:var(--indigo-bg); width:34px; height:34px; border-radius:10px; display:grid; place-items:center; margin-bottom:13px;}
+.wcard b{font-size:15px; display:block; margin-bottom:7px; letter-spacing:-.2px;}
+.wcard p{font-size:13px; color:var(--sub); line-height:1.6;}
+@media(max-width:720px){ .whynot{grid-template-columns:1fr;} }
+.svcgrid{display:grid; grid-template-columns:repeat(3,1fr); gap:14px;}
+.svccard{background:#fff; border:1px solid var(--line); border-radius:16px; padding:20px 20px; box-shadow:var(--sh-sm); transition:transform .16s, box-shadow .16s, border-color .16s;}
+.svccard:hover{transform:translateY(-3px); box-shadow:var(--sh); border-color:var(--indigo-line);}
+.svccard .k{font-size:11px; font-weight:800; letter-spacing:.6px; color:var(--indigo-d);}
+.svccard h4{font-size:15px; margin:7px 0 8px; letter-spacing:-.2px;}
+.svccard p{font-size:13px; color:var(--sub); line-height:1.6;}
+@media(max-width:820px){ .svcgrid{grid-template-columns:repeat(2,1fr);} }
+@media(max-width:520px){ .svcgrid{grid-template-columns:1fr;} }
+.promise{background:linear-gradient(135deg,#f3f4ff,#eef0ff); border:1px solid var(--indigo-line); border-radius:20px; padding:32px 30px; text-align:center; box-shadow:0 12px 34px rgba(90,99,240,.08);}
+.promise h3{font-size:20px; font-weight:800; letter-spacing:-.4px; margin-bottom:11px;}
+.promise p{font-size:13.5px; color:#4a4f68; line-height:1.8; max-width:660px; margin:0 auto 14px;}
+.promise .sign{font-size:13px; color:var(--indigo-d); font-weight:700;}
+.richcta{background:var(--grad); color:#fff; border-radius:24px; padding:46px 30px; text-align:center; box-shadow:var(--sh-lg);}
+.richcta h2{font-size:25px; font-weight:800; letter-spacing:-.5px; margin-bottom:10px; line-height:1.3;}
+.richcta p{font-size:14px; color:rgba(255,255,255,.93); margin:0 auto 20px; max-width:640px; line-height:1.65;}
+.richcta .btn{background:#fff; color:var(--indigo-d); border:0; font-weight:800; padding:14px 28px; border-radius:14px; font-size:15px; cursor:pointer; font-family:inherit; display:inline-block; box-shadow:var(--sh);}
+.richcta .btn:hover{transform:translateY(-2px);}
+.otherind{display:flex; flex-wrap:wrap; gap:10px; margin-top:14px;}
+.otherind a{font-size:13px; font-weight:700; color:var(--indigo-d); background:var(--indigo-bg); border:1px solid var(--indigo-line); border-radius:999px; padding:8px 15px;}
+.otherind a:hover{background:#fff;}
+
 /* ── 푸터 ── */
 footer{border-top:1px solid var(--line); background:#fff;}
 footer .in{max-width:1080px; margin:0 auto; padding:32px 24px; color:var(--sub); font-size:12.5px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;}
