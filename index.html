@@ -646,6 +646,18 @@
   .cursor-ring.is-hover{width:46px; height:46px; background:rgba(91,99,240,.12);}
   @media (hover:hover) and (pointer:fine){ body{cursor:none;} a,button,input,select,textarea,label,.mi,.chip,summary,[data-act]{cursor:none;} }
   @media (hover:none),(pointer:coarse){ .cursor-dot,.cursor-ring{display:none !important;} }
+  /* ── 실측 진단 로딩·관측 ── */
+  .pfload{display:flex; align-items:center; gap:12px; background:#fff; border:1px solid var(--line); border-radius:16px; padding:20px 22px; font-size:14px; color:var(--sub); font-weight:600;}
+  .pfspin{width:20px; height:20px; border:2.6px solid var(--line); border-top-color:#5b63f0; border-radius:50%; animation:pfspin .8s linear infinite; flex:0 0 auto;}
+  @keyframes pfspin{to{transform:rotate(360deg)}}
+  .pfobs{list-style:none; margin:10px 0 0; padding:0;}
+  .pfobs li{display:flex; gap:8px; font-size:12.5px; color:#4a4f66; padding:5px 0; align-items:flex-start; border-top:1px solid var(--line);}
+  .pfobs li:first-child{border-top:0;}
+  .pfobs .ok{color:#0f9d8f; font-weight:800; flex:0 0 auto;}
+  .pfobs .no{color:#e06868; font-weight:800; flex:0 0 auto;}
+  .pfobs .wr{color:#e0a852; font-weight:800; flex:0 0 auto;}
+  .pfobs b{color:var(--ink);}
+  .pferr{background:#fff5f5; border:1px solid #f3c9c9; color:#b3403a; border-radius:14px; padding:16px 18px; font-size:13.5px; line-height:1.6;}
 </style>
 </head>
 <body>
@@ -2070,83 +2082,200 @@ function sortedByFav(){ return [...S.bloggers].sort((a,b)=>(b.fav||0)-(a.fav||0)
 /* ── 홈 렌더 + AI 매칭 검색 ── */
 function renderHome(){ /* 브랜드 체크 홈은 정적 마크업 — 별도 렌더 없음 */ }
 /* ── 브랜드 체크 (샘플 진단 리포트) ── */
-function brandCheck(){
-  const url=(document.getElementById('bcUrl')||{}).value||'';
+/* ============ 실측 무료 진단 (클라이언트에서 실제 사이트 분석) ============ */
+const PF_PROXIES=[
+  u=>'https://api.allorigins.win/raw?url='+encodeURIComponent(u),
+  u=>'https://corsproxy.io/?url='+encodeURIComponent(u)
+];
+function pfEsc(s){ return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function pfNormUrl(v){ v=(v||'').trim(); if(!v) return ''; if(!/^https?:\/\//i.test(v)) v='https://'+v; try{ return new URL(v).href; }catch(e){ return ''; } }
+function pfOrigin(u){ try{ return new URL(u).origin; }catch(e){ return ''; } }
+function pfIsHtml(t){ return /<html|<!doctype/i.test((t||'').slice(0,600)); }
+async function pfFetch(u){
+  for(const mk of PF_PROXIES){
+    try{
+      const ctl=new AbortController(); const to=setTimeout(()=>ctl.abort(),9000);
+      const r=await fetch(mk(u),{signal:ctl.signal}); clearTimeout(to);
+      if(!r.ok) continue;
+      const t=await r.text();
+      if(t && t.length) return t;
+    }catch(e){}
+  }
+  return null;
+}
+/* robots.txt 실제 파싱 → AI 크롤러 허용도 (25점) */
+function pfScoreRobots(txt){
+  if(txt===null||pfIsHtml(txt)) return ['AI 크롤러 허용 (robots.txt)',18,25,'robots.txt 없음 — 기본 허용(명시 권장)','wr'];
+  const blocks=[]; let cur=null;
+  txt.split(/\r?\n/).forEach(raw=>{
+    const line=raw.replace(/#.*/,'').trim(); if(!line) return;
+    const mUA=line.match(/^user-agent:\s*(.+)$/i);
+    if(mUA){ if(!cur||cur.hasRules){ cur={uas:[],dis:[],hasRules:false}; blocks.push(cur);} cur.uas.push(mUA[1].toLowerCase().trim()); return; }
+    const mD=line.match(/^disallow:\s*(.*)$/i);
+    if(mD&&cur){ cur.hasRules=true; cur.dis.push(mD[1].trim()); return; }
+    if(/^allow:/i.test(line)&&cur) cur.hasRules=true;
+  });
+  const blocksAll=b=>b.dis.some(d=>d==='/');
+  if(blocks.some(b=>b.uas.includes('*')&&blocksAll(b))) return ['AI 크롤러 허용 (robots.txt)',5,25,'전체 크롤러 차단(Disallow: /) — AI·검색 노출 불가','no'];
+  const bots=['gptbot','oai-searchbot','chatgpt-user','claudebot','anthropic-ai','claude-web','perplexitybot','google-extended','ccbot','bingbot'];
+  const blocked=bots.filter(bot=>blocks.some(b=>b.uas.includes(bot)&&blocksAll(b)));
+  const got=Math.max(10,25-blocked.length*4);
+  return ['AI 크롤러 허용 (robots.txt)',got,25, blocked.length?('AI 봇 차단: '+blocked.join(', ')):'AI 크롤러 접근 허용 확인', blocked.length?'wr':'ok'];
+}
+/* HTML 실제 파싱 */
+function pfAnalyzeHtml(html){
+  const doc=new DOMParser().parseFromString(html,'text/html');
+  const g=(sel,attr)=>{ const e=doc.querySelector(sel); return e?(attr?(e.getAttribute(attr)||''):(e.textContent||'')):''; };
+  const jsonld=[...doc.querySelectorAll('script[type="application/ld+json"]')];
+  let types=[];
+  jsonld.forEach(s=>{ try{ const j=JSON.parse(s.textContent); (Array.isArray(j)?j:[j]).forEach(o=>{ const t=o&&(o['@type']); if(t) types=types.concat(Array.isArray(t)?t:[t]); if(o&&o['@graph']) o['@graph'].forEach(x=>{ if(x['@type']) types=types.concat(Array.isArray(x['@type'])?x['@type']:[x['@type']]); }); }); }catch(e){} });
+  return {
+    title:g('title'),
+    desc:g('meta[name="description"]','content'),
+    ogT:g('meta[property="og:title"]','content'), ogD:g('meta[property="og:description"]','content'), ogI:g('meta[property="og:image"]','content'),
+    jsonldCount:jsonld.length, jsonldTypes:[...new Set(types)],
+    h1:doc.querySelectorAll('h1').length, h2:doc.querySelectorAll('h2').length,
+    lang:doc.documentElement.getAttribute('lang')||'',
+    canonical:!!doc.querySelector('link[rel="canonical"]'),
+    viewport:!!doc.querySelector('meta[name="viewport"]'),
+    hreflang:doc.querySelectorAll('link[rel="alternate"][hreflang]').length
+  };
+}
+async function brandCheck(){
+  const urlRaw=(document.getElementById('bcUrl')||{}).value||'';
   const brand=(document.getElementById('bcBrand')||{}).value||'';
   const ind=(document.getElementById('bcIndustry')||{}).value||'';
-  const q=(brand.trim()||url.trim()||'내 브랜드');
+  const q=pfEsc(brand.trim()||urlRaw.trim()||'내 브랜드');
   const hasInd=!!ind.trim();
-  const indL=hasInd?ind.trim():'업종 미입력';
-  const LK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>';
-  /* 사이트 기술 점수 (무료 — 사이트에서 관측 가능한 항목) */
-  const tech=[['AI 크롤러 허용 (robots.txt)',25,35],['구조화 데이터 (JSON-LD)',8,20],['사이트맵',10,10],['다국어 (hreflang)',0,10],['메타 정보',8,10],['콘텐츠 구조',6,10],['llms.txt',0,5]];
-  const total=tech.reduce((a,t)=>a+t[1],0);
-  const grade=total>=85?'매우 높음':total>=70?'높음':total>=50?'보통':'낮음';
-  const scoreLines=tech.map(t=>`<div class="scoreline"><div class="sl"><span>${t[0]}</span><span class="sv">${t[1]} / ${t[2]}</span></div><div class="scorebar"><i style="width:${(t[1]/t[2]*100).toFixed(0)}%"></i></div></div>`).join('');
-  /* 예상 질문 (입력 기반) */
+  const indL=hasInd?pfEsc(ind.trim()):'업종 미입력';
   const topic=hasInd?indL:'이 업종';
   const questions=[`${hasInd?indL+' ':''}잘하는 곳 추천해줘`, `${q} 어때? 믿을 만해?`, `${topic} 고를 때 뭘 봐야 해?`, `가성비 좋은 ${hasInd?indL:'업체'} 어디야?`, `${q} 후기 어때?`];
-  const comp=['동종 업체 A','동종 업체 B','동종 업체 C','대안 브랜드 D','대안 브랜드 E'];
-  const qs=[[`“${hasInd?indL:'우리 업종'} 추천해줘”`,'미인용','st-bad'],['“○○ 잘하는 곳” 질문','미인용','st-bad'],['지역+업종 추천 질문','부분 인용','st-warn'],[`“${q}” 브랜드 직접 질문`,'인용','st-ok'],['경쟁 비교 질문','미인용','st-bad']];
-  const html=`
+  const LK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>';
+  const el=document.getElementById('bcReport');
+  const url=pfNormUrl(urlRaw);
+
+  /* 잠금(정밀) 섹션 — AI 엔진 실질의는 백엔드 필요 → 정직하게 안내 */
+  const lockSec=`
+      <div class="sechint" style="margin:18px 0 8px">정밀 리포트 · AI 인용 실측 <span class="tier pro">정식 오픈 예정</span></div>
+      <div class="lockwrap">
+        <div class="lockblur">
+          <div class="card"><h3 class="rh">AI 브랜드 가시성 <span class="stbadge st-warn">측정 대기</span></h3>
+            <p class="pdesc" style="margin-top:0">ChatGPT·Perplexity·Gemini·Claude 등에 업종 대표 질문을 <b>실제로 질의</b>해 브랜드 인용 여부를 집계합니다. (예시 레이아웃)</p></div>
+          <div class="card"><h3 class="rh">질문별 AI 인용 결과 (예시)</h3>
+            ${questions.map(x=>`<div class="mrow" style="margin:8px 0"><span class="mk" style="width:auto;flex:1;font-size:13px">“${x}”</span><span class="stbadge st-warn">측정 대기</span></div>`).join('')}
+          </div>
+          <div class="card bcnext"><h3>개선 우선순위 (진단 기반 자동 도출)</h3><ol><li>AI 크롤러 허용(robots.txt·llms.txt)</li><li>구조화 데이터(JSON-LD) 보강</li><li>업종 대표 질문에 답하는 자기완결형 콘텐츠 발행</li></ol></div>
+        </div>
+        <div class="lockover">
+          <span class="lockic">${LK}</span>
+          <b>AI 인용 실측은 곧 오픈합니다</b>
+          <p>글로벌 AI 엔진에 실제로 물어 — AI 가시성 · 질문별 인용 · 경쟁사 비교. 오픈 알림을 신청하세요.</p>
+          <button class="btn" data-act="signup">오픈 알림 신청 →</button>
+        </div>
+      </div>
+      <div class="autohook" style="margin-top:16px">
+        <span><b>부족한 데이터, 직접 채울 필요 없습니다.</b> 4개 플랫폼 자동 발행으로 AI 가시성을 올리세요.</span>
+        <button class="btn sm" data-act="autoScroll">자동 발행 시스템 보기 →</button>
+      </div>`;
+
+  const questionCard=`
+      <div class="card"><h3 class="rh">사람들이 AI에게 물어볼 만한 질문</h3>
+        <ul class="qq">${questions.map(x=>'<li>'+x+'</li>').join('')}</ul>
+        <p class="note" style="margin-top:8px">※ 입력한 브랜드·업종을 바탕으로 생성한 예상 질의입니다.</p>
+      </div>`;
+
+  /* URL 없으면 기술 진단 불가 → 정직하게 안내 (점수 조작 안 함) */
+  if(!url){
+    el.innerHTML=`<div class="bcresult">
+      <div class="sechint" style="margin:0 0 10px">‘${q}’ 진단 <span class="tier free">회원가입 없이 무료</span></div>
+      <div class="pferr">사이트 주소(URL)를 입력하면 <b>robots.txt·구조화 데이터·메타·사이트맵·llms.txt 등을 실제로 측정</b>해 AI 친화도 점수를 산출합니다. 브랜드명만으로는 기술 점수를 낼 수 없어요.</div>
+      ${questionCard}${lockSec}
+    </div>`;
+    el.scrollIntoView({behavior:'smooth', block:'start'});
+    return;
+  }
+
+  /* 로딩 */
+  el.innerHTML=`<div class="pfload"><span class="pfspin"></span> ‘${pfEsc(url)}’ 사이트를 실제로 불러와 분석 중… (최대 10초)</div>`;
+  el.scrollIntoView({behavior:'smooth', block:'start'});
+
+  const origin=pfOrigin(url);
+  const [html,robots,sitemap,llms]=await Promise.all([
+    pfFetch(url), pfFetch(origin+'/robots.txt'), pfFetch(origin+'/sitemap.xml'), pfFetch(origin+'/llms.txt')
+  ]);
+
+  if(html===null){
+    el.innerHTML=`<div class="bcresult">
+      <div class="sechint" style="margin:0 0 10px">‘${q}’ 진단 <span class="tier free">회원가입 없이 무료</span></div>
+      <div class="pferr"><b>사이트를 불러오지 못했습니다.</b><br>주소가 정확한지 확인해 주세요. 사이트가 크롤러를 차단(robots/방화벽)했거나, 프록시가 일시적으로 응답하지 않을 수 있습니다. 잠시 후 다시 시도해 주세요.<br><span style="font-size:12px">시도한 주소: ${pfEsc(url)}</span></div>
+      ${questionCard}${lockSec}
+    </div>`;
+    el.scrollIntoView({behavior:'smooth', block:'start'});
+    return;
+  }
+
+  const a=pfAnalyzeHtml(html);
+  /* ── 실측 점수 (총 100) ── */
+  const rRobots=pfScoreRobots(robots);
+  // 구조화 데이터 (20)
+  let js=0; if(a.jsonldCount>0){ js=12; const rich=['Organization','LocalBusiness','MedicalBusiness','Article','NewsArticle','BlogPosting','FAQPage','Product','BreadcrumbList','Service','Review']; js+=Math.min(8, a.jsonldTypes.filter(t=>rich.includes(t)).length*3); }
+  const rJson=['구조화 데이터 (JSON-LD)',js,20, a.jsonldCount? (a.jsonldCount+'개 감지'+(a.jsonldTypes.length?' · '+a.jsonldTypes.slice(0,4).join(', '):'')):'JSON-LD 없음', a.jsonldCount?(js>=16?'ok':'wr'):'no'];
+  // 메타 정보 (15) = title 5 + desc 5 + OG 5
+  let mt=0; const tl=a.title.trim().length, dl=a.desc.trim().length;
+  mt+= tl>=10?5:(tl>0?3:0); mt+= dl>=50?5:(dl>0?3:0);
+  const ogN=[a.ogT,a.ogD,a.ogI].filter(x=>x&&x.trim()).length; mt+= ogN>=2?5:(ogN>=1?3:0);
+  const rMeta=['메타 정보 (제목·설명·OG)',mt,15, `제목 ${tl?tl+'자':'없음'} · 설명 ${dl?dl+'자':'없음'} · OG ${ogN}/3`, mt>=12?'ok':(mt>=6?'wr':'no')];
+  // 사이트맵 (10)
+  const smOk=(sitemap&&/<(urlset|sitemapindex)[\s>]/i.test(sitemap)) || (robots&&/sitemap:\s*http/i.test(robots));
+  const rSite=['사이트맵 (sitemap.xml)', smOk?10:0,10, smOk?'sitemap.xml 확인':'sitemap.xml 미발견', smOk?'ok':'no'];
+  // 콘텐츠 구조 (10) = h1===1(4) + h2>=2(3) + lang(2) + canonical(1)
+  let cs=0; cs+= a.h1===1?4:(a.h1>1?2:0); cs+= a.h2>=2?3:(a.h2>=1?1:0); cs+= a.lang?2:0; cs+= a.canonical?1:0;
+  const rCont=['콘텐츠 구조 (H1·H2·언어·정규)',cs,10, `H1 ${a.h1}개 · H2 ${a.h2}개 · lang ${a.lang||'없음'} · canonical ${a.canonical?'있음':'없음'}`, cs>=8?'ok':(cs>=4?'wr':'no')];
+  // 모바일 (10)
+  const rVp=['모바일 대응 (viewport)', a.viewport?10:0,10, a.viewport?'viewport 메타 있음':'viewport 없음 — 모바일 감점', a.viewport?'ok':'no'];
+  // 다국어 (5)
+  const rHl=['다국어 (hreflang)', a.hreflang?5:0,5, a.hreflang?(a.hreflang+'개 언어 링크'):'hreflang 없음(국내 전용이면 정상)', a.hreflang?'ok':'wr'];
+  // llms.txt (5)
+  const llmsOk = llms && !pfIsHtml(llms) && /\S/.test(llms) && (/#/.test(llms)||/https?:\/\//.test(llms));
+  const rLlms=['llms.txt (AI 안내 파일)', llmsOk?5:0,5, llmsOk?'llms.txt 있음 — 선도적!':'llms.txt 없음', llmsOk?'ok':'wr'];
+
+  const tech=[rRobots,rJson,rMeta,rSite,rCont,rVp,rHl,rLlms];
+  const total=tech.reduce((s,t)=>s+t[1],0);
+  const grade=total>=85?'매우 높음':total>=70?'높음':total>=50?'보통':'낮음';
+  const gradeBadge=total>=70?'st-ok':(total>=50?'st-warn':'st-bad');
+  const scoreLines=tech.map(t=>`<div class="scoreline"><div class="sl"><span>${t[0]}</span><span class="sv">${t[1]} / ${t[2]}</span></div><div class="scorebar"><i style="width:${(t[1]/t[2]*100).toFixed(0)}%"></i></div><div class="note" style="margin:4px 0 0"><span class="${t[4]==='ok'?'ok':t[4]==='no'?'no':'wr'}">${t[4]==='ok'?'✓':t[4]==='no'?'✕':'!'}</span> ${pfEsc(t[3])}</div></div>`).join('');
+
+  /* 관측 요약 (실제 감지값) */
+  const obs=[
+    ['ok', `분석 대상: <b>${pfEsc(origin)}</b>`],
+    [a.title?'ok':'no', `<b>&lt;title&gt;</b> ${a.title?pfEsc(a.title.trim().slice(0,70)):'없음'}`],
+    [a.desc?'ok':'no', `<b>meta description</b> ${a.desc?pfEsc(a.desc.trim().slice(0,80))+'…':'없음'}`],
+    [a.jsonldCount?'ok':'no', `<b>구조화 데이터</b> ${a.jsonldCount?(a.jsonldTypes.join(', ')||a.jsonldCount+'개'):'없음'}`],
+    [rRobots[4], `<b>robots.txt</b> ${robots&&!pfIsHtml(robots)?'있음':'없음'} · ${pfEsc(rRobots[3])}`],
+    [smOk?'ok':'no', `<b>sitemap.xml</b> ${smOk?'확인':'미발견'}`],
+    [llmsOk?'ok':'wr', `<b>llms.txt</b> ${llmsOk?'있음':'없음'}`]
+  ];
+
+  el.innerHTML=`
     <div class="bcresult">
-      <div class="sechint" style="margin:0 0 10px">‘${q}’ 미리보기 결과 <span class="tier free">회원가입 없이 무료</span></div>
+      <div class="sechint" style="margin:0 0 10px">‘${q}’ 실측 진단 결과 <span class="tier free">회원가입 없이 무료</span></div>
 
       <div class="card"><h3 class="rh">서비스 파악</h3>
         <div class="mrow"><span class="mk">서비스</span><span class="mv"><b>${q}</b></span></div>
         <div class="mrow"><span class="mk">업종</span><span class="mv">${indL}</span></div>
-        <div class="mrow"><span class="mk">지역/범위</span><span class="mv">전국</span></div>
-        <p class="pdesc">${url.trim()?url.trim()+' — ':''}${hasInd?indL+' 분야의 ':''}온라인 노출을 진단했습니다. 아래는 사이트에서 관측 가능한 <b>기술 점수 기반 무료 미리보기</b>입니다.</p>
+        <div class="mrow"><span class="mk">분석 URL</span><span class="mv">${pfEsc(url)}</span></div>
+        <ul class="pfobs">${obs.map(o=>`<li><span class="${o[0]}">${o[0]==='ok'?'✓':o[0]==='no'?'✕':'!'}</span><span>${o[1]}</span></li>`).join('')}</ul>
       </div>
 
-      <div class="card"><h3 class="rh">사이트 기술 점수 <span class="note" style="display:inline;margin:0">(AI 친화도)</span></h3>
-        <div class="bigscore"><b>${total}</b> / 100 · ${grade}</div>
+      <div class="card"><h3 class="rh">사이트 기술 점수 <span class="note" style="display:inline;margin:0">(AI 친화도 · 실측)</span></h3>
+        <div class="bigscore"><b>${total}</b> / 100 · <span class="stbadge ${gradeBadge}">${grade}</span></div>
         ${scoreLines}
-        ${url.trim()?'':'<p class="note" style="margin-top:10px">※ 사이트 주소를 넣으면 실제 기술 점수를 측정합니다. (지금은 예시)</p>'}
+        <p class="note" style="margin-top:10px">※ 입력한 사이트를 실제로 불러와 측정한 값입니다. robots.txt·JSON-LD·메타·사이트맵·구조·llms.txt 등 공개적으로 관측 가능한 항목 기준입니다.</p>
       </div>
 
-      <div class="card"><h3 class="rh">사람들이 AI에게 물어볼 만한 질문</h3>
-        <ul class="qq">${questions.map(x=>'<li>'+x+'</li>').join('')}</ul>
-      </div>
-
-      <div class="card"><h3 class="rh">같은 카테고리 경쟁/대안</h3>
-        <div class="qlist">${comp.map(c=>'<span>'+c+'</span>').join('')}</div>
-        <p class="note" style="margin-top:10px">※ 예시입니다. 정밀 리포트에서 실제 경쟁 브랜드를 집계합니다.</p>
-      </div>
-
-      <div class="optlevel">최적화 여지 <span class="stbadge st-warn">보통</span></div>
-
-      <div class="sechint" style="margin:18px 0 8px">정밀 리포트 <span class="tier pro">가입 후 무료</span></div>
-      <div class="lockwrap">
-        <div class="lockblur">
-          <div class="card"><h3 class="rh">AI 브랜드 가시성 <span class="stbadge st-bad">18 / 100</span></h3>
-            <p class="pdesc" style="margin-top:0">글로벌 5엔진(ChatGPT·Perplexity·Gemini·Grok·Claude)에 실제로 물었을 때, 업종 대표 질문 5개 중 <b>0개</b>에서 인용됐습니다.</p></div>
-          <div class="card"><h3 class="rh">질문별 AI 인용 결과</h3>
-            ${qs.map(x=>`<div class="mrow" style="margin:8px 0"><span class="mk" style="width:auto;flex:1;font-size:13px">${x[0]}</span><span class="stbadge ${x[2]}">${x[1]}</span></div>`).join('')}
-          </div>
-          <div class="card cmpcard"><h3 class="rh">경쟁사 인용 비교</h3>
-            <div class="cmprow"><span class="cmpname">우리 브랜드</span><div class="cmpbar"><i style="width:12%;background:#e06868"></i></div><span class="cmpval bad">미언급</span></div>
-            <div class="cmprow"><span class="cmpname">경쟁사 A</span><div class="cmpbar"><i style="width:64%"></i></div><span class="cmpval">4회</span></div>
-            <div class="cmprow"><span class="cmpname">경쟁사 B</span><div class="cmpbar"><i style="width:82%"></i></div><span class="cmpval">6회</span></div>
-          </div>
-          <div class="card bcnext"><h3>우선 개선안</h3><ol><li>AI 크롤러 허용(llms.txt)·구조화 데이터 적용</li><li>업종 대표 질문에 답하는 자기완결형 콘텐츠 발행</li><li>네이버 색인 누락 페이지 재제출</li></ol></div>
-        </div>
-        <div class="lockover">
-          <span class="lockic">${LK}</span>
-          <b>정밀 리포트는 무료 회원가입 후</b>
-          <p>글로벌 AI 엔진에 실제로 물어 — AI 가시성 · 질문별 인용 · 경쟁사 비교 · 개선 우선순위</p>
-          <button class="btn" data-act="signup">무료 회원가입하고 정밀 리포트 받기 →</button>
-        </div>
-      </div>
-
-      <div class="autohook" style="margin-top:16px">
-        <span><b>부족한 데이터, 직접 채울 필요 없습니다.</b> 4개 플랫폼에 자동 발행으로 AI 가시성을 올리세요.</span>
-        <button class="btn sm" data-act="autoScroll">자동 발행 시스템 보기 →</button>
-      </div>
-      <p class="note" style="margin-top:12px">※ 예시 리포트입니다. 실제 기술 점수·AI 인용은 정식 오픈 시 실측 연동됩니다.</p>
+      ${questionCard}
+      ${lockSec}
     </div>`;
-  const el=document.getElementById('bcReport');
-  el.innerHTML=html;
   el.scrollIntoView({behavior:'smooth', block:'start'});
   initTilt();
 }
