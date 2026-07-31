@@ -19,10 +19,10 @@
   body{font-family:"Pretendard Variable",Pretendard,"Malgun Gothic","맑은 고딕",-apple-system,"Segoe UI",sans-serif;
     background:var(--bg); color:var(--ink); font-size:14px; line-height:1.6; letter-spacing:-.01em;
     -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;}
-  .shell{display:flex; min-height:100vh;}
-  /* ── 사이드바 (스텔라이즈 스타일) ── */
+  .shell{display:flex; min-height:100vh; padding-left:224px;}
+  /* ── 사이드바 (스텔라이즈 스타일) — 스크롤해도 고정 ── */
   .side{width:224px; flex:0 0 auto; background:#fff; border-right:1px solid var(--line);
-    padding:20px 14px; position:sticky; top:0; height:100vh; overflow-y:auto;}
+    padding:20px 14px; position:fixed; top:0; left:0; height:100vh; overflow-y:auto; z-index:30;}
   .side .logo{display:flex; align-items:center; gap:9px; padding:2px 6px 18px;}
   .side .logo .mark{width:30px; height:30px; border-radius:9px; background:var(--grad); color:#fff;
     display:grid; place-items:center; font-weight:800; font-size:17px; flex:0 0 auto;
@@ -634,7 +634,7 @@
     box-shadow:0 12px 32px rgba(24,28,60,.3); opacity:0; pointer-events:none; transition:opacity .22s, transform .22s;}
   .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
   @media(max-width:860px){
-    .shell{flex-direction:column;}
+    .shell{flex-direction:column; padding-left:0;}
     .side{width:100%; height:auto; position:static; display:flex; flex-wrap:wrap; gap:2px; align-items:center; padding:10px 12px;}
     .side .logo{padding:0 10px 0 2px;} .side .sec{display:none;} .side .guide{display:none;}
     .cols{flex-direction:column;}
