@@ -2091,7 +2091,11 @@ function signup(){
 }
 function signupDo(){
   document.getElementById('detailBg').classList.add('hide');
-  const w=document.querySelector('.lockwrap'); if(w) w.classList.add('unlocked');
+  const w=document.querySelector('.lockwrap');
+  if(w){ w.classList.add('unlocked');
+    const b=w.querySelector('.lockblur');
+    if(b){ b.style.filter='none'; b.style.pointerEvents='auto'; b.style.userSelect='auto'; b.style.opacity='1'; }
+  }
   toast('무료 가입 완료 — 상세 리포트를 확인하세요');
 }
 function ctaTop(){ window.scrollTo({top:0, behavior:'smooth'}); const i=document.getElementById('bcQ'); if(i) setTimeout(()=>i.focus(), 400); }
