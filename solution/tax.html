@@ -1,151 +1,368 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>세무사·회계 마케팅 솔루션 | POFACT 업종별 솔루션</title>
-<meta name="description" content="기장·양도세·법인 등 고의도 키워드를 잡는 세무 마케팅. 세무사무소 홈페이지 AEO 구축, 업무·시즌 콘텐츠 발행, AI 인용·검색 노출 리포트.">
-<link rel="canonical" href="https://seolyn-jang.github.io/pofact-demo/solution/tax.html">
-<meta property="og:type" content="website">
-<meta property="og:title" content="세무사·회계 마케팅 솔루션 | POFACT">
-<meta property="og:description" content="기장·양도세 등 고의도 키워드를 잡는 세무 마케팅.">
-<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
-<link rel="stylesheet" href="../insight/insight.css">
-<script src="../insight/reveal.js"></script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>세무사·회계 마케팅 솔루션 | POFACT</title>
+<meta name="description" content="고객이 AI에게 물었을 때 답이 되는 세무사. 기장·양도세·법인 등 고의도 키워드를 잡는 세무 마케팅." />
+<link rel="canonical" href="https://seolyn-jang.github.io/pofact-demo/solution/tax.html" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="세무사·회계 마케팅 솔루션 | POFACT" />
+<meta property="og:description" content="고객이 AI에게 물었을 때 답이 되는 세무사 — AEO·GEO·SEO 브랜드 진단." />
+<meta property="og:url" content="https://seolyn-jang.github.io/pofact-demo/solution/tax.html" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Black+Han+Sans&family=Nanum+Pen+Script&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="hao.css" />
+<style>
+  /* POFACT 로고·브랜딩 오버라이드 */
+  .logo{flex-direction:row; gap:8px;}
+  .pf-mark{width:30px; height:30px; border-radius:9px; background:linear-gradient(135deg,#6d6ff5,#9a6ef0); color:#fff; display:grid; place-items:center; font-weight:800; font-size:16px; box-shadow:0 4px 12px rgba(109,111,245,.4);}
+  .logo .logo-sub{color:#fff; font-weight:800; font-size:16px; letter-spacing:-.3px; text-transform:none;}
+  .scrolled .logo .logo-sub{color:var(--ink);}
+  .logo-footer .pf-mark{box-shadow:none;}
+  .logo-footer .logo-sub{color:rgba(255,255,255,.85);}
+  /* ── 세로 사이드바 (메인 앱과 통일) ── */
+  .site-header{display:none !important;}
+  .pf-shell{display:flex; align-items:flex-start; min-height:100vh;}
+  .pf-side{width:236px; background:#fff; border-right:1px solid rgba(0,0,0,.08); padding:22px 14px; position:fixed; top:0; left:0; height:100vh; overflow-y:auto; z-index:30;}
+  .pf-logo{display:flex; align-items:center; gap:9px; padding:0 8px 16px; text-decoration:none;}
+  .pf-mk{width:34px; height:34px; border-radius:10px; background:linear-gradient(135deg,#6d6ff5,#9a6ef0); color:#fff; display:grid; place-items:center; font-weight:800; font-size:17px; box-shadow:0 4px 12px rgba(109,111,245,.4);}
+  .pf-wm{font-weight:800; font-size:17px; color:#14162b; line-height:1.1;}
+  .pf-wm small{display:block; font-size:10px; color:#8b8f9e; font-weight:600; margin-top:2px; letter-spacing:0;}
+  .pf-sec{font-size:10.5px; letter-spacing:.6px; color:#a3a6b4; font-weight:700; margin:16px 10px 6px;}
+  .pf-mi{display:flex; align-items:center; gap:9px; padding:10px 12px; border-radius:10px; font-size:13.5px; font-weight:600; color:#2f3350; text-decoration:none;}
+  .pf-mi svg{width:18px; height:18px; stroke:#6b7085; fill:none; stroke-width:1.9;}
+  .pf-mi:hover{background:#f4f5fb;}
+  .pf-mi.on{background:linear-gradient(135deg,#6d6ff5,#9a6ef0); color:#fff;}
+  .pf-mi.on svg{stroke:#fff;}
+  .pf-grp{padding:10px 12px 4px; font-size:13.5px; font-weight:700; color:#2f3350; display:flex; align-items:center; gap:9px;}
+  .pf-grp svg{width:18px; height:18px; stroke:#6b7085; fill:none; stroke-width:1.9;}
+  .pf-sub{display:block; padding:8px 12px 8px 39px; border-radius:9px; font-size:12.5px; color:#6b7085; text-decoration:none;}
+  .pf-sub:hover{background:#f4f5fb; color:#414bd8;}
+  .pf-sub.on{background:#eef0ff; color:#414bd8; font-weight:700;}
+  .pf-main{flex:1; min-width:0; margin-left:236px;}
+  .pf-only-m{display:none;}
+  @media(max-width:960px){
+    .pf-shell{flex-direction:column;}
+    .pf-side{width:100%; height:auto; overflow:visible; position:static; border-right:0; border-bottom:1px solid rgba(0,0,0,.08); display:flex; flex-wrap:wrap; align-items:center; gap:3px; padding:10px 14px;}
+    .pf-main{margin-left:0;}
+    .pf-sec, .pf-grp, .pf-sub{display:none;}
+    .pf-logo{padding:0 12px 0 2px;}
+    .pf-only-m{display:flex;}
+  }
+</style>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
-{"@type":"Question","name":"세무도 지역 검색이 중요한가요?","acceptedAnswer":{"@type":"Answer","text":"네. 많은 고객이 ‘지역+세무사’ 또는 ‘지역+기장’으로 검색합니다. 다만 양도세·법인 등 전문 업무는 지역을 넘어 전국에서 검색되므로 업무별 페이지도 함께 필요합니다."}},
-{"@type":"Question","name":"신고철에만 마케팅하면 되나요?","acceptedAnswer":{"@type":"Answer","text":"종합소득세·부가세 신고철에 검색이 급증하지만, 그때 상위에 뜨려면 미리 콘텐츠가 색인돼 있어야 합니다. 시즌 전에 준비하는 것이 핵심입니다."}}]}
+{"@type":"Question","name":"세무도 지역 검색이 중요한가요?","acceptedAnswer":{"@type":"Answer","text":"‘지역+세무사’, ‘기장대행’ 검색이 많고, 양도세·법인 등 전문 업무는 지역을 넘어 검색됩니다. 둘 다 잡아야 합니다."}},
+{"@type":"Question","name":"신고철에만 하면 되나요?","acceptedAnswer":{"@type":"Answer","text":"신고철에 상위에 뜨려면 시즌 전에 콘텐츠가 색인돼 있어야 합니다."}},
+{"@type":"Question","name":"AI 검색 노출이 가능한가요?","acceptedAnswer":{"@type":"Answer","text":"구조화 FAQ·업무 페이지·스키마로 AEO·GEO를 최적화하면 AI 답변에 인용될 수 있습니다."}}]}
 </script>
 </head>
-<body class="has-side">
-<aside class="pf-side">
-  <a class="pf-logo" href="../index.html"><span class="pf-mk">P</span><span class="pf-wm">POFACT<small>AEO·GEO·SEO 브랜드 진단</small></span></a>
-  <div class="pf-sec">CONTENTS</div>
-  <a class="pf-mi" href="../index.html"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/></svg>홈 · 브랜드 체크</a>
-  <div class="pf-sec">SERVICE</div>
-  <a class="pf-mi" href="../index.html"><svg viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg>포팩트서비스</a>
-  <a class="pf-mi pf-only-m" href="index.html"><svg viewBox="0 0 24 24"><path d="M4 4h16v6H4zM4 14h7v6H4zM14 14h6v6h-6z"/></svg>업종별 솔루션</a>
-  <div class="pf-grp"><svg viewBox="0 0 24 24"><path d="M4 4h16v6H4zM4 14h7v6H4zM14 14h6v6h-6z"/></svg>업종별 솔루션</div>
-  <a class="pf-sub" data-k="hospital" href="hospital.html">병원·의원</a>
-  <a class="pf-sub" data-k="academy" href="academy.html">학원·교육</a>
-  <a class="pf-sub" data-k="lawyer" href="lawyer.html">변호사·법률</a>
-  <a class="pf-sub on" data-k="tax" href="tax.html">세무사·회계</a>
-  <a class="pf-sub" data-k="franchise" href="franchise.html">프랜차이즈</a>
-  <a class="pf-sub" data-k="smb" href="smb.html">소상공인·자영업</a>
-  <div class="pf-sec">COMMUNITY</div>
-  <a class="pf-mi" href="../insight/index.html"><svg viewBox="0 0 24 24"><path d="M9 18l-2 3H4l2-3M15 18l2 3h3l-2-3M4 4h16v11H4z"/><path d="M8 8h8M8 11h5"/></svg>인사이트</a>
-  <a class="pf-mi" href="../index.html"><svg viewBox="0 0 24 24"><path d="M4 6h16v12H4zM8 10h8M8 14h5"/></svg>마켓보드</a>
-</aside>
-<header class="nav"><div class="in">
-  <a class="brand" href="../index.html"><span class="logo">P</span><span><span class="nm">POFACT</span><small>AEO·GEO·SEO 브랜드 진단</small></span></a>
-  <span class="sp"></span>
-  <a class="link" href="../insight/index.html">인사이트</a>
-  <a class="link" href="index.html">업종별 솔루션</a>
-  <a class="cta" href="../index.html">브랜드 체크</a>
-</div></header>
+<body>
+  <div class="cursor-ring" id="cursorRing"><span class="cursor-label"></span></div>
+  <div class="cursor-dot" id="cursorDot"></div>
 
-<main>
-  <nav class="crumb"><a href="../index.html">POFACT</a> › <a href="index.html">업종별 솔루션</a> › 세무사·회계</nav>
-  <section class="cover" style="background:linear-gradient(135deg,#0f9d8f,#3aa8c9)">
-    <span class="badge">업종별 솔루션 · 세무사·회계</span>
-    <h1>세무사·회계 마케팅</h1>
-    <p>기장·양도세·법인 등 고의도 키워드에서, 상담 문의로 이어지는 노출을 만듭니다.</p>
+  <header class="site-header" id="header">
+    <div class="header-inner">
+      <a href="../index.html" class="logo" aria-label="POFACT 홈">
+        <span class="pf-mark">P</span>
+        <span class="logo-sub">POFACT</span>
+      </a>
+      <nav class="gnb" id="gnb">
+        <a href="../insight/index.html">인사이트</a>
+        <div class="gnb-dd">
+          <a href="index.html" class="gnb-dd-trigger">업종별 솔루션 <span class="dd-caret">&#9662;</span></a>
+          <div class="gnb-dd-menu">
+            <a href="hospital.html">병원·의원</a>
+            <a href="academy.html">학원·교육</a>
+            <a href="lawyer.html">변호사·법률</a>
+            <a href="tax.html">세무사·회계</a>
+            <a href="franchise.html">프랜차이즈</a>
+            <a href="smb.html">소상공인·자영업</a>
+          </div>
+        </div>
+        <a href="../index.html">브랜드 체크</a>
+      </nav>
+      <a href="../index.html" class="header-cta">무료 진단</a>
+      <button class="menu-toggle" id="menuToggle" aria-label="메뉴 열기"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+
+  <div class="pf-shell">
+  <aside class="pf-side">
+    <a class="pf-logo" href="../index.html"><span class="pf-mk">P</span><span class="pf-wm">POFACT<small>AEO·GEO·SEO 브랜드 진단</small></span></a>
+    <div class="pf-sec">CONTENTS</div>
+    <a class="pf-mi" href="../index.html"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/></svg>홈 · 브랜드 체크</a>
+    <div class="pf-sec">SERVICE</div>
+    <a class="pf-mi" href="../index.html"><svg viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg>포팩트서비스</a>
+    <a class="pf-mi pf-only-m" href="index.html"><svg viewBox="0 0 24 24"><path d="M4 4h16v6H4zM4 14h7v6H4zM14 14h6v6h-6z"/></svg>업종별 솔루션</a>
+    <div class="pf-grp"><svg viewBox="0 0 24 24"><path d="M4 4h16v6H4zM4 14h7v6H4zM14 14h6v6h-6z"/></svg>업종별 솔루션</div>
+    <a class="pf-sub" href="hospital.html">병원·의원</a>
+    <a class="pf-sub" href="academy.html">학원·교육</a>
+    <a class="pf-sub" href="lawyer.html">변호사·법률</a>
+    <a class="pf-sub on" href="tax.html">세무사·회계</a>
+    <a class="pf-sub" href="franchise.html">프랜차이즈</a>
+    <a class="pf-sub" href="smb.html">소상공인·자영업</a>
+    <div class="pf-sec">COMMUNITY</div>
+    <a class="pf-mi" href="../insight/index.html"><svg viewBox="0 0 24 24"><path d="M9 18l-2 3H4l2-3M15 18l2 3h3l-2-3M4 4h16v11H4z"/><path d="M8 8h8M8 11h5"/></svg>인사이트</a>
+    <a class="pf-mi" href="../index.html"><svg viewBox="0 0 24 24"><path d="M4 6h16v12H4zM8 10h8M8 14h5"/></svg>마켓보드</a>
+  </aside>
+  <div class="pf-main">
+
+  <section class="page-banner">
+    <span class="banner-mark" aria-hidden="true"></span>
+    <div class="container">
+      <nav class="crumb"><a href="../index.html">POFACT</a> <span>/</span> 업종별 솔루션 <span>/</span> TAX</nav>
+      <h1 class="banner-title">세무사·회계 마케팅</h1>
+      <p class="banner-sub">AI에게 물었을 때, 답이 되는 세무사</p>
+    </div>
   </section>
 
-  <div class="wrap">
-    <div class="articles">
-
-      <div class="keybox"><b>세무·회계 AEO·GEO·SEO 진단 포인트</b><ul>
-        <li>고객은 <b>‘지역 + 세무 업무(기장·양도세·상속·법인설립)’</b>로 검색합니다.</li>
-        <li>세무는 <b>신고 시즌(종소세·부가세)</b>에 검색이 급증 — 시즌 전 대비가 필요합니다.</li>
-        <li>AI는 세무 질문에 <b>정확·최신 정보</b>를 근거로 인용합니다.</li>
-      </ul></div>
-
-      <div class="seclabel">세무 마케팅 꿀팁</div>
-
-      <article class="post" id="a1">
-        <span class="tag">세무사·회계</span>
-        <h2>고의도 세무 키워드를 잡는 법</h2>
-        <div class="meta">POFACT 에디터 · 2026.07.11</div>
-        <p class="lead">‘세무사’ 대표어보다 ‘양도세 상담’, ‘법인 기장’처럼 업무가 명확한 검색어가 상담 전환이 훨씬 높습니다.</p>
-        <div class="keybox"><b>핵심 요약</b><ul>
-          <li>업무별로 페이지를 나눈다(기장·양도세·상속·법인).</li>
-          <li>지역+세무사 검색도 함께 잡는다.</li>
-          <li>상담 비용·절차 안내로 문의 문턱을 낮춘다.</li>
-        </ul></div>
-        <p>업무별 페이지는 검색은 물론 AI가 ‘무엇에 강한 세무사인지’ 인용하기에도 유리합니다.</p>
-      </article>
-
-      <article class="post" id="a2">
-        <span class="tag">세무사·회계</span>
-        <h2>신고 시즌 검색 급증을 잡는 콘텐츠 타이밍</h2>
-        <div class="meta">POFACT 에디터 · 2026.06.20</div>
-        <p class="lead">종소세·부가세 신고철엔 관련 검색이 폭증합니다. 그때 상위에 뜨려면 시즌 전에 콘텐츠가 색인돼 있어야 합니다.</p>
-        <div class="keybox"><b>핵심 요약</b><ul>
-          <li>신고 일정 역산해 1~2개월 전 발행한다.</li>
-          <li>자주 묻는 질문을 정보형으로 정리한다.</li>
-          <li>매년 갱신해 최신성을 유지한다.</li>
-        </ul></div>
-        <p>미리 쌓아둔 시즌 콘텐츠는 검색과 AI 답변 양쪽에서 인용됩니다.</p>
-      </article>
-
-      <div class="seclabel">세무 맞춤 솔루션</div>
-
-      <article class="post">
-        <span class="tag" style="background:#eef0ff">솔루션</span>
-        <h2>세무사무소 홈페이지 AEO 구축</h2>
-        <div class="keybox"><b>포함 내용</b><ul>
-          <li>업무별 페이지·FAQ·정의문 정보 구조 설계</li>
-          <li>구조화 데이터·AI 크롤러 허용·색인 최적화</li>
-          <li>플레이스 연동 정렬</li>
-        </ul></div>
-        <p>AI와 검색이 ‘어떤 업무에 강한지’를 정확히 읽게 설계합니다.</p>
-      </article>
-
-      <article class="post">
-        <span class="tag" style="background:#eef0ff">솔루션</span>
-        <h2>업무·시즌 콘텐츠 발행</h2>
-        <div class="keybox"><b>포함 내용</b><ul>
-          <li>업무별·시즌별 정보형 콘텐츠 제작</li>
-          <li>신고 일정 역산 발행</li>
-          <li>질문형·자기완결 구조로 AI 인용 대비</li>
-        </ul></div>
-        <p>고객의 검색 의도와 시기에 맞춰 검색·AI 노출을 함께 노립니다.</p>
-      </article>
-
-      <article class="post">
-        <span class="tag" style="background:#eef0ff">솔루션</span>
-        <h2>AI 인용·검색 노출 리포트</h2>
-        <div class="keybox"><b>포함 내용</b><ul>
-          <li>구글·네이버 색인 상태 점검</li>
-          <li>AI 세무 추천 인용 여부 확인</li>
-          <li>개선 우선순위 제안</li>
-        </ul></div>
-        <div class="cta"><b>먼저 우리 사무소 상태부터 확인해 보세요.</b><br>홈페이지 주소만 넣으면 색인·AI 인용·노출 상태를 진단해 드립니다.<br><a href="../index.html">무료 브랜드 체크 →</a></div>
-      </article>
-
+  <!-- 히어로 + AI 검색 타이핑 목업 -->
+  <section class="section hosp-hero">
+    <div class="container hosp-hero-grid">
+      <div class="hosp-hero-txt">
+        <span class="tag">AI SEARCH OPTIMIZATION</span>
+        <h2 class="section-title" style="margin:16px 0 20px;">고객이 AI에게 물었을 때,<br /><span class="accent">답이 되는 세무사</span>가<br />되고 있습니까?</h2>
+        <p class="hosp-lead">고객은 문제가 생기면 검색부터 합니다.<br />그 순간 우리 사무소가 답이 되어야 합니다.</p>
+        <div class="hosp-engines">
+          <p class="hosp-eng-label">실시간 대응 가능 AI 엔진</p>
+          <div class="hosp-eng-row">
+            <span class="eng"><i class="eng-dot" style="background:#10a37f"></i>ChatGPT</span>
+            <span class="eng"><i class="eng-dot" style="background:#4285f4"></i>Gemini</span>
+            <span class="eng"><i class="eng-dot" style="background:#d97757"></i>Claude</span>
+            <span class="eng"><i class="eng-dot" style="background:#20808d"></i>Perplexity</span>
+          </div>
+        </div>
+      </div>
+      <div class="ai-mock" id="aiMock">
+        <div class="ai-bar"><span class="ai-dots"><i></i><i></i><i></i></span><span class="ai-url">pofact.ai/analysis-preview</span></div>
+        <div class="ai-body">
+          <div class="ai-query"><span id="aiType" data-text='"양도세 잘하는 세무사 추천해줘"'></span><span class="ai-caret"></span><span class="ai-spark">✦</span></div>
+          <div class="ai-answer" id="aiAnswer">
+            <p class="ai-ans">믿을 만한 세무사를 분석했습니다. 업무 전문성, 상담 후기, AI 검색 인용을 기반으로 추천합니다.</p>
+            <div class="ai-card ai-card-hi"><div><strong>우리 세무사무소</strong><span>양도세·법인 전문 · 상담 4.9</span></div><span class="ai-badge">★ 최적화 완료</span></div>
+            <div class="ai-card"><div><strong>OO세무회계</strong><span>기장대행 특화</span></div></div>
+            <div class="ai-card"><div><strong>OO택스</strong><span>상속·증여 전문</span></div></div>
+          </div>
+        </div>
+      </div>
     </div>
+  </section>
 
-    <aside class="side">
-      <div class="scard"><h4>이 페이지</h4>
-        <a href="#a1">고의도 세무 키워드 잡기</a>
-        <a href="#a2">신고 시즌 콘텐츠 타이밍</a>
-      </div>
-      <div class="scard"><h4>다른 업종</h4>
-        <a href="hospital.html">병원·의원</a>
-        <a href="academy.html">학원·교육</a>
-        <a href="lawyer.html">변호사·법률</a>
-        <a href="franchise.html">프랜차이즈</a>
-        <a href="smb.html">소상공인·자영업</a>
-      </div>
-    </aside>
-  </div>
-</main>
+  <!-- AI 검색 전환 스토리 (가로 스크롤 4카드) -->
+  <section class="section hx-sec">
+    <div class="container">
+      <div class="section-head center"><span class="tag">SEARCH &rarr; AI</span><h2 class="section-title">검색하는 고객에서, <span class="accent">질문하는 고객</span>으로</h2><p class="section-sub">고객이 세무사무소를 찾는 방식이 바뀌고 있습니다. POFACT는 검색과 AI 답변, 두 흐름을 하나로 연결합니다.</p></div>
+    </div>
+    <div class="hx-carousel">
+      <button class="hx-arrow hx-prev" type="button" aria-label="이전">&#8249;</button>
+      <div class="hx-track">
+        <article class="hx-card is-active" style="--hc:#3a6ea5">
+          <div class="hx-head"><span class="hx-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.5" y1="15.5" x2="20" y2="20"/></svg></span><span class="hx-cat">TRADITIONAL MARKETING</span></div>
+          <h3 class="hx-title">고객이 <span>검색하는</span> 곳</h3>
+          <p class="hx-quote">"네이버에만 있는 세무사,<br />AI 검색에서는 보이지 않습니다."</p>
+          <div class="hx-grid">
+            <div class="hx-ic"><span class="hx-ic-img"><img src="assets/logos/naver.svg" alt="네이버" loading="lazy" /></span><span>네이버 블로그</span></div>
+            <div class="hx-ic"><span class="hx-ic-img"><img src="assets/logos/naver.svg" alt="네이버" loading="lazy" /></span><span>네이버 플레이스</span></div>
+            <div class="hx-ic"><span class="hx-ic-img"><img src="assets/logos/google.svg" alt="검색광고" loading="lazy" /></span><span>검색광고</span></div>
+            <div class="hx-ic"><span class="hx-ic-img hx-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><line x1="18" y1="14" x2="10" y2="14"/><line x1="15" y1="18" x2="10" y2="18"/><rect x="10" y="6" width="8" height="4"/></svg></span><span>언론보도</span></div>
+            <div class="hx-ic"><span class="hx-ic-img"><img src="assets/logos/instagram.svg" alt="인스타그램" loading="lazy" /></span><span>인스타그램</span></div>
+            <div class="hx-ic"><span class="hx-ic-img"><img src="assets/logos/youtube.svg" alt="유튜브" loading="lazy" /></span><span>유튜브</span></div>
+          </div>
+          <span class="hx-num">01</span>
+        </article>
 
-<footer><div class="in">
-  <span>© 2026 POFACT — AEO·GEO·SEO 브랜드 진단</span>
-  <span><a href="../index.html">브랜드 체크</a> · <a href="index.html">업종별 솔루션</a></span>
-</div></footer>
+        <article class="hx-card" style="--hc:#5a63f0">
+          <div class="hx-head"><span class="hx-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="11" rx="3.2"/><path d="M12 4v4"/><circle cx="12" cy="3" r="1.5"/><circle cx="9" cy="13.5" r="1.4" fill="currentColor" stroke="none"/><circle cx="15" cy="13.5" r="1.4" fill="currentColor" stroke="none"/></svg></span><span class="hx-cat">AI SEARCH MARKETING</span></div>
+          <h3 class="hx-title">고객이 <span>질문하는</span> 곳</h3>
+          <p class="hx-quote">"고객의 검색이 AI로 바뀌고 있습니다.<br />준비되셨습니까?"</p>
+          <div class="hx-grid">
+            <div class="hx-ic"><span class="hx-ic-img"><img src="assets/logos/chatgpt.svg" alt="ChatGPT" loading="lazy" /></span><span>ChatGPT</span></div>
+            <div class="hx-ic"><span class="hx-ic-img"><img src="assets/logos/gemini.svg" alt="Gemini" loading="lazy" /></span><span>Gemini</span></div>
+            <div class="hx-ic"><span class="hx-ic-img"><img src="assets/logos/claude.svg" alt="Claude" loading="lazy" /></span><span>Claude</span></div>
+            <div class="hx-ic"><span class="hx-ic-img"><img src="assets/logos/perplexity.svg" alt="Perplexity" loading="lazy" /></span><span>Perplexity</span></div>
+            <div class="hx-ic"><span class="hx-ic-img"><img src="assets/logos/google.svg" alt="AI Overview" loading="lazy" /></span><span>AI Overview</span></div>
+          </div>
+          <span class="hx-num">02</span>
+        </article>
+
+        <article class="hx-card" style="--hc:#2f8f8a">
+          <div class="hx-head"><span class="hx-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="6" r="2.6"/><circle cx="18" cy="18" r="2.6"/><path d="M8.3 10.9 15.7 7.1M8.3 13.1 15.7 16.9"/></svg></span><span class="hx-cat">BRIDGE STRATEGY</span></div>
+          <h3 class="hx-title">POFACT가 <span>연결합니다</span></h3>
+          <p class="hx-quote">기존 마케팅의 자산이<br />AI 검색의 연료가 되는 선순환 구조</p>
+          <ul class="hx-steps">
+            <li><span class="hx-check">✓</span><div><strong>업무·시즌 콘텐츠 → AI 학습 데이터</strong><em>콘텐츠가 많을수록 AI가 사무소를 더 잘 이해합니다.</em></div></li>
+            <li><span class="hx-check">✓</span><div><strong>AI 추천 노출 → 사무소 신뢰 상승</strong><em>AI 검색과 기존 검색이 서로를 강화합니다.</em></div></li>
+            <li><span class="hx-check">✓</span><div><strong>사무소 신뢰 → 상담 문의 증가</strong><em>AI가 쌓아준 신뢰가 결국 상담으로 이어집니다.</em></div></li>
+          </ul>
+          <span class="hx-num">03</span>
+        </article>
+
+        <article class="hx-card hx-card-dark" style="--hc:#111827">
+          <div class="hx-head"><span class="hx-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 19 6v5c0 4.6-3.2 8-7 9.5C8.2 19 5 15.6 5 11V6z"/><path d="M9 12l2 2 4-4"/></svg></span><span class="hx-cat">RESULT</span></div>
+          <h3 class="hx-title">결국 <span>같은 세무사</span>를 선택합니다</h3>
+          <p class="hx-quote">"검색하는 고객도, 질문하는 고객도<br />같은 세무사를 선택합니다."</p>
+          <div class="hx-flow">
+            <div class="hx-flow-top">
+              <div class="hx-fchip hx-fchip-1"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.5" y1="15.5" x2="20" y2="20"/></svg></span>고객이 검색해도</div>
+              <div class="hx-fchip hx-fchip-2"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="16" height="11" rx="3.2"/><path d="M12 4v4"/><circle cx="12" cy="3" r="1.5"/><circle cx="9" cy="13.5" r="1.4" fill="currentColor" stroke="none"/><circle cx="15" cy="13.5" r="1.4" fill="currentColor" stroke="none"/></svg></span>AI에 물어봐도</div>
+            </div>
+            <div class="hx-flow-join"><i></i><i></i></div>
+            <div class="hx-fresult"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><line x1="12" y1="6" x2="12" y2="18"/><line x1="6" y1="12" x2="18" y2="12"/></svg></span>같은 세무사가 나옵니다</div>
+          </div>
+          <span class="hx-num">04</span>
+        </article>
+      </div>
+      <button class="hx-arrow hx-next" type="button" aria-label="다음">&#8250;</button>
+    </div>
+  </section>
+
+  <!-- 3가지 이유 (지그재그) -->
+  <section class="section alt-bg">
+    <div class="container">
+      <div class="section-head center"><span class="tag">WHY NOT YET</span><h2 class="section-title">세무사님이 <span class="accent">AI마케팅</span>을 미루셨던 3가지 이유</h2></div>
+      <div class="reason-tl">
+        <div class="rtl-item"><div class="rtl-card"><h3>광고비만 태우는데?</h3><p>클릭은 있는데 상담 문의는 조용했습니다.</p></div><span class="rtl-num">01</span></div>
+        <div class="rtl-item"><span class="rtl-num">02</span><div class="rtl-card"><h3>저가 콘텐츠로는?</h3><p>짜깁기 글로는 순위도 신뢰도 얻지 못했습니다.</p></div></div>
+        <div class="rtl-item"><div class="rtl-card"><h3>신고철에만 반짝하는데?</h3><p>평소엔 유입이 없어 지속되지 않았습니다.</p></div><span class="rtl-num">03</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 검색 시장 규칙 (다크 + 로고 별자리) -->
+  <section class="section hosp-dark">
+    <div class="night-sky"></div>
+    <div class="container hosp-dark-grid">
+      <div class="hosp-dark-txt">
+        <h2 class="section-title">검색 시장의<br />규칙이 <span class="accent">바뀌었습니다.</span></h2>
+        <p>GEO(Generative Engine Optimization)는 AI 기반 검색엔진이 생성하는 답변에 우리 사무소 정보가 포함되도록 콘텐츠를 최적화하는 기술입니다.</p>
+        <p class="dim">지금 우리 사무소를 검색하면 어떤 결과가 나오는지 확인해보셨습니까?</p>
+        <ul class="hosp-checks">
+          <li>AEO · GEO · LLMO 진단</li>
+          <li>검색 대응력 진단 리포트</li>
+          <li>업무별 전문 브랜드 구축</li>
+        </ul>
+      </div>
+      <div class="constellation" aria-hidden="true">
+        <svg class="cons-lines" viewBox="0 0 400 360" preserveAspectRatio="none">
+          <polyline points="150,60 250,110 300,70 320,150 360,190 300,240 200,300 120,210 150,60" fill="none" stroke="rgba(255,255,255,0.13)" stroke-width="1" />
+        </svg>
+        <span class="cl" style="top:10%;left:32%;animation-delay:0s"><img src="assets/logos/google.svg" alt="" />Google</span>
+        <span class="cl" style="top:20%;left:62%;animation-delay:.6s"><img src="assets/logos/claude.svg" alt="" />Claude</span>
+        <span class="cl" style="top:34%;left:70%;animation-delay:1.2s"><img src="assets/logos/youtube.svg" alt="" />YouTube</span>
+        <span class="cl" style="top:44%;left:28%;animation-delay:.4s"><img src="assets/logos/naver.svg" alt="" />네이버</span>
+        <span class="cl" style="top:50%;left:58%;animation-delay:1.6s"><img src="assets/logos/perplexity.svg" alt="" />Perplexity</span>
+        <span class="cl" style="top:60%;left:76%;animation-delay:.9s"><img src="assets/logos/chatgpt.svg" alt="" />ChatGPT</span>
+        <span class="cl" style="top:74%;left:34%;animation-delay:1.4s"><img src="assets/logos/gemini.svg" alt="" />Gemini</span>
+        <span class="cl" style="top:86%;left:54%;animation-delay:.2s"><img src="assets/logos/instagram.svg" alt="" />Instagram</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 통계 -->
+  <section class="section">
+    <div class="container hosp-stats">
+      <div class="hstat"><strong><i data-count="62.9">0</i><em class="pct">%</em></strong><b>네이버 검색 점유율</b><span>고객은 검색으로 세무사를 찾습니다</span></div>
+      <div class="hstat"><strong><i data-count="54.5">0</i><em class="pct">%</em></strong><b>ChatGPT 이용률</b><span>한국인 2명 중 1명</span></div>
+      <div class="hstat"><strong><i data-count="3">0</i><em class="pct">곳</em></strong><b>AI가 추천하는 세무사</b><span>그 안에 없으면 후보에서 빠집니다</span></div>
+    </div>
+  </section>
+
+  <!-- 서비스 -->
+  <section class="section alt-bg">
+    <div class="container">
+      <div class="section-head center"><span class="tag">SERVICES</span><h2 class="section-title">세무사 맞춤 <span class="accent">AI 검색 최적화</span></h2><p class="section-sub">고의도 키워드부터 신고 시즌까지 설계합니다.</p></div>
+      <div class="vch-prod-grid">
+        <div class="vch-prod"><span class="vch-prod-ic">AUDIT</span><h3>AI 노출 진단</h3><p>주요 AI·포털에서 우리 사무소가 어떻게 검색되는지 진단합니다.</p></div>
+        <div class="vch-prod"><span class="vch-prod-ic">GEO</span><h3>세무 AEO·GEO</h3><p>AI 답변에 우리 사무소가 인용·추천되도록 콘텐츠를 최적화합니다.</p></div>
+        <div class="vch-prod"><span class="vch-prod-ic">CONTENT</span><h3>업무·시즌 콘텐츠</h3><p>기장·양도세·법인 등 고의도 키워드로 신뢰와 노출을 동시에.</p></div>
+        <div class="vch-prod"><span class="vch-prod-ic">REVIEW</span><h3>후기·평판 관리</h3><p>후기와 평판을 관리해 AI가 신뢰하는 데이터로 만듭니다.</p></div>
+        <div class="vch-prod"><span class="vch-prod-ic">SEO</span><h3>지역·업무 상위노출</h3><p>‘지역+세무사’, 업무 키워드 상위노출로 문의를 늘립니다.</p></div>
+        <div class="vch-prod"><span class="vch-prod-ic">WEB</span><h3>상담 전환 설계</h3><p>랜딩·후기 배치·데이터 추적으로 상담 전환을 설계합니다.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section webaeo">
+    <div class="container">
+      <div class="section-head center"><span class="tag">WEBSITE · SEO · AEO · GEO</span><h2 class="section-title">검색과 AI가 먼저 찾는<br /><span class="accent">세무사무소 홈페이지</span>를 만듭니다</h2><p class="section-sub">고객은 네이버에서 검색하고, 이제 ChatGPT에게 세무사를 묻습니다. 검색과 AI 모두에서 발견되는 홈페이지가 필요합니다.</p></div>
+      <div class="webaeo-q">
+        <span class="webaeo-q-user">"양도세 상담 잘하는 세무사 어디야?"</span>
+        <span class="webaeo-q-arrow">&#8594;</span>
+        <span class="webaeo-q-ai">AI의 답에 <strong>우리 사무소</strong> 이름이 나오도록</span>
+      </div>
+      <div class="webaeo-grid">
+        <div class="webaeo-card"><span class="webaeo-k">SEO</span><h4>검색 노출 최적화</h4><p>네이버·구글 검색에서 우리 사무소 홈페이지가 상단에 노출되도록 사이트 구조·콘텐츠·키워드를 설계합니다.</p></div>
+        <div class="webaeo-card"><span class="webaeo-k">AEO</span><h4>AI 답변 노출</h4><p>ChatGPT·Perplexity가 답할 때 우리 사무소 홈페이지를 근거로 인용·추천하도록 콘텐츠와 신뢰 신호를 만듭니다.</p></div>
+        <div class="webaeo-card"><span class="webaeo-k">GEO</span><h4>생성형 엔진 최적화</h4><p>구조화 데이터·엔티티·llms.txt 정비로 생성형 AI가 우리 브랜드를 정확히 학습·신뢰하게 만듭니다.</p></div>
+      </div>
+      <p class="webaeo-note">단순한 홈페이지가 아니라, <strong>검색과 AI에 발견되는 구조</strong>로 처음부터 설계합니다.</p>
+    </div>
+  </section>
+
+  <section class="section pledge-band">
+    <div class="container pledge-wrap">
+      <div class="pledge-head">
+        <span class="tag">POFACT의 약속</span>
+        <h2 class="section-title">동일 지역, 동일 업무 <span class="accent">한 곳</span>만 맡습니다</h2>
+      </div>
+      <div class="pledge-card">
+        <p class="pledge-hand">
+          POFACT는 이미 함께하고 있는 사무소와<br />
+          <b>동일 지역, 동일 업무</b>가 겹치는 곳은 새로 받지 않습니다.<br />
+          경쟁하는 세무사끼리 같은 손을 잡을 수는 없으니까요.<br />
+          맡은 한 곳의 성과에만 집중하겠다는, POFACT의 약속입니다.
+        </p>
+        <div class="pledge-sign">
+          <span class="pledge-name">POFACT — AEO·GEO·SEO 브랜드 진단</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt-bg">
+    <div class="container aeo-faq-wrap">
+      <div class="section-head center"><span class="tag">FAQ</span><h2 class="section-title">세무사 마케팅 <span class="accent">자주 묻는 질문</span></h2></div>
+      <div class="aeo-faq">
+        <details open><summary>세무도 지역 검색이 중요한가요?</summary><p>‘지역+세무사’, ‘기장대행’ 검색이 많고, 양도세·법인 등 전문 업무는 지역을 넘어 검색됩니다. 둘 다 잡아야 합니다.</p></details>
+        <details><summary>신고철에만 하면 되나요?</summary><p>신고철에 상위에 뜨려면 시즌 전에 콘텐츠가 색인돼 있어야 합니다.</p></details>
+        <details><summary>AI 검색 노출이 가능한가요?</summary><p>구조화 FAQ·업무 페이지·스키마로 AEO·GEO를 최적화하면 AI 답변에 인용될 수 있습니다.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="container cta-grid">
+      <div class="cta-copy">
+        <h2>검색에서 발견되지 않으면,<br />존재하지 않는 것과 같습니다.</h2>
+        <p>광고비 없이도 고객이 찾아오는 구조, SEO·AEO·GEO 최적화로 만들 수 있습니다.<br />먼저 우리 사무소가 검색·AI에서 어떻게 보이는지 무료로 확인해 보세요.</p>
+      </div>
+      <div class="cta-actions">
+        <a href="../index.html" class="cta-btn cta-btn-primary">무료 브랜드 체크 <span>&#8250;</span></a>
+        <a href="index.html" class="cta-btn cta-btn-ghost">업종별 솔루션 보기 <span>&#8250;</span></a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <a href="../index.html" class="logo logo-footer"><span class="pf-mark">P</span><span class="logo-sub">POFACT</span></a>
+        <p>POFACT — AEO·GEO·SEO 브랜드 진단 · 내 브랜드가 AI에 보이게</p>
+      </div>
+      <nav class="footer-nav">
+        <a href="../index.html">브랜드 체크</a>
+        <a href="index.html">업종별 솔루션</a>
+        <a href="../insight/index.html">인사이트</a>
+      </nav>
+      <p class="copyright">© 2026 POFACT. All rights reserved.</p>
+    </div>
+  </footer>
+  </div><!-- /pf-main -->
+  </div><!-- /pf-shell -->
+
+  <script src="hao.js"></script>
 </body>
 </html>
