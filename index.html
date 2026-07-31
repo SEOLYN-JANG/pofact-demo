@@ -2094,7 +2094,7 @@ function signupDo(){
   const w=document.querySelector('.lockwrap');
   if(w){ w.classList.add('unlocked');
     const b=w.querySelector('.lockblur');
-    if(b){ b.style.filter='none'; b.style.pointerEvents='auto'; b.style.userSelect='auto'; b.style.opacity='1'; }
+    if(b){ b.classList.remove('lockblur'); }
   }
   toast('무료 가입 완료 — 상세 리포트를 확인하세요');
 }
