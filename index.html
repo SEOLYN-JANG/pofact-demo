@@ -583,7 +583,7 @@
   .lockover .lockic{width:48px; height:48px; border-radius:14px; background:var(--grad); color:#fff; display:grid; place-items:center; box-shadow:var(--sh); margin-bottom:8px;}
   .lockover .lockic svg{width:24px; height:24px;}
   .lockover b{font-size:16.5px; letter-spacing:-.3px;} .lockover p{font-size:13px; color:var(--sub); margin-bottom:10px;}
-  .lockwrap.unlocked .lockblur{filter:none; pointer-events:auto; user-select:auto; opacity:1;}
+  .lockwrap.unlocked .lockblur{filter:none !important; pointer-events:auto !important; user-select:auto !important; opacity:1 !important;}
   .lockwrap.unlocked .lockover{display:none;}
   /* ── 모달·토스트 ── */
   .mbg{position:fixed; inset:0; background:rgba(15,25,35,.45); z-index:50;
@@ -2091,11 +2091,8 @@ function signup(){
 }
 function signupDo(){
   document.getElementById('detailBg').classList.add('hide');
-  const w=document.querySelector('.lockwrap');
-  if(w){ w.classList.add('unlocked');
-    const b=w.querySelector('.lockblur');
-    if(b){ b.classList.remove('lockblur'); }
-  }
+  const w=document.querySelector('#bcReport .lockwrap');
+  if(w) w.classList.add('unlocked');
   toast('무료 가입 완료 — 상세 리포트를 확인하세요');
 }
 function ctaTop(){ window.scrollTo({top:0, behavior:'smooth'}); const i=document.getElementById('bcQ'); if(i) setTimeout(()=>i.focus(), 400); }
