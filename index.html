@@ -639,9 +639,17 @@
     .side .logo{padding:0 10px 0 2px;} .side .sec{display:none;} .side .guide{display:none;}
     .cols{flex-direction:column;}
   }
+  /* ── 커스텀 커서 (하오 스타일 · 인디고) ── */
+  .cursor-dot,.cursor-ring{position:fixed; top:0; left:0; pointer-events:none; z-index:99999; border-radius:50%; transform:translate(-50%,-50%); will-change:transform;}
+  .cursor-dot{width:8px; height:8px; background:#5b63f0; box-shadow:0 0 0 1.6px rgba(255,255,255,.95),0 1px 4px rgba(0,0,0,.35); transition:opacity .25s, width .25s, height .25s;}
+  .cursor-ring{width:34px; height:34px; border:1.8px solid #5b63f0; box-shadow:0 0 0 1.2px rgba(255,255,255,.55); transition:width .3s cubic-bezier(.2,.7,.2,1), height .3s cubic-bezier(.2,.7,.2,1), background .3s, border-color .3s, opacity .3s;}
+  .cursor-ring.is-hover{width:46px; height:46px; background:rgba(91,99,240,.12);}
+  @media (hover:hover) and (pointer:fine){ body{cursor:none;} a,button,input,select,textarea,label,.mi,.chip,summary,[data-act]{cursor:none;} }
+  @media (hover:none),(pointer:coarse){ .cursor-dot,.cursor-ring{display:none !important;} }
 </style>
 </head>
 <body>
+<div class="cursor-ring" id="cursorRing"></div><div class="cursor-dot" id="cursorDot"></div>
 <div class="shell">
 
   <!-- ───── 사이드바 ───── -->
@@ -650,6 +658,16 @@
     <div class="sec">CONTENTS</div>
     <div class="mi on" data-act="nav" data-v="home"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8M5 10v10h5v-6h4v6h5V10"/></svg>홈 · 브랜드 체크</div>
     <div class="sec">SERVICE</div>
+    <div class="mi" data-act="toggle" data-g="sol" id="miSol"><svg viewBox="0 0 24 24"><path d="M4 4h16v6H4zM4 14h7v6H4zM14 14h6v6h-6z"/></svg>업종별 솔루션<svg class="chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>
+    <div class="subwrap closed" id="gSol">
+      <a class="mi sub" href="solution/index.html">전체 보기</a>
+      <a class="mi sub" href="solution/hospital.html">병원·의원</a>
+      <a class="mi sub" href="solution/academy.html">학원·교육</a>
+      <a class="mi sub" href="solution/lawyer.html">변호사·법률</a>
+      <a class="mi sub" href="solution/tax.html">세무사·회계</a>
+      <a class="mi sub" href="solution/franchise.html">프랜차이즈</a>
+      <a class="mi sub" href="solution/smb.html">소상공인·자영업</a>
+    </div>
     <div class="mi" data-act="toggle" data-g="svc" id="miSvc"><svg viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg>포팩트서비스<svg class="chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>
     <div class="subwrap closed" id="gSvc">
       <div class="mi sub" data-act="nav" data-v="svc">전체 보기</div>
@@ -664,16 +682,6 @@
       <div class="mi sub" data-act="chNav" data-ch="insta">인스타그램</div>
       <div class="mi sub" data-act="chNav" data-ch="tiktok">틱톡</div>
       <div class="mi sub" data-act="chNav" data-ch="threads">스레드</div>
-    </div>
-    <div class="mi" data-act="toggle" data-g="sol" id="miSol"><svg viewBox="0 0 24 24"><path d="M4 4h16v6H4zM4 14h7v6H4zM14 14h6v6h-6z"/></svg>업종별 솔루션<svg class="chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>
-    <div class="subwrap closed" id="gSol">
-      <a class="mi sub" href="solution/index.html">전체 보기</a>
-      <a class="mi sub" href="solution/hospital.html">병원·의원</a>
-      <a class="mi sub" href="solution/academy.html">학원·교육</a>
-      <a class="mi sub" href="solution/lawyer.html">변호사·법률</a>
-      <a class="mi sub" href="solution/tax.html">세무사·회계</a>
-      <a class="mi sub" href="solution/franchise.html">프랜차이즈</a>
-      <a class="mi sub" href="solution/smb.html">소상공인·자영업</a>
     </div>
     <div class="sec">COMMUNITY</div>
     <div class="mi" data-act="toggle" data-g="mkt" id="miMkt"><svg viewBox="0 0 24 24"><path d="M9 18l-2 3H4l2-3M15 18l2 3h3l-2-3M4 4h16v11H4z"/><path d="M8 8h8M8 11h5"/></svg>인사이트<svg class="chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>
@@ -3027,6 +3035,22 @@ const _navBase=nav;
 nav=function(v){ _navBase(v); if(v==='home'){ try{ animateStats(); }catch(e){} } };
 
 load(); renderAll(); initCarousel(); animateStats(); initTilt();
+
+/* ── 커스텀 커서 (SPA 대응: 이벤트 위임) ── */
+(function(){
+  var ring=document.getElementById('cursorRing'), dot=document.getElementById('cursorDot');
+  if(!ring||!dot||!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  var mx=innerWidth/2, my=innerHeight/2, rx=mx, ry=my;
+  addEventListener('mousemove', function(e){ mx=e.clientX; my=e.clientY;
+    dot.style.transform='translate('+mx+'px,'+my+'px) translate(-50%,-50%)'; });
+  (function follow(){ rx+=(mx-rx)*0.18; ry+=(my-ry)*0.18;
+    ring.style.transform='translate('+rx+'px,'+ry+'px) translate(-50%,-50%)'; requestAnimationFrame(follow); })();
+  var SEL='a,button,input,select,textarea,label,.mi,.chip,summary,[data-act],.pgbtn,.ki,.card,.artcard,.appl';
+  document.addEventListener('mouseover', function(e){ if(e.target.closest(SEL)) ring.classList.add('is-hover'); });
+  document.addEventListener('mouseout', function(e){ if(e.target.closest(SEL)) ring.classList.remove('is-hover'); });
+  addEventListener('mousedown', function(){ dot.style.opacity='0.4'; });
+  addEventListener('mouseup', function(){ dot.style.opacity='1'; });
+})();
 </script>
 </body>
 </html>
