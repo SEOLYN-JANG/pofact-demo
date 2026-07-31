@@ -723,6 +723,37 @@
     .mf-vs{grid-template-columns:1fr;}
     .mf-mid{padding:8px; letter-spacing:3px;}
   }
+
+  /* ═══ PROBLEM 섹션 ═══ */
+  .pb{margin:52px 0;}
+  .pb-badge{display:inline-block; font-size:12px; font-weight:800; letter-spacing:1.5px; color:#e5342b; background:#fdeceb; padding:6px 14px; border-radius:8px; margin-bottom:18px;}
+  .pb h2{font-size:clamp(29px,5.4vw,46px); font-weight:800; letter-spacing:-1.6px; line-height:1.22; color:var(--ink);}
+  .pb h2 .hl{color:#e5342b;}
+  .pb-quotes{margin:24px 0 0; display:flex; flex-direction:column; gap:11px; max-width:760px;}
+  .pb-quotes p{font-size:15px; color:#6b7086; line-height:1.72; font-style:italic;}
+  .pb-quotes p b{color:var(--ink); font-style:normal; font-weight:700;}
+  .pb-ask{margin:30px 0 14px; font-size:16px; font-weight:800; color:var(--ink);}
+  .pb-list{display:flex; flex-direction:column;}
+  .pb-li{display:flex; align-items:flex-start; gap:12px; padding:13px 0; font-size:14.5px; color:#3c405a; line-height:1.5; border-top:1px solid var(--line);}
+  .pb-li:first-child{border-top:0;}
+  .pb-li .x{flex:0 0 auto; margin-top:1px; color:#e5342b;}
+  .pb-li .x svg{width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:2.6;}
+  .pb-li b{font-weight:700; color:var(--ink);}
+
+  /* ═══ 포팩트서비스 — 자동화 대표 카드 ═══ */
+  .svf{background:var(--ink); border-radius:24px; padding:34px 32px; color:#fff; position:relative; overflow:hidden; margin:4px 0 20px; cursor:pointer; transition:transform .15s, box-shadow .15s;}
+  .svf:hover{transform:translateY(-2px); box-shadow:0 20px 44px rgba(24,28,60,.28);}
+  .svf::before{content:""; position:absolute; inset:0; background:radial-gradient(560px 220px at 12% -25%, rgba(122,124,255,.5), transparent 70%); pointer-events:none;}
+  .svf > *{position:relative;}
+  .svf-badge{display:inline-block; font-size:11px; font-weight:800; letter-spacing:1px; color:#cfd0ff; background:rgba(122,124,255,.18); border:1px solid rgba(122,124,255,.36); padding:5px 12px; border-radius:999px; margin-bottom:14px;}
+  .svf h3{font-size:clamp(22px,3.6vw,28px); font-weight:800; letter-spacing:-.6px; margin-bottom:10px;}
+  .svf p{color:#c1c5de; font-size:14px; line-height:1.7; max-width:660px;}
+  .svf-chs{display:flex; flex-wrap:wrap; gap:8px; margin:18px 0 0;}
+  .svf-ch{display:inline-flex; align-items:center; gap:7px; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.14); border-radius:11px; padding:8px 13px; font-size:12.5px; font-weight:600; color:#eeeffb;}
+  .svf-ch .d{width:8px; height:8px; border-radius:50%; flex:0 0 auto; box-shadow:0 0 0 2px rgba(255,255,255,.12);}
+  .svf-cta{display:flex; align-items:center; gap:14px; margin-top:22px; flex-wrap:wrap;}
+  .svf-cta .price{font-size:13.5px; font-weight:700; color:#fff; background:rgba(255,255,255,.1); padding:7px 14px; border-radius:10px;}
+  .svf-cta .go{font-size:13.5px; font-weight:800; color:#c9caff;}
 </style>
 </head>
 <body>
@@ -748,17 +779,12 @@
     <div class="mi" data-act="toggle" data-g="svc" id="miSvc"><svg viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg>포팩트서비스<svg class="chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>
     <div class="subwrap closed" id="gSvc">
       <div class="mi sub" data-act="nav" data-v="svc">전체 보기</div>
-      <div class="mi sub" data-act="svcNav" data-id="1">블로그배포</div>
-      <div class="mi sub" data-act="svcNav" data-id="2">서브홈페이지 칼럼</div>
-      <div class="mi sub" data-act="svcNav" data-id="3">워드프레스 브랜드블로그</div>
-      <div class="mi sub" data-act="svcNav" data-id="4">네이버 블로그 운영대행</div>
-      <div class="mi sub" data-act="svcNav" data-id="5">AEO·GEO·SEO 패키지</div>
-      <div class="mi sub" data-act="svcNav" data-id="6">홈페이지 개발</div>
-      <div class="mi sub" data-act="svcNav" data-id="7">뉴스레터 대행</div>
-      <div class="mi sub" data-act="chNav" data-ch="youtube">유튜브</div>
-      <div class="mi sub" data-act="chNav" data-ch="insta">인스타그램</div>
-      <div class="mi sub" data-act="chNav" data-ch="tiktok">틱톡</div>
-      <div class="mi sub" data-act="chNav" data-ch="threads">스레드</div>
+      <div class="mi sub" data-act="svcNav" data-id="1">자동화 프로세스</div>
+      <div class="mi sub" data-act="svcNav" data-id="2">맞춤 언론홍보</div>
+      <div class="mi sub" data-act="svcNav" data-id="3">플랫폼 배포</div>
+      <div class="mi sub" data-act="svcNav" data-id="4">홈페이지 제작</div>
+      <div class="mi sub" data-act="svcNav" data-id="5">쇼핑몰 제작</div>
+      <div class="mi sub" data-act="svcNav" data-id="6">AEO·GEO·SEO 패키지</div>
     </div>
     <div class="sec">COMMUNITY</div>
     <div class="mi" data-act="toggle" data-g="mkt" id="miMkt"><svg viewBox="0 0 24 24"><path d="M9 18l-2 3H4l2-3M15 18l2 3h3l-2-3M4 4h16v11H4z"/><path d="M8 8h8M8 11h5"/></svg>인사이트<svg class="chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div>
@@ -821,14 +847,25 @@
         <div class="metric"><b>무가입</b><span>회원가입 없이 무료 진단</span></div>
       </div>
 
-      <div class="sechead"><h2>이렇게 일하고 계신가요?</h2></div>
-      <div class="sechint">브랜드 마케팅에서 가장 시간이 새는 지점들입니다.</div>
-      <div class="problem">
-        <div class="prow"><span class="px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 4.3 2.4 18a2 2 0 0 0 1.7 3h15.8a2 2 0 0 0 1.7-3L13.7 4.3a2 2 0 0 0-3.4 0z"/></svg></span><p>같은 글을 <b>블로그·티스토리·워드프레스</b>에 매번 따로 옮겨 씁니다.</p></div>
-        <div class="prow"><span class="px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 4.3 2.4 18a2 2 0 0 0 1.7 3h15.8a2 2 0 0 0 1.7-3L13.7 4.3a2 2 0 0 0-3.4 0z"/></svg></span><p>AEO 구조(질문형 제목·FAQ)를 맞추느라 원고 한 건에 몇 시간씩 듭니다.</p></div>
-        <div class="prow"><span class="px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 4.3 2.4 18a2 2 0 0 0 1.7 3h15.8a2 2 0 0 0 1.7-3L13.7 4.3a2 2 0 0 0-3.4 0z"/></svg></span><p>열심히 써도 <b>챗GPT·퍼플렉시티는 우리 브랜드를 인용하지 않습니다.</b></p></div>
-        <div class="prow"><span class="px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 4.3 2.4 18a2 2 0 0 0 1.7 3h15.8a2 2 0 0 0 1.7-3L13.7 4.3a2 2 0 0 0-3.4 0z"/></svg></span><p>경쟁사는 검색·AI 답변에 뜨는데, 우리만 보이지 않습니다.</p></div>
-      </div>
+      <!-- ═══ PROBLEM ═══ -->
+      <section class="pb">
+        <span class="pb-badge">PROBLEM</span>
+        <h2>블로그 한 건 올리는 데<br><span class="hl">하루 5시간</span>이 사라집니다.</h2>
+        <div class="pb-quotes">
+          <p>"제목·본문·이미지·영상·해시태그까지 다 준비하면 하루가 다 갑니다."</p>
+          <p>"홈페이지, 네이버블로그, 유튜브 쇼츠·장편, 인스타 릴스, X, 스레드 — 채널이 늘수록 몸이 하나로는 부족합니다."</p>
+          <p>"AI로 글은 쓴다지만, <b>이미지·영상·채널별 포맷 변환·업로드는 여전히 손</b>입니다."</p>
+          <p>"이제는 올리는 것만 문제가 아니라, <b>채널마다 달리는 댓글 응대</b>까지 하루 일과가 됐습니다."</p>
+        </div>
+        <div class="pb-ask">혹시 이런 고민, 매일 하고 계시지 않나요?</div>
+        <div class="pb-list">
+          <div class="pb-li"><span class="x"><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></span><span>글은 AI로 쓰지만 — <b>이미지·영상은 여전히 수작업</b></span></div>
+          <div class="pb-li"><span class="x"><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></span><span>채널별 포맷이 모두 달라 <b>매번 변환·업로드 반복</b></span></div>
+          <div class="pb-li"><span class="x"><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></span><span>채널마다 달리는 댓글에 <b>일일이 답하기 벅차다</b></span></div>
+          <div class="pb-li"><span class="x"><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></span><span>실패한 포스팅의 <b>원인 추적이 어렵다</b></span></div>
+          <div class="pb-li"><span class="x"><svg viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg></span><span>고객사·브랜드별로 <b>매번 프롬프트를 고쳐야 한다</b></span></div>
+        </div>
+      </section>
 
       <!-- ═══ 매니페스토: 직접 할 필요 없다 ═══ -->
       <section class="mf" id="mfWhy">
@@ -1088,11 +1125,9 @@ Allow: /
     <!-- ═══ 포팩트서비스 개요 ═══ -->
     <div class="view hide" id="vSvc">
       <div class="sechead"><h2>포팩트서비스</h2></div>
-      <div class="sechint">손이 많이 가는 일은 포팩트가 직접 해드립니다 — 상품을 선택하면 상세 페이지로 이동합니다. (가격은 임시 가격)</div>
+      <div class="sechint">번거로운 실무는 포팩트가 대신합니다. <b>핵심은 자동화</b> — 부족한 채널만 골라 자동으로 채우고, 나머지는 필요할 때만 붙이세요. (가격은 임시)</div>
+      <div id="svcFeature"></div>
       <div class="bgrid" id="svcGrid"></div>
-      <div class="sechead"><h2>멀티채널 운영</h2></div>
-      <div class="sechint">텍스트 원고를 넘어 영상·숏폼까지. 채널을 선택하면 채널별 상품 페이지로 이동합니다.</div>
-      <div class="bgrid grid2" id="chanGrid"></div>
     </div>
 
     <!-- ═══ 포팩트서비스 상품 상세 ═══ -->
@@ -1570,48 +1605,44 @@ function nav(v){
 
 /* ── 포팩트서비스 상품 데이터 (페이지 1개 = 상품 1개, AEO 기본) ── */
 const SVC=[
- {id:1, name:'블로그배포', tag:'AI+사람', price:'1건 1만원 · 10건 8만원 · 100건 60만원',
-  def:'블로그배포는 AI가 AEO 구조(질문형 제목·자기완결 답변·FAQ)로 작성한 원고를 검증된 블로그 채널에 발행해, 검색과 AI 답변 양쪽의 노출을 만드는 서비스입니다.',
-  rows:[['워드프레스','1건 1만원 / 10건 8만원 / 100건 60만원'],['구글 블로그스팟','1건 1만원 / 10건 8만원 / 100건 60만원'],['티스토리','1건 1만원 / 10건 8만원 / 100건 60만원'],['네이버 블로그','1건 1만원 / 10건 8만원 / 100건 60만원']],
-  why:['같은 글도 어디에 실리느냐에 따라 구글·AI가 읽을 수 있는지가 달라집니다','워드프레스·블로그스팟·티스토리는 구글 색인에 유리해 AI 답변 노출의 기반이 됩니다','채널을 나눠 발행하면 같은 키워드를 여러 입구에서 잡을 수 있습니다'],
+ {id:1, name:'자동화 프로세스', tag:'핵심 · 자동화', badge:'대표 상품',
+  channels:[['네이버 블로그','#03c75a'],['워드프레스','#21759b'],['티스토리','#ff5a3c'],['뉴스레터','#f59e0b'],['스레드','#111827'],['인스타그램','#e1306c']],
+  price:'월 구독 · 채널/편수별 (상담)',
+  def:'브랜드 진단으로 약한 채널을 찾아, AEO 구조 원고를 6개 채널(네이버 블로그·워드프레스·티스토리·뉴스레터·스레드·인스타그램)에 자동 생성·발행하고 노출·AI 인용까지 추적하는 포팩트의 핵심 자동화 상품입니다. 사람이 채널마다 옮겨 쓸 필요 없이, 부족한 곳만 골라 자동으로 채웁니다.',
+  rows:[['월 자동화 구독','채널·편수별 상담 (예: 19 / 39 / 89만원)'],['단건 자동 발행','1건 1만원부터'],['채널 확장','채널당 추가 (상담)']],
+  why:['채널마다 사람이 옮겨 쓰지 않습니다 — 부족한 채널만 자동으로 채웁니다.','네이버·워드프레스·티스토리·뉴스레터·스레드·인스타를 한 번에 커버합니다.','발행 후 색인·AI 인용을 추적해 매달 재진단·보강합니다.'],
+  steps:['브랜드 진단(무료)','부족한 채널·주제 선정','AI가 AEO 구조 원고 자동 생성','6채널 자동 발행','색인·AI 인용 추적 리포트'],
+  faq:[['꼭 6개 채널을 다 해야 하나요?','아니요. 진단에서 약한 채널만 골라 필요한 만큼만 자동화합니다.'],['원고 품질은 괜찮나요?','AI가 AEO 구조로 초안을 생성하고 필요 시 사람이 검수합니다.'],['효과는 언제부터요?','세팅 즉시 발행이 시작되고, AEO 노출은 콘텐츠가 쌓일수록 강해집니다.']]},
+ {id:2, name:'맞춤 언론홍보', tag:'PR', price:'매체·건수별 (상담)',
+  def:'업종과 목적에 맞는 매체를 골라 보도자료를 기획·작성·배포하는 맞춤 언론홍보입니다. 검색·AI가 신뢰하는 매체 인용을 만들어 브랜드 권위를 올립니다.',
+  rows:[['보도자료 기획·작성','건별 (상담)'],['매체 배포','매체 등급·건수별'],['정기 배포 패키지','월 단위 (상담)']],
+  why:['언론 인용은 검색·AI가 신뢰하는 권위 신호입니다.','업종에 맞는 매체를 골라 효율적으로 노출합니다.','보도 이후 검색·AI 노출까지 연계해 자산으로 남깁니다.'],
+  steps:['목표·핵심 메시지 정의','보도자료 기획·작성','매체 선정·배포','게재 확인·리포트'],
+  faq:[['어떤 매체에 나가나요?','업종·목적에 맞춰 제안하며, 원하는 매체 등급을 선택할 수 있습니다.'],['효과가 있나요?','매체 인용은 AEO·GEO에서 브랜드 신뢰도를 높이는 핵심 요소입니다.']]},
+ {id:3, name:'플랫폼 배포', tag:'배포', price:'1건 1만원 · 10건 8만원 · 100건 60만원',
+  def:'AI가 AEO 구조로 작성한 원고를 검증된 블로그·플랫폼 채널에 단건 또는 묶음으로 발행하는 배포 상품입니다. 구독형 자동화가 부담이면 필요한 만큼만 골라 쓸 수 있습니다.',
+  rows:[['단건','1건 1만원'],['10건 묶음','8만원'],['100건 묶음','60만원']],
+  why:['자동화가 부담이면 필요한 만큼만 단건으로 발행합니다.','AEO 구조 원고라 검색·AI 답변 양쪽에 노출됩니다.','워드프레스·티스토리·네이버 등 채널을 골라 발행합니다.'],
   steps:['키워드·가이드 접수','AI가 AEO 구조 초안 생성','사람 검수·수정','채널별 발행','노출 확인 리포트'],
-  faq:[['원고는 누가 쓰나요?','AI가 AEO 구조로 초안을 만들고, 담당자가 검수·수정해 발행합니다.'],['어떤 채널에 발행되나요?','워드프레스·블로그스팟·티스토리·네이버 중 선택하며, AI 노출 목적이라면 구글 색인 채널을 권장합니다.'],['발행 후 확인은 어떻게 하나요?','구글·네이버 노출 여부를 확인해 알려드립니다.']]},
- {id:2, name:'서브홈페이지 칼럼', tag:'AI+사람', price:'세팅 20만원 · 칼럼 1건 1만원~',
-  def:'서브홈페이지 칼럼은 회사 홈페이지 안에 칼럼(블로그) 섹션을 만들어, 브랜드가 소유한 도메인에 검색·AI 노출용 콘텐츠 자산을 쌓는 서비스입니다.',
-  rows:[['서브 홈페이지 칼럼 세팅','20만원 (1회)'],['브랜드 칼럼 발행','1건 1만원 / 10건 8만원 / 100건 60만원']],
-  why:['남의 플랫폼이 아닌 우리 도메인에 쌓이는 콘텐츠는 온전히 브랜드 자산이 됩니다','홈페이지에 주제 관련 글이 쌓이면 도메인 전체의 검색 신뢰도가 올라갑니다','AI는 브랜드 공식 사이트의 글을 신뢰도 높은 근거로 인용합니다'],
-  steps:['홈페이지 점검·칼럼 섹션 세팅','키워드 설계','AI 초안+검수 발행','색인 등록·노출 확인'],
-  faq:[['홈페이지가 없어도 되나요?','칼럼 섹션은 기존 홈페이지에 추가합니다. 홈페이지가 없다면 [홈페이지 AEO·GEO·SEO] 상품을 먼저 확인하세요.'],['몇 건부터 효과가 있나요?','주제당 10건 이상 쌓일 때 검색 신뢰도가 붙기 시작합니다.'],['글 소유권은 누구에게 있나요?','전부 브랜드 소유입니다.']]},
- {id:3, name:'워드프레스 브랜드블로그', tag:'AI+사람', price:'세팅 20만원 · 운영 1건 1만원~',
-  def:'워드프레스 브랜드블로그는 브랜드 전용 워드프레스 블로그를 만들어 구글과 AI가 잘 읽는 구조로 운영하는 서비스입니다.',
-  rows:[['브랜드블로그 세팅','20만원 (1회, 디자인·기본 SEO 설정 포함)'],['브랜드블로그 운영','1건 1만원 / 10건 8만원 / 100건 60만원']],
-  why:['워드프레스는 구글 색인과 구조화 데이터 적용에 가장 유리한 플랫폼입니다','네이버 정책 변화에 영향받지 않는 독립 채널을 확보합니다','AI 크롤러 허용·사이트맵 등 AEO 기술 설정을 자유롭게 할 수 있습니다'],
-  steps:['블로그 세팅(디자인·SEO)','키워드 설계','AI 초안+검수 발행','서치콘솔 등록·노출 확인'],
-  faq:[['도메인은 누구 소유인가요?','브랜드 소유 도메인으로 세팅해 드립니다.'],['네이버 블로그와 뭐가 다른가요?','네이버 글은 구글·AI가 거의 가져가지 못합니다. 워드프레스는 구글 검색과 AI 답변에 노출됩니다.'],['운영만 맡길 수도 있나요?','이미 워드프레스가 있다면 운영만 진행 가능합니다.']]},
- {id:4, name:'네이버 브랜드 블로그 운영대행', tag:'사람', price:'10건 50만원 · 20건 70만원',
-  def:'네이버 브랜드 블로그 운영대행은 업종별 법규(의료법·변호사법·교육법)를 준수하며 브랜드 공식 네이버 블로그를 사람이 직접 운영하는 서비스입니다.',
-  rows:[['네이버 블로그 세팅(디자인)','20만원 (1회)'],['브랜드 블로그 운영 — 브랜드 가이드 준수','10건 50만원 / 20건 70만원'],['병원 블로그 운영 — 의료법 준수','10건 50만원 / 20건 70만원'],['전문직 블로그 운영 — 변호사법 준수','10건 50만원 / 20건 70만원'],['학원 블로그 운영 — 교육법 준수','10건 50만원 / 20건 70만원']],
-  why:['네이버는 한국 소비자 검색의 기본 — 브랜드 공식 블로그는 신뢰의 최소 조건입니다','병원·전문직·학원은 광고 법규 위반 시 제재 대상이라 준수 경험이 필수입니다','플레이스·검색과 연결되는 공식 채널은 사람이 일관되게 운영해야 합니다'],
-  steps:['블로그 진단·세팅','업종 법규 체크리스트 확정','원고 기획·작성(사람)','법규 검수 후 발행','월간 리포트'],
-  faq:[['AI로 쓰지 않나요?','네이버 공식 블로그는 저품질 위험을 줄이기 위해 사람이 직접 작성합니다.'],['의료광고 심의도 해주나요?','심의 대상 여부를 검토하고 심의 절차를 안내합니다.'],['우리 블로그 계정으로 하나요?','네, 브랜드 계정으로 운영하며 소유권은 브랜드에 있습니다.']]},
- {id:5, name:'AEO·GEO·SEO 패키지', tag:'AI+사람', price:'베이직 · 프리미엄 (복합 구성)',
-  def:'AEO·GEO·SEO 패키지는 블로그배포·브랜드블로그·홈페이지 최적화를 묶어, AI가 브랜드를 읽고(AEO) 추천하게(GEO) 만드는 통합 상품입니다.',
-  rows:[['베이직 패키지','복합 상품 구성 — 상담 후 확정'],['프리미엄 패키지','복합 상품 구성 — 상담 후 확정']],
-  why:['채널 하나만 해서는 AI가 브랜드를 하나의 개체로 인식하지 못합니다','홈페이지+블로그+배포가 같은 메시지로 묶일 때 인용 확률이 올라갑니다','따로 맡기는 것보다 통합 구성이 비용·일관성 모두 유리합니다'],
-  steps:['브랜드 진단(무료)','패키지 구성 제안','채널별 세팅·발행','월간 노출 리포트'],
-  faq:[['어떤 걸 묶어야 할지 모르겠어요.','무료 진단 후 업종과 목표에 맞는 구성을 제안해 드립니다.'],['기간은 얼마나 걸리나요?','세팅 2주 + 월 단위 운영이 기본입니다.'],['성과는 어떻게 확인하나요?','검색 노출·AI 언급 여부를 리포트로 제공합니다.']]},
- {id:6, name:'홈페이지 개발', tag:'사람', price:'리뉴얼 100만 / 200만 / 엔터프라이즈',
-  def:'AEO·GEO·SEO에 최적화된 홈페이지를 새로 만들거나 리뉴얼합니다. AI와 검색엔진이 잘 읽는 구조(질문형 구조·구조화 데이터·AI 크롤러 허용)로 처음부터 설계해, 홈페이지 자체가 검색·AI 답변 노출의 기반이 되게 합니다.',
-  rows:[['최적화 리뉴얼','100만원 / 200만원 / 엔터프라이즈'],['최적화 신규 제작','엔터프라이즈 (상담)']],
-  why:['홈페이지가 AI에 읽히지 않으면 블로그·배포 등 다른 채널 노력도 반감됩니다','구조화 데이터·sitemap·AI 크롤러 설정은 홈페이지 단에서만 완성됩니다','AI는 공식 홈페이지를 브랜드 정보의 1차 출처로 삼아 인용합니다'],
-  steps:['홈페이지 AEO 진단','정보 구조 설계(질문형·FAQ·정의문)','디자인·개발','구조화 데이터·기술 적용','색인 등록·AI 가시성 확인'],
-  faq:[['디자인부터 새로 하나요?','신규 제작은 기획·디자인·개발을 모두, 리뉴얼은 범위에 따라 구조만 또는 디자인까지 진행합니다.'],['일반 홈페이지와 뭐가 다른가요?','제목 구조·FAQ·구조화 데이터·AI 크롤러 허용 등 AI·검색이 읽기 좋은 구조를 처음부터 넣습니다.'],['효과 확인은요?','구글 색인·AI 답변 언급 여부로 확인합니다.']]},
- {id:7, name:'뉴스레터 대행', tag:'사람', price:'10건 50만원 · 20건 70만원',
-  def:'뉴스레터 대행은 메일리·스티비로 브랜드 뉴스레터를 기획·발행해 고객과의 반복 접점을 만드는 서비스입니다.',
-  rows:[['메일리 발행 대행','10건 50만원 / 20건 70만원'],['스티비 발행 대행','10건 50만원 / 20건 70만원']],
-  why:['검색·AI 노출로 온 손님을 구독자로 전환해 반복 방문을 만듭니다','뉴스레터 콘텐츠는 블로그 글로 재활용되어 AEO 자산이 됩니다','알고리즘에 좌우되지 않는 직접 채널을 확보합니다'],
-  steps:['구독자·톤 설계','콘텐츠 기획','발행·성과 리포트'],
-  faq:[['플랫폼은 뭘 쓰나요?','메일리 또는 스티비 중 브랜드에 맞는 쪽을 추천합니다.'],['소재가 없어도 되나요?','블로그·캠페인 콘텐츠를 재구성해 소재를 만듭니다.'],['효과 측정은요?','오픈율·클릭률 리포트를 제공합니다.']]},
+  faq:[['자동화와 뭐가 다른가요?','플랫폼 배포는 필요할 때 단건으로, 자동화 프로세스는 구독형으로 부족분을 계속 채웁니다.'],['어떤 채널에 발행되나요?','구글 색인에 유리한 워드프레스·티스토리·블로그스팟과 네이버 중 선택합니다.']]},
+ {id:4, name:'홈페이지 제작', tag:'제작', price:'리뉴얼 100 / 200 / 엔터프라이즈',
+  def:'AI와 검색엔진이 잘 읽는 구조(질문형 정보구조·구조화 데이터·llms.txt·AI 크롤러 허용)로 홈페이지를 새로 만들거나 리뉴얼합니다. 홈페이지 자체를 AEO 노출의 기반으로 설계합니다.',
+  rows:[['기본 리뉴얼','100만원~'],['표준','200만원~'],['엔터프라이즈','상담']],
+  why:['홈페이지가 AI에 안 읽히면 어떤 콘텐츠도 인용되지 않습니다.','처음부터 질문형·FAQ·구조화 데이터로 설계합니다.','색인·AI 가시성까지 확인하고 넘겨드립니다.'],
+  steps:['홈페이지 AEO 진단','정보 구조 설계(질문형·FAQ·정의문)','디자인·개발','구조화 데이터·기술 적용','색인·AI 가시성 확인'],
+  faq:[['기존 홈페이지도 되나요?','네, 리뉴얼로 AEO 구조를 입힐 수 있습니다.'],['일반 제작과 뭐가 다른가요?','제목 구조·FAQ·구조화 데이터·AI 크롤러 허용을 처음부터 넣습니다.']]},
+ {id:5, name:'쇼핑몰 제작', tag:'제작', price:'구축 규모별 (상담)',
+  def:'상품 정보가 검색·AI에 잘 노출되는 구조로 쇼핑몰을 구축합니다. 상품 스키마(Product 구조화 데이터)·리뷰·FAQ를 AEO 관점으로 설계해 "○○ 살 만한 곳" 질문에 노출되게 만듭니다.',
+  rows:[['쇼핑몰 구축','규모·연동별 상담'],['상품 AEO 세팅','상품 수별'],['유지·운영','월 단위 (상담)']],
+  why:['상품이 AI 추천 답변에 뜨면 구매 전환으로 직결됩니다.','Product 구조화 데이터·리뷰·FAQ를 처음부터 설계합니다.','검색·AI 양쪽 노출을 목표로 구축합니다.'],
+  steps:['업종·상품 진단','쇼핑몰 구조 설계','디자인·개발·연동','상품 구조화 데이터 적용','노출 확인'],
+  faq:[['기존 쇼핑몰도 최적화되나요?','상품 구조화 데이터·정보구조 개선으로 AEO를 입힐 수 있습니다.'],['어떤 플랫폼으로 만드나요?','업종·연동 요건에 맞춰 제안합니다.']]},
+ {id:6, name:'AEO·GEO·SEO 패키지', tag:'통합', price:'구성별 (상담)',
+  def:'진단부터 홈페이지 최적화·콘텐츠 자동화·언론홍보까지 묶어, AI가 브랜드를 읽고(AEO) 추천하게(GEO) 만드는 통합 패키지입니다.',
+  rows:[['스타터','상담 후 구성'],['그로스','상담 후 구성'],['엔터프라이즈','상담 후 구성']],
+  why:['개별 상품을 목표에 맞게 묶어 효율을 높입니다.','진단→세팅→자동화→추적을 하나의 흐름으로 운영합니다.','매달 재진단으로 계속 개선합니다.'],
+  steps:['브랜드 진단(무료)','패키지 구성 제안','채널·홈페이지 세팅','콘텐츠 자동화·배포','월간 노출 리포트'],
+  faq:[['뭘 묶어야 할지 모르겠어요.','무료 진단 후 업종·목표에 맞는 구성을 제안합니다.'],['성과는 어떻게 확인하나요?','검색 노출·AI 언급 여부를 리포트로 제공합니다.']]},
 ];
 /* ── 멀티채널 상품: 채널별 개별 카테고리 (채널 1개 = 랜딩 1개, 상품 여러 개 = AEO 다면 노출) ── */
 const CHANNELS={
@@ -1939,21 +1970,23 @@ function openArticle(b,i,j){
 }
 
 function renderSvcGrid(){
-  document.getElementById('svcGrid').innerHTML=SVC.map(s=>
+  const feat=SVC[0];
+  const fEl=document.getElementById('svcFeature');
+  if(fEl && feat) fEl.innerHTML=`
+    <div class="svf" data-act="svcNav" data-id="${feat.id}">
+      <span class="svf-badge">${feat.badge||'대표 상품'}</span>
+      <h3>${feat.name}</h3>
+      <p>${feat.def}</p>
+      <div class="svf-chs">${(feat.channels||[]).map(c=>`<span class="svf-ch"><span class="d" style="background:${c[1]}"></span>${c[0]}</span>`).join('')}</div>
+      <div class="svf-cta"><span class="price">${feat.price}</span><span class="go">자세히 · 자동화 상담 ›</span></div>
+    </div>`;
+  document.getElementById('svcGrid').innerHTML=SVC.slice(1).map(s=>
     `<div class="bcard" data-act="svcNav" data-id="${s.id}" style="cursor:pointer">
       <div class="nm"><span class="tag t">${s.tag}</span> ${s.name}</div>
       <div class="pr" style="margin-top:6px">${s.def}</div>
       <div class="bf"><span class="price" style="font-size:12.5px; font-weight:700; color:var(--teal-d)">${s.price}</span>
       <span style="color:var(--teal-d); font-weight:700; font-size:12px">자세히 ›</span></div>
     </div>`).join('');
-  const chEl=document.getElementById('chanGrid');
-  if(chEl) chEl.innerHTML=CH_ORDER.map(k=>{ const c=CHANNELS[k];
-    return `<div class="bcard" data-act="chNav" data-ch="${k}" style="cursor:pointer">
-      <div class="nm"><span class="tag t">${c.tag}</span> ${c.name}</div>
-      <div class="pr" style="margin-top:6px">${c.intro}</div>
-      <div class="bf"><span class="price" style="font-size:12px; color:var(--sub)">상품 ${c.products.length}종 · ${c.products.map(p=>p.name.replace(c.name,'').replace(/^\s+/,'')||p.name).slice(0,3).join(' · ')}</span>
-      <span style="color:var(--teal-d); font-weight:700; font-size:12px">자세히 ›</span></div>
-    </div>`; }).join('');
 }
 /* 상품 랜딩 본문 (히어로 + 섹션) — 개별 홈페이지 느낌으로 재사용 */
 function svcHero(item, badge){
