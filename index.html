@@ -754,6 +754,69 @@
   .svf-cta{display:flex; align-items:center; gap:14px; margin-top:22px; flex-wrap:wrap;}
   .svf-cta .price{font-size:13.5px; font-weight:700; color:#fff; background:rgba(255,255,255,.1); padding:7px 14px; border-radius:10px;}
   .svf-cta .go{font-size:13.5px; font-weight:800; color:#c9caff;}
+
+  /* ═══ 자동화 프로세스 리치 랜딩 ═══ */
+  .au-hero{background:var(--ink); border-radius:26px; padding:48px 40px; color:#fff; position:relative; overflow:hidden; margin:4px 0 8px;}
+  .au-hero::before{content:""; position:absolute; inset:0; background:radial-gradient(720px 300px at 8% -25%, rgba(122,124,255,.5), transparent 68%); pointer-events:none;}
+  .au-hero > *{position:relative;}
+  .au-hero .ey{display:inline-block; font-size:11.5px; font-weight:800; letter-spacing:1.4px; color:#cfd0ff; background:rgba(122,124,255,.18); border:1px solid rgba(122,124,255,.36); padding:6px 13px; border-radius:999px; margin-bottom:16px;}
+  .au-hero h1{font-size:clamp(28px,4.7vw,44px); font-weight:800; letter-spacing:-1.5px; line-height:1.2;}
+  .au-hero h1 b{background:linear-gradient(135deg,#adaeff,#d9bcff); -webkit-background-clip:text; background-clip:text; color:transparent;}
+  .au-hero .lead{color:#c3c7e0; font-size:15px; line-height:1.75; max-width:680px; margin:16px 0 0;}
+  .au-hero .cta{display:flex; gap:10px; flex-wrap:wrap; margin-top:24px;}
+  .au-hero .cta .p1{background:#fff; color:var(--ink); border:0; font-weight:800; font-size:14px; padding:13px 24px; border-radius:12px; cursor:pointer; font-family:inherit;}
+  .au-hero .cta .p2{background:rgba(255,255,255,.08); color:#fff; border:1px solid rgba(255,255,255,.2); font-weight:700; font-size:14px; padding:13px 22px; border-radius:12px; cursor:pointer; font-family:inherit;}
+  .au-hero .kv{display:flex; flex-wrap:wrap; gap:8px; margin-top:24px;}
+  .au-hero .kv span{font-size:12px; font-weight:600; color:#dcdef0; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.13); border-radius:999px; padding:7px 13px;}
+
+  .au-sec{margin:38px 0;}
+  .au-kicker{font-size:12px; font-weight:800; letter-spacing:1.6px; color:var(--teal-d); margin-bottom:7px;}
+  .au-h2{font-size:clamp(21px,3.3vw,30px); font-weight:800; letter-spacing:-.8px; line-height:1.25; color:var(--ink);}
+  .au-desc{color:var(--sub); margin-top:9px; font-size:14.5px; line-height:1.7; max-width:700px;}
+
+  .au-nums{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin:22px 0 0;}
+  .au-num{background:#fff; border:1px solid var(--line); border-radius:16px; padding:22px 18px; text-align:center; box-shadow:var(--sh);}
+  .au-num b{display:block; font-size:29px; font-weight:800; letter-spacing:-1px; background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent;}
+  .au-num span{font-size:12.5px; color:var(--sub); margin-top:7px; display:block; line-height:1.5;}
+
+  .au-feats{display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:12px; margin-top:22px;}
+  .au-feat{background:#fff; border:1px solid var(--line); border-radius:16px; padding:20px; box-shadow:var(--sh);}
+  .au-feat .ic{width:40px; height:40px; border-radius:12px; background:var(--teal-bg); display:grid; place-items:center; margin-bottom:12px;}
+  .au-feat .ic svg{width:20px; height:20px; stroke:var(--teal-d); fill:none; stroke-width:1.9;}
+  .au-feat .no{font-size:11px; font-weight:800; color:#c1c5da; letter-spacing:.5px;}
+  .au-feat h4{font-size:14.5px; font-weight:800; margin:2px 0 6px; letter-spacing:-.2px;}
+  .au-feat p{font-size:12.5px; color:var(--sub); line-height:1.58;}
+
+  .au-pipe{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-top:22px;}
+  .au-step{background:#fff; border:1px solid var(--line); border-radius:12px; padding:11px 14px; font-size:12.5px; font-weight:700; color:var(--ink); display:flex; gap:9px; align-items:center; box-shadow:var(--sh-sm);}
+  .au-step i{width:22px; height:22px; border-radius:7px; background:var(--grad); color:#fff; display:grid; place-items:center; font-size:11px; font-weight:800; font-style:normal; flex:0 0 auto;}
+  .au-pipe .arw{color:#c9cde0; font-weight:800;}
+
+  .au-chs{display:flex; flex-direction:column; gap:10px; margin-top:22px;}
+  .au-ch{display:flex; gap:13px; align-items:flex-start; background:#fff; border:1px solid var(--line); border-radius:14px; padding:15px 17px; box-shadow:var(--sh-sm);}
+  .au-ch .d{width:11px; height:11px; border-radius:50%; margin-top:4px; flex:0 0 auto; box-shadow:0 0 0 3px rgba(0,0,0,.03);}
+  .au-ch b{font-size:14px; font-weight:800;}
+  .au-ch span{font-size:12.5px; color:var(--sub); display:block; margin-top:2px; line-height:1.55;}
+
+  .au-eng{display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin-top:22px;}
+  .au-eng .chip{background:var(--teal-bg); border:1px solid var(--teal-line); color:var(--teal-d); border-radius:11px; padding:11px 15px; font-size:12.5px; font-weight:800;}
+  .au-eng .arw{color:#c9cde0; font-weight:800;}
+
+  .au-tblwrap{overflow-x:auto; margin-top:22px; border:1px solid var(--line); border-radius:16px;}
+  .au-table{width:100%; border-collapse:collapse; background:#fff; min-width:520px;}
+  .au-table th, .au-table td{padding:13px 16px; font-size:13px; text-align:left; border-top:1px solid var(--line); line-height:1.5;}
+  .au-table thead th{background:var(--chip); font-weight:800; border-top:0; color:var(--ink);}
+  .au-table td:first-child{font-weight:700; color:var(--ink); white-space:nowrap;}
+  .au-table .bad{color:#c25f43;}
+  .au-table .good{color:#0f9d8f; font-weight:700;}
+
+  .au-cta{margin-top:8px; background:var(--ink); border-radius:24px; padding:44px 34px; text-align:center; position:relative; overflow:hidden;}
+  .au-cta::before{content:""; position:absolute; inset:0; background:radial-gradient(680px 240px at 50% -30%, rgba(122,124,255,.55), transparent 70%);}
+  .au-cta > *{position:relative;}
+  .au-cta h2{color:#fff; font-size:clamp(22px,3.8vw,32px); font-weight:800; letter-spacing:-1px; line-height:1.34;}
+  .au-cta h2 b{background:linear-gradient(135deg,#adaeff,#d9bcff); -webkit-background-clip:text; background-clip:text; color:transparent;}
+  .au-cta p{color:#b7bbd6; margin:12px auto 22px; max-width:540px; font-size:14.5px;}
+  .au-cta .btn{font-size:15px; padding:14px 30px;}
 </style>
 </head>
 <body>
@@ -2016,12 +2079,136 @@ function svcSections(item){
 function openSvcPage(id){
   const s=SVC.find(x=>x.id===+id); if(!s) return;
   curSvcId=s.id; curChannel='';
+  const body = s.id===1 ? renderAutomation(s) : (svcHero(s)+svcSections(s));
   document.getElementById('vSvcp').innerHTML=`
     <div class="crumb"><b data-act="nav" data-v="svc">포팩트서비스</b> › ${s.name}</div>
-    ${svcHero(s)}
-    ${svcSections(s)}
+    ${body}
     <button class="btn gray" data-act="nav" data-v="svc">← 서비스 목록</button>`;
   nav('svcp');
+}
+/* 자동화 프로세스 — 리치 랜딩 (VMAS 구조 기반, 포팩트 각색) */
+function renderAutomation(s){
+  const ico={
+    dash:'<path d="M3 13h8V3H3zM13 21h8V3h-8zM3 21h8v-6H3z"/>',
+    cal:'<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
+    up:'<path d="M12 15V3M8 7l4-4 4 4M4 15v4a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4"/>',
+    media:'<rect x="3" y="4" width="18" height="14" rx="2"/><path d="M3 15l4-4 3 3 4-5 7 7"/><circle cx="8.5" cy="8.5" r="1.5"/>',
+    chan:'<path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/>',
+    news:'<path d="M4 5h13v14H4zM17 8h3v9a2 2 0 0 1-2 2M8 9h5M8 13h5"/>',
+    cfg:'<circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1l2-1.5-2-3.4-2.3 1a7 7 0 0 0-1.7-1L14.5 3h-5l-.4 2.6a7 7 0 0 0-1.7 1l-2.3-1-2 3.4L5 11a7 7 0 0 0 0 2l-2 1.5 2 3.4 2.3-1a7 7 0 0 0 1.7 1l.4 2.6h5l.4-2.6a7 7 0 0 0 1.7-1l2.3 1 2-3.4-2-1.5a7 7 0 0 0 .1-1z"/>',
+    shield:'<path d="M12 2 4 6v6c0 5 3.4 8.5 8 10 4.6-1.5 8-5 8-10V6z"/><path d="M9 12l2 2 4-4"/>'
+  };
+  const feats=[
+    ['01','대시보드 통제','dash','파이프라인 진행 상태와 채널별 발행 성공률을 한 화면에서 파악합니다.'],
+    ['02','캘린더 스케줄링','cal','30일치 주제를 미리 등록하면 지정한 시간에 자동 발행됩니다.'],
+    ['03','하이브리드 업로드','up','완성 원고(docx)·초안·참고 URL 어느 것으로도 등록해 AI가 확장 생성합니다.'],
+    ['04','미디어 파이프라인','media','본문에 맞는 실사·인포그래픽 이미지 10장과 9:16 영상을 자동 생성합니다.'],
+    ['05','6채널 멀티 배포','chan','네이버·워드프레스·티스토리·뉴스레터·인스타·스레드 포맷에 맞춰 자동 전송합니다.'],
+    ['06','AEO 뉴스 파싱','news','등록한 RSS·URL을 수집해 브랜드 톤의 분석 기사로 재생산합니다.'],
+    ['07','환경설정 분리','cfg','고객사별 회사명·톤·로고·API 키를 미리 설정해 매번 프롬프트를 고칠 필요가 없습니다.'],
+    ['08','안전한 자동 복구','shield','발행 실패 시 3회 자동 재시도하고, 에러는 즉시 Slack으로 알립니다.']
+  ];
+  const pipe=['콘텐츠 생성','미디어 생성(이미지·영상)','워드프레스·홈페이지','네이버 블로그','티스토리','뉴스레터','인스타 릴스','스레드','색인·AI 인용 추적'];
+  const chans=[
+    ['네이버 블로그','#03c75a','저품질 회피 AI 재작성(5단계) 후 발행 — 검색·플레이스 연결의 기본 채널.'],
+    ['워드프레스','#21759b','메타·OG·구조화 데이터 자동 삽입 — 구글 색인과 AEO에 가장 유리.'],
+    ['티스토리','#ff5a3c','구글 색인에 유리한 보조 블로그로 같은 키워드를 여러 입구에서 확보.'],
+    ['뉴스레터','#f59e0b','메일리·스티비 자동 발행 — 검색·AI로 온 방문자를 구독자로 전환.'],
+    ['인스타그램','#e1306c','공식 API로 릴스 자동 업로드, 캡션·해시태그까지 자동 생성.'],
+    ['스레드','#111827','카드 이미지·짧은 영상과 친근한 단문으로 자동 발행.']
+  ];
+  const beforeAfter=[
+    ['포스팅 1건당 시간','채널당 1~2시간 (6채널=6~12시간)','자동 0분 (담당자 손길 X)'],
+    ['주간 발행량','주 1~2건','6개 채널 × 매일 자동 발행'],
+    ['이미지·영상 제작','외주 건당 수십만 원 또는 수작업','AI 자동 생성 — 건당 수백 원'],
+    ['댓글 응대','채널마다 접속해 수동 답변','AI 초안 → 원클릭 승인 발송'],
+    ['실패 원인 추적','어느 단계 실패인지 불명','대시보드 1클릭 — 에러 즉시 확인'],
+    ['AEO 효과','발행 후 방치, 인용 여부 모름','색인·AI 인용까지 자동 추적·재진단'],
+    ['운영 인력','마케터 1~2명 풀타임','월 1회 주제 갱신 + 모니터링']
+  ];
+  return `
+    <div class="au-hero">
+      <span class="ey">POFACT 자동화 프로세스 · AI 콘텐츠 자동화</span>
+      <h1>하루 5시간 콘텐츠 운영,<br><b>5분으로 끝냅니다.</b></h1>
+      <p class="lead">주제 발굴 · 본문 생성 · 이미지 10장 · 영상 1편 · 6개 채널 동시 발행 · AI 댓글 초안까지. 마케터가 매일 반복하던 일을 하나의 파이프라인으로 묶고, <b style="color:#e7e8ff">발행 후 색인·AI 인용까지 추적</b>합니다.</p>
+      <div class="cta"><button class="p1" data-act="pkgAsk">도입 상담 →</button><button class="p2" data-act="ctaTop">먼저 무료 진단</button></div>
+      <div class="kv"><span>6개 채널 동시 발행</span><span>글·이미지·영상 자동</span><span>AI 댓글 초안 관리</span><span>실패 자동 복구</span><span>색인·AI 인용 추적</span></div>
+    </div>
+
+    <div class="au-sec">
+      <div class="au-kicker">NUMBERS THAT MATTER</div>
+      <div class="au-h2">숫자가 증명합니다.</div>
+      <div class="au-nums">
+        <div class="au-num"><b>6채널</b><span>네이버·워드프레스·티스토리·뉴스레터·인스타·스레드 동시 발행</span></div>
+        <div class="au-num"><b>80%</b><span>글·이미지·영상·변환·업로드 자동화로 운영 시간 절감</span></div>
+        <div class="au-num"><b>10장+1편</b><span>이미지 10장·16:9 영상 1편 매 포스트 자동 생성</span></div>
+        <div class="au-num"><b>0명</b><span>매일 자동 트리거 — 담당자는 결과만 확인</span></div>
+      </div>
+    </div>
+
+    <div class="au-sec">
+      <div class="au-kicker">CORE FEATURES</div>
+      <div class="au-h2">단순 글쓰기를 넘어선 8가지 핵심 자동화</div>
+      <div class="au-feats">
+        ${feats.map(f=>`<div class="au-feat"><div class="ic"><svg viewBox="0 0 24 24">${ico[f[2]]}</svg></div><div class="no">${f[0]}</div><h4>${f[1]}</h4><p>${f[3]}</p></div>`).join('')}
+      </div>
+    </div>
+
+    <div class="au-sec">
+      <div class="au-kicker">THE PIPELINE</div>
+      <div class="au-h2">글 한 줄에서 6개 채널 발행까지, 무인으로 흐릅니다.</div>
+      <div class="au-desc">docx 업로드(또는 자동 트리거)만으로 파이프라인이 가동됩니다. 각 단계는 앞 단계가 끝나는 순간 다음이 즉시 시작돼 대기 시간이 없습니다.</div>
+      <div class="au-pipe">${pipe.map((p,i)=>`<span class="au-step"><i>${i+1}</i>${p}</span>${i<pipe.length-1?'<span class="arw">→</span>':''}`).join('')}</div>
+    </div>
+
+    <div class="au-sec">
+      <div class="au-kicker">MEDIA GENERATION</div>
+      <div class="au-h2">AI 이미지 10장 + 영상 1편, 포스트마다 자동 생성.</div>
+      <div class="au-desc">본문이 완성되면 마킹을 읽어 미디어를 자동 생성합니다. 이미지 10장 병렬 생성, 한글 오타 OCR 자동 검수·재생성, 16:9 영상 1편, 회사 로고 배경 밝기 자동 매칭까지 사람 손이 닿지 않습니다.</div>
+      <div class="au-eng">
+        <span class="chip">이미지 10장 병렬</span><span class="arw">·</span>
+        <span class="chip">한글 오타 OCR 검수</span><span class="arw">·</span>
+        <span class="chip">9:16 쇼츠·릴스 영상</span><span class="arw">·</span>
+        <span class="chip">로고 자동 합성</span>
+      </div>
+    </div>
+
+    <div class="au-sec">
+      <div class="au-kicker">MULTI-CHANNEL</div>
+      <div class="au-h2">한 콘텐츠 패키지, 6개 채널에 동시 배포.</div>
+      <div class="au-desc">한 번 만든 패키지(본문+이미지+영상)를 각 플랫폼이 요구하는 포맷으로 변환해 자동 발행합니다. 운영자는 결과만 확인하면 됩니다.</div>
+      <div class="au-chs">
+        ${chans.map(c=>`<div class="au-ch"><span class="d" style="background:${c[1]}"></span><div><b>${c[0]}</b><span>${c[2]}</span></div></div>`).join('')}
+      </div>
+      <div class="au-desc" style="margin-top:12px">필요하면 <b style="color:var(--ink)">유튜브·X(트위터)</b> 채널도 워크플로 추가만으로 확장할 수 있습니다.</div>
+    </div>
+
+    <div class="au-sec">
+      <div class="au-kicker">ENGAGEMENT</div>
+      <div class="au-h2">올리는 것에서 소통까지, 댓글 답변도 AI가 초안을 만듭니다.</div>
+      <div class="au-desc">네이버·인스타·스레드 등 채널의 댓글을 주기적으로 수집해 콘텐츠 맥락을 반영한 답변 초안을 미리 작성합니다. 외국어 댓글은 자동 감지·번역 병기, 민감 댓글은 검토 표시. 발송은 반드시 관리자 승인 후에만 이뤄집니다.</div>
+      <div class="au-eng">
+        <span class="chip">댓글 수집</span><span class="arw">→</span>
+        <span class="chip">AI 답변 초안 (맥락·번역)</span><span class="arw">→</span>
+        <span class="chip">관리자 승인·수정</span><span class="arw">→</span>
+        <span class="chip">원클릭 발송</span>
+      </div>
+    </div>
+
+    <div class="au-sec">
+      <div class="au-kicker">BEFORE &amp; AFTER</div>
+      <div class="au-h2">한 장으로 끝내는 자동화 도입 효과.</div>
+      <div class="au-tblwrap"><table class="au-table">
+        <thead><tr><th>항목</th><th>도입 전</th><th>도입 후 (POFACT 자동화)</th></tr></thead>
+        <tbody>${beforeAfter.map(r=>`<tr><td>${r[0]}</td><td class="bad">✕ ${r[1]}</td><td class="good">✓ ${r[2]}</td></tr>`).join('')}</tbody>
+      </table></div>
+    </div>
+
+    <div class="au-cta">
+      <h2>docx 한 장이면, <b>6개 채널에 자동으로.</b></h2>
+      <p>먼저 무료 브랜드 진단으로 약한 채널을 확인하고, 부족한 부분만 자동화로 채우세요.</p>
+      <button class="btn" data-act="pkgAsk">자동화 도입 상담 →</button>
+    </div>`;
 }
 /* 채널 랜딩(개별 홈페이지) — 채널 소개 + 상품 카드 */
 function openChannel(chKey){
