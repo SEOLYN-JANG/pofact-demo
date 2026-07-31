@@ -585,6 +585,29 @@
   .lockover b{font-size:16.5px; letter-spacing:-.3px;} .lockover p{font-size:13px; color:var(--sub); margin-bottom:10px;}
   .lockwrap.unlocked .lockblur{filter:none !important; pointer-events:auto !important; user-select:auto !important; opacity:1 !important;}
   .lockwrap.unlocked .lockover{display:none;}
+  /* ── 진단 입력 폼 (URL·브랜드·업종) ── */
+  .bcform{max-width:560px; position:relative;}
+  .bcform input, .bcform select{width:100%; border:0; border-radius:12px; padding:13px 15px; font-size:14px; font-family:inherit; background:#fff; color:var(--ink); box-shadow:0 10px 28px rgba(18,20,55,.18);}
+  .bcform select{appearance:none; -webkit-appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 14px center; padding-right:34px;}
+  .bcform .r2{display:flex; gap:9px; margin-top:9px;}
+  .bcform .r2 > *{flex:1; min-width:0;}
+  .bcform .btn{width:100%; margin-top:12px; background:#14162b; color:#fff; padding:14px; border-radius:12px; font-size:15px; font-weight:700; box-shadow:0 10px 24px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.16);}
+  .bcform .btn:hover{background:#000; transform:translateY(-2px);}
+  @media(max-width:520px){ .bcform .r2{flex-direction:column;} }
+  /* ── 결과 카드 요소 ── */
+  .bcresult .rh{font-size:14.5px; font-weight:800; margin-bottom:12px;}
+  .bcresult .pdesc{font-size:13px; color:#4a4f68; line-height:1.65; margin-top:10px;}
+  .bigscore{font-size:15px; color:var(--sub); margin:2px 0 14px;}
+  .bigscore b{font-size:34px; letter-spacing:-1px; background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent; margin-right:4px;}
+  .scoreline{margin:11px 0;}
+  .scoreline .sl{display:flex; justify-content:space-between; font-size:12.5px; margin-bottom:5px;}
+  .scoreline .sl .sv{color:var(--sub); font-weight:700;}
+  .scorebar{height:7px; background:var(--line); border-radius:999px; overflow:hidden;}
+  .scorebar > i{display:block; height:100%; background:var(--grad); border-radius:999px; animation:growbar 1s cubic-bezier(.2,.7,.2,1);}
+  .qq{list-style:none; display:flex; flex-direction:column; gap:9px;}
+  .qq li{font-size:13.5px; color:#333852; padding-left:18px; position:relative;}
+  .qq li::before{content:''; position:absolute; left:2px; top:8px; width:5px; height:5px; border-radius:50%; background:var(--teal);}
+  .optlevel{font-size:14px; font-weight:700; margin:16px 2px 4px;}
   /* ── 모달·토스트 ── */
   .mbg{position:fixed; inset:0; background:rgba(15,25,35,.45); z-index:50;
     display:flex; align-items:center; justify-content:center; padding:20px;}
@@ -682,11 +705,26 @@
         <span class="ey">AI 검색 노출 진단 · 회원가입 없이 무료</span>
         <h1>이제 고객은 AI에게 물어봅니다.<br><b>추천 목록에 우리 브랜드가 있나요?</b></h1>
         <p>“○○ 잘하는 곳 추천해줘” — AI 답변 상위 3~5곳에 없으면 그 고객은 사라집니다. 홈페이지 주소만 넣으면 <b>색인·크롤링·AI 가시성</b>을 회원가입 없이 30초 만에 무료로 확인하세요.</p>
-        <div class="bcrow">
-          <input type="text" id="bcQ" placeholder="홈페이지 URL 입력 (예: pofact.co)">
-          <button class="btn" data-act="brandCheck">무료 진단 →</button>
+        <div class="bcform">
+          <input type="text" id="bcUrl" placeholder="사이트 주소 (권장 — 기술 점수까지 나옵니다)">
+          <div class="r2">
+            <input type="text" id="bcBrand" placeholder="브랜드 / 서비스명">
+            <select id="bcIndustry" aria-label="업종 선택">
+              <option value="">업종 선택 (정확도 ↑)</option>
+              <option>마케팅·광고·콘텐츠 에이전시</option>
+              <option>병원·의원</option>
+              <option>학원·교육</option>
+              <option>변호사·법률</option>
+              <option>세무사·회계</option>
+              <option>프랜차이즈</option>
+              <option>소상공인·자영업</option>
+              <option>쇼핑몰·이커머스</option>
+              <option>기타</option>
+            </select>
+          </div>
+          <button class="btn" data-act="brandCheck">무료로 진단하기</button>
+          <div class="bchint">URL 또는 브랜드명 중 하나는 필수 · 업종을 넣으면 진단이 훨씬 정확해집니다</div>
         </div>
-        <div class="bchint">회원가입 없이 즉시 결과 · 상세 리포트만 무료 가입 후</div>
       </div>
 
       <div id="bcReport"></div>
@@ -2025,32 +2063,60 @@ function sortedByFav(){ return [...S.bloggers].sort((a,b)=>(b.fav||0)-(a.fav||0)
 function renderHome(){ /* 브랜드 체크 홈은 정적 마크업 — 별도 렌더 없음 */ }
 /* ── 브랜드 체크 (샘플 진단 리포트) ── */
 function brandCheck(){
-  const raw=(document.getElementById('bcQ').value||'').trim();
-  const q=raw||'내 브랜드';
-  const S1='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>';
-  const S2='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="4" y="7" width="16" height="12" rx="3"/><path d="M12 7V4M9 13h.01M15 13h.01"/></svg>';
-  const S3='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M4 5h16v11H8l-4 4z"/><path d="M8 9h8M8 12h5"/></svg>';
+  const url=(document.getElementById('bcUrl')||{}).value||'';
+  const brand=(document.getElementById('bcBrand')||{}).value||'';
+  const ind=(document.getElementById('bcIndustry')||{}).value||'';
+  const q=(brand.trim()||url.trim()||'내 브랜드');
+  const hasInd=!!ind.trim();
+  const indL=hasInd?ind.trim():'업종 미입력';
   const LK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>';
-  const qs=[['“우리 업종 추천해줘” 질문','미인용','st-bad'],['“○○ 잘하는 곳” 질문','미인용','st-bad'],['지역+업종 추천 질문','부분 인용','st-warn'],['브랜드명 직접 질문','인용','st-ok'],['경쟁 비교 질문','미인용','st-bad']];
+  /* 사이트 기술 점수 (무료 — 사이트에서 관측 가능한 항목) */
+  const tech=[['AI 크롤러 허용 (robots.txt)',25,35],['구조화 데이터 (JSON-LD)',8,20],['사이트맵',10,10],['다국어 (hreflang)',0,10],['메타 정보',8,10],['콘텐츠 구조',6,10],['llms.txt',0,5]];
+  const total=tech.reduce((a,t)=>a+t[1],0);
+  const grade=total>=85?'매우 높음':total>=70?'높음':total>=50?'보통':'낮음';
+  const scoreLines=tech.map(t=>`<div class="scoreline"><div class="sl"><span>${t[0]}</span><span class="sv">${t[1]} / ${t[2]}</span></div><div class="scorebar"><i style="width:${(t[1]/t[2]*100).toFixed(0)}%"></i></div></div>`).join('');
+  /* 예상 질문 (입력 기반) */
+  const topic=hasInd?indL:'이 업종';
+  const questions=[`${hasInd?indL+' ':''}잘하는 곳 추천해줘`, `${q} 어때? 믿을 만해?`, `${topic} 고를 때 뭘 봐야 해?`, `가성비 좋은 ${hasInd?indL:'업체'} 어디야?`, `${q} 후기 어때?`];
+  const comp=['동종 업체 A','동종 업체 B','동종 업체 C','대안 브랜드 D','대안 브랜드 E'];
+  const qs=[[`“${hasInd?indL:'우리 업종'} 추천해줘”`,'미인용','st-bad'],['“○○ 잘하는 곳” 질문','미인용','st-bad'],['지역+업종 추천 질문','부분 인용','st-warn'],[`“${q}” 브랜드 직접 질문`,'인용','st-ok'],['경쟁 비교 질문','미인용','st-bad']];
   const html=`
     <div class="bcresult">
-      <div class="bcscore">
-        <div class="ring" style="background:conic-gradient(var(--teal) 0 65deg,#e7e9f5 65deg 360deg)"><span>18</span></div>
-        <div class="sc-tx"><h3>‘${q}’ 무료 진단 결과 <span class="tier free">무가입</span></h3>
-          <p>AI 브랜드 가시성 <b>18 / 100</b> — 지금은 고객이 AI에게 물었을 때 우리 브랜드가 거의 추천되지 않습니다.</p></div>
+      <div class="sechint" style="margin:0 0 10px">‘${q}’ 미리보기 결과 <span class="tier free">회원가입 없이 무료</span></div>
+
+      <div class="card"><h3 class="rh">서비스 파악</h3>
+        <div class="mrow"><span class="mk">서비스</span><span class="mv"><b>${q}</b></span></div>
+        <div class="mrow"><span class="mk">업종</span><span class="mv">${indL}</span></div>
+        <div class="mrow"><span class="mk">지역/범위</span><span class="mv">전국</span></div>
+        <p class="pdesc">${url.trim()?url.trim()+' — ':''}${hasInd?indL+' 분야의 ':''}온라인 노출을 진단했습니다. 아래는 사이트에서 관측 가능한 <b>기술 점수 기반 무료 미리보기</b>입니다.</p>
       </div>
-      <div class="freegrid">
-        <div class="fitem"><span class="fico">${S1}</span><div class="ft"><b>검색 색인</b><span>구글 색인 O · 네이버 일부 페이지 누락</span></div><span class="stbadge st-warn">주의</span></div>
-        <div class="fitem"><span class="fico">${S2}</span><div class="ft"><b>AI 크롤러 허용 (크롤링)</b><span>GPTBot·CCBot 차단됨 · llms.txt 없음</span></div><span class="stbadge st-bad">미흡</span></div>
-        <div class="fitem"><span class="fico">${S3}</span><div class="ft"><b>AI 브랜드 가시성</b><span>업종 대표 질문 5개 중 0개에서 인용</span></div><span class="stbadge st-bad">18점</span></div>
+
+      <div class="card"><h3 class="rh">사이트 기술 점수 <span class="note" style="display:inline;margin:0">(AI 친화도)</span></h3>
+        <div class="bigscore"><b>${total}</b> / 100 · ${grade}</div>
+        ${scoreLines}
+        ${url.trim()?'':'<p class="note" style="margin-top:10px">※ 사이트 주소를 넣으면 실제 기술 점수를 측정합니다. (지금은 예시)</p>'}
       </div>
-      <div class="sechint" style="margin:16px 0 8px">상세 리포트 <span class="tier pro">가입 후 무료</span></div>
+
+      <div class="card"><h3 class="rh">사람들이 AI에게 물어볼 만한 질문</h3>
+        <ul class="qq">${questions.map(x=>'<li>'+x+'</li>').join('')}</ul>
+      </div>
+
+      <div class="card"><h3 class="rh">같은 카테고리 경쟁/대안</h3>
+        <div class="qlist">${comp.map(c=>'<span>'+c+'</span>').join('')}</div>
+        <p class="note" style="margin-top:10px">※ 예시입니다. 정밀 리포트에서 실제 경쟁 브랜드를 집계합니다.</p>
+      </div>
+
+      <div class="optlevel">최적화 여지 <span class="stbadge st-warn">보통</span></div>
+
+      <div class="sechint" style="margin:18px 0 8px">정밀 리포트 <span class="tier pro">가입 후 무료</span></div>
       <div class="lockwrap">
         <div class="lockblur">
-          <div class="card"><h3 style="font-size:14.5px;margin-bottom:10px">질문별 AI 인용 결과</h3>
+          <div class="card"><h3 class="rh">AI 브랜드 가시성 <span class="stbadge st-bad">18 / 100</span></h3>
+            <p class="pdesc" style="margin-top:0">글로벌 5엔진(ChatGPT·Perplexity·Gemini·Grok·Claude)에 실제로 물었을 때, 업종 대표 질문 5개 중 <b>0개</b>에서 인용됐습니다.</p></div>
+          <div class="card"><h3 class="rh">질문별 AI 인용 결과</h3>
             ${qs.map(x=>`<div class="mrow" style="margin:8px 0"><span class="mk" style="width:auto;flex:1;font-size:13px">${x[0]}</span><span class="stbadge ${x[2]}">${x[1]}</span></div>`).join('')}
           </div>
-          <div class="card cmpcard"><h3 style="font-size:14.5px;margin-bottom:12px">경쟁사 비교</h3>
+          <div class="card cmpcard"><h3 class="rh">경쟁사 인용 비교</h3>
             <div class="cmprow"><span class="cmpname">우리 브랜드</span><div class="cmpbar"><i style="width:12%;background:#e06868"></i></div><span class="cmpval bad">미언급</span></div>
             <div class="cmprow"><span class="cmpname">경쟁사 A</span><div class="cmpbar"><i style="width:64%"></i></div><span class="cmpval">4회</span></div>
             <div class="cmprow"><span class="cmpname">경쟁사 B</span><div class="cmpbar"><i style="width:82%"></i></div><span class="cmpval">6회</span></div>
@@ -2059,16 +2125,17 @@ function brandCheck(){
         </div>
         <div class="lockover">
           <span class="lockic">${LK}</span>
-          <b>상세 리포트는 무료 회원가입 후</b>
-          <p>질문별 AI 인용 · 경쟁사 비교 · 우선 개선안까지 전부 확인</p>
-          <button class="btn" data-act="signup">무료 회원가입하고 전체 리포트 보기 →</button>
+          <b>정밀 리포트는 무료 회원가입 후</b>
+          <p>글로벌 AI 엔진에 실제로 물어 — AI 가시성 · 질문별 인용 · 경쟁사 비교 · 개선 우선순위</p>
+          <button class="btn" data-act="signup">무료 회원가입하고 정밀 리포트 받기 →</button>
         </div>
       </div>
+
       <div class="autohook" style="margin-top:16px">
         <span><b>부족한 데이터, 직접 채울 필요 없습니다.</b> 4개 플랫폼에 자동 발행으로 AI 가시성을 올리세요.</span>
         <button class="btn sm" data-act="autoScroll">자동 발행 시스템 보기 →</button>
       </div>
-      <p class="note" style="margin-top:12px">※ 예시 리포트입니다. 실제 색인·크롤러·AI 인용 크롤링 연동은 정식 오픈 시 제공됩니다.</p>
+      <p class="note" style="margin-top:12px">※ 예시 리포트입니다. 실제 기술 점수·AI 인용은 정식 오픈 시 실측 연동됩니다.</p>
     </div>`;
   const el=document.getElementById('bcReport');
   el.innerHTML=html;
@@ -2095,7 +2162,7 @@ function signupDo(){
   if(w) w.classList.add('unlocked');
   toast('무료 가입 완료 — 상세 리포트를 확인하세요');
 }
-function ctaTop(){ window.scrollTo({top:0, behavior:'smooth'}); const i=document.getElementById('bcQ'); if(i) setTimeout(()=>i.focus(), 400); }
+function ctaTop(){ window.scrollTo({top:0, behavior:'smooth'}); const i=document.getElementById('bcUrl'); if(i) setTimeout(()=>i.focus(), 400); }
 /* 마우스 추적 3D 틸트 (데스크톱 · 모션 허용 시) */
 function initTilt(){
   if(window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
