@@ -658,6 +658,17 @@
   .pfobs .wr{color:#e0a852; font-weight:800; flex:0 0 auto;}
   .pfobs b{color:var(--ink);}
   .pferr{background:#fff5f5; border:1px solid #f3c9c9; color:#b3403a; border-radius:14px; padding:16px 18px; font-size:13.5px; line-height:1.6;}
+  /* 카카오 3초 회원가입 */
+  .kko{display:inline-flex; align-items:center; justify-content:center; gap:9px; background:#FEE500; color:#191600; border:0; font-family:inherit; font-weight:800; font-size:14.5px; padding:14px 24px; border-radius:12px; cursor:pointer; box-shadow:0 8px 22px rgba(254,229,0,.4); transition:transform .14s, box-shadow .14s;}
+  .kko:hover{transform:translateY(-2px); box-shadow:0 12px 28px rgba(254,229,0,.5);}
+  .kko svg{width:20px; height:20px; flex:0 0 auto;}
+  .kko-modal{max-width:360px;}
+  .kko-head{display:flex; align-items:center; gap:9px; background:#FEE500; color:#191600; margin:-24px -24px 16px; padding:16px 22px; border-radius:16px 16px 0 0; font-weight:800; font-size:15px;}
+  .kko-profile{display:flex; flex-direction:column; align-items:center; gap:8px; padding:6px 0 14px;}
+  .kko-av{width:56px; height:56px; border-radius:50%; background:var(--chip); display:grid; place-items:center;}
+  .kko-av svg{width:30px; height:30px; stroke:#b0b4c6; fill:none; stroke-width:1.6;}
+  .kko-consent{background:var(--chip); border-radius:12px; padding:13px 15px; font-size:12.5px; color:#4a4f66; line-height:1.6; margin-bottom:14px;}
+  .kko-consent b{color:var(--ink);}
 
   /* ═══ 매니페스토: 직접 할 필요 없다 ═══ */
   .mf{margin:60px 0;}
@@ -3009,7 +3020,7 @@ async function brandCheck(){
   /* 잠금(정밀) 섹션 — AI 엔진 실질의는 백엔드 필요 → 정직하게 안내 */
   const lockSec=`
       <div class="sechint" style="margin:18px 0 8px">정밀 리포트 · AI 인용 실측 <span class="tier pro">정식 오픈 예정</span></div>
-      <div class="lockwrap">
+      <div class="lockwrap" id="aiLock">
         <div class="lockblur">
           <div class="card"><h3 class="rh">AI 브랜드 가시성 <span class="stbadge st-warn">측정 대기</span></h3>
             <p class="pdesc" style="margin-top:0">ChatGPT·Perplexity·Gemini·Claude 등에 업종 대표 질문을 <b>실제로 질의</b>해 브랜드 인용 여부를 집계합니다. (예시 레이아웃)</p></div>
@@ -3036,12 +3047,40 @@ async function brandCheck(){
         <p class="note" style="margin-top:8px">※ 입력한 브랜드·업종을 바탕으로 생성한 예상 질의입니다.</p>
       </div>`;
 
+  /* 진단 기반 맞춤 솔루션 — 로그인(카카오 3초 가입) 후 확인 */
+  const KKO_ICON='<svg viewBox="0 0 24 24" fill="#191600"><path d="M12 3C6.5 3 2 6.5 2 10.8c0 2.8 1.9 5.2 4.7 6.6-.2.7-.7 2.6-.8 3-.1.5.2.5.4.4.2-.1 2.6-1.8 3.6-2.5.7.1 1.4.2 2.1.2 5.5 0 10-3.5 10-7.9C22 6.5 17.5 3 12 3z"/></svg>';
+  const genRecs=[
+    {name:'홈페이지 제작', why:'AI가 읽는 AEO 구조(구조화 데이터·llms.txt·AI 크롤러 허용)로 기반부터 세팅'},
+    {name:'자동화 프로세스', why:'부족한 채널에 AEO 원고를 자동 생성·발행해 검색·AI 인용 자산 축적'},
+    {name:'AEO·GEO·SEO 패키지', why:'진단→세팅→자동화→추적을 하나로 묶어 종합 개선'}
+  ];
+  const solLockTpl=(recs, total)=>`
+      <div class="sechint" style="margin:18px 0 8px">이 진단에 맞는 맞춤 솔루션 <span class="tier pro">로그인 후 확인</span></div>
+      <div class="lockwrap" id="solLock">
+        <div class="lockblur">
+          <div class="card bcnext"><h3>진단 기반 맞춤 솔루션${total!=null?` · ${total}/100`:''}</h3>
+            <ol>${recs.map(r=>`<li><b>${r.name}</b> — ${r.why}</li>`).join('')}</ol></div>
+          <div class="card"><h3 class="rh">30일 우선순위 로드맵</h3>
+            <div class="mrow" style="margin:6px 0"><span class="mk">1~7일</span><span class="mv">${recs[0]?recs[0].name:'홈페이지 구조'} 착수·세팅</span></div>
+            <div class="mrow" style="margin:6px 0"><span class="mk">2~4주</span><span class="mv">부족 채널 콘텐츠 자동 발행 시작</span></div>
+            <div class="mrow" style="margin:6px 0"><span class="mk">매월</span><span class="mv">색인·AI 인용 추적 리포트</span></div>
+          </div>
+        </div>
+        <div class="lockover">
+          <span class="lockic">${LK}</span>
+          <b>이 진단에 딱 맞는 맞춤 솔루션</b>
+          <p>진단 결과에 맞춘 우선 개선안·추천 서비스·30일 로드맵을 정리했어요. 로그인하면 바로 확인할 수 있습니다.</p>
+          <button class="kko" data-act="kakaoSignup">${KKO_ICON} 카카오톡으로 3초 만에 시작하기</button>
+          <div class="note" style="margin-top:9px">가입 즉시 맞춤 솔루션 오픈 · 무료 · <b data-act="kakaoSignup" style="color:var(--teal-d);cursor:pointer">이미 회원이세요? 로그인</b></div>
+        </div>
+      </div>`;
+
   /* URL 없으면 기술 진단 불가 → 정직하게 안내 (점수 조작 안 함) */
   if(!url){
     el.innerHTML=`<div class="bcresult">
       <div class="sechint" style="margin:0 0 10px">‘${q}’ 진단 <span class="tier free">회원가입 없이 무료</span></div>
       <div class="pferr">사이트 주소(URL)를 입력하면 <b>robots.txt·구조화 데이터·메타·사이트맵·llms.txt 등을 실제로 측정</b>해 AI 친화도 점수를 산출합니다. 브랜드명만으로는 기술 점수를 낼 수 없어요.</div>
-      ${questionCard}${lockSec}
+      ${questionCard}${solLockTpl(genRecs,null)}${lockSec}
     </div>`;
     el.scrollIntoView({behavior:'smooth', block:'start'});
     return;
@@ -3060,7 +3099,7 @@ async function brandCheck(){
     el.innerHTML=`<div class="bcresult">
       <div class="sechint" style="margin:0 0 10px">‘${q}’ 진단 <span class="tier free">회원가입 없이 무료</span></div>
       <div class="pferr"><b>사이트를 불러오지 못했습니다.</b><br>주소가 정확한지 확인해 주세요. 사이트가 크롤러를 차단(robots/방화벽)했거나, 프록시가 일시적으로 응답하지 않을 수 있습니다. 잠시 후 다시 시도해 주세요.<br><span style="font-size:12px">시도한 주소: ${pfEsc(url)}</span></div>
-      ${questionCard}${lockSec}
+      ${questionCard}${solLockTpl(genRecs,null)}${lockSec}
     </div>`;
     el.scrollIntoView({behavior:'smooth', block:'start'});
     return;
@@ -3108,6 +3147,16 @@ async function brandCheck(){
     [llmsOk?'ok':'wr', `<b>llms.txt</b> ${llmsOk?'있음':'없음'}`]
   ];
 
+  /* 진단 결과 기반 맞춤 추천 (약한 항목 → 서비스 매핑) */
+  const weak=tech.filter(t=>t[4]!=='ok').sort((x,y)=>(x[1]/x[2])-(y[1]/y[2]));
+  const tailoredRecs=[];
+  if(weak.length){
+    const names=weak.slice(0,3).map(w=>w[0].split(' (')[0]).join(' · ');
+    tailoredRecs.push({name:'홈페이지 제작', why:`진단에서 약한 <b>${names}</b>를 AEO 구조로 다시 설계`});
+  }
+  tailoredRecs.push({name:'자동화 프로세스', why:'부족한 채널에 AEO 원고를 자동 발행해 검색·AI 인용 자산을 축적'});
+  tailoredRecs.push({name: total>=70?'맞춤 언론홍보':'AEO·GEO·SEO 패키지', why: total>=70?'기술 기반이 탄탄하니, 언론 인용으로 권위 신호를 더함':'진단→세팅→자동화→추적을 하나로 묶어 종합 개선'});
+
   el.innerHTML=`
     <div class="bcresult">
       <div class="sechint" style="margin:0 0 10px">‘${q}’ 실측 진단 결과 <span class="tier free">회원가입 없이 무료</span></div>
@@ -3125,6 +3174,7 @@ async function brandCheck(){
         <p class="note" style="margin-top:10px">※ 입력한 사이트를 실제로 불러와 측정한 값입니다. robots.txt·JSON-LD·메타·사이트맵·구조·llms.txt 등 공개적으로 관측 가능한 항목 기준입니다.</p>
       </div>
 
+      ${solLockTpl(tailoredRecs, total)}
       ${questionCard}
       ${lockSec}
     </div>`;
@@ -3147,9 +3197,31 @@ function signup(){
 }
 function signupDo(){
   document.getElementById('detailBg').classList.add('hide');
-  const w=document.querySelector('#bcReport .lockwrap');
+  const w=document.getElementById('aiLock');
   if(w) w.classList.add('unlocked');
-  toast('무료 가입 완료 — 상세 리포트를 확인하세요');
+  toast('오픈 알림 신청 완료 — 정식 오픈 시 안내드릴게요');
+}
+/* 카카오 3초 회원가입 — 맞춤 솔루션 잠금 해제 (데모 · 실제 카카오 로그인 아님) */
+function kakaoSignup(){
+  document.getElementById('detailModal').innerHTML=`
+    <div class="kko-modal">
+      <div class="kko-head">${'<svg viewBox="0 0 24 24" fill="#191600" style="width:20px;height:20px"><path d="M12 3C6.5 3 2 6.5 2 10.8c0 2.8 1.9 5.2 4.7 6.6-.2.7-.7 2.6-.8 3-.1.5.2.5.4.4.2-.1 2.6-1.8 3.6-2.5.7.1 1.4.2 2.1.2 5.5 0 10-3.5 10-7.9C22 6.5 17.5 3 12 3z"/></svg>'} 카카오계정으로 로그인</div>
+      <span class="mx" data-act="closeDetail" title="닫기">✕</span>
+      <div class="inner" style="padding-top:2px">
+        <div class="kko-profile"><div class="kko-av"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg></div>
+          <div style="text-align:center"><div style="font-weight:800;font-size:14px">POFACT</div><div class="note" style="margin:0">진단 맞춤 솔루션 이용을 위해 로그인합니다</div></div></div>
+        <div class="kko-consent"><b>제공 항목</b> · 카카오계정(이메일)·프로필 닉네임<br>진단 결과에 맞춘 맞춤 솔루션을 제공하기 위해 사용됩니다.</div>
+        <button class="kko" data-act="kakaoDo" style="width:100%">동의하고 3초 만에 시작하기</button>
+        <p class="note" style="text-align:center;margin:11px 0 0">데모 화면입니다 · 실제 카카오 로그인·저장은 이뤄지지 않습니다</p>
+      </div>
+    </div>`;
+  document.getElementById('detailBg').classList.remove('hide');
+}
+function kakaoDo(){
+  document.getElementById('detailBg').classList.add('hide');
+  const w=document.getElementById('solLock');
+  if(w) w.classList.add('unlocked');
+  toast('카카오로 가입 완료 — 맞춤 솔루션이 열렸어요');
 }
 function ctaTop(){ window.scrollTo({top:0, behavior:'smooth'}); const i=document.getElementById('bcUrl'); if(i) setTimeout(()=>i.focus(), 400); }
 /* 마우스 추적 3D 틸트 (데스크톱 · 모션 허용 시) */
@@ -3922,6 +3994,8 @@ document.addEventListener('click', function(ev){
   else if(act==='ctaTop') ctaTop();
   else if(act==='signup') signup();
   else if(act==='signupDo') signupDo();
+  else if(act==='kakaoSignup') kakaoSignup();
+  else if(act==='kakaoDo') kakaoDo();
   else if(act==='simCalc') simCalc();
   else if(act==='simToAdv') nav('adv');
   else if(act==='pkgAsk') toast('상담 문의가 접수되었습니다 (데모)');
